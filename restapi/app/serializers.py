@@ -1,7 +1,6 @@
+from app.models import Tool, ToolVersion
 from rest_framework import serializers
 from rest_framework_mongoengine import serializers as mongoserializers
-
-from app.models import Tool, ToolVersion
 
 
 class ToolSerializer(mongoserializers.DocumentSerializer):

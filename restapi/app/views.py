@@ -1,11 +1,9 @@
 from __future__ import unicode_literals
 
-from django.template.response import TemplateResponse
-
-from rest_framework_mongoengine.viewsets import ModelViewSet as MongoModelViewSet
-
-from app.serializers import *
 from app.models import Tool, ToolVersion
+from app.serializers import *
+from django.template.response import TemplateResponse
+from rest_framework_mongoengine.viewsets import ModelViewSet as MongoModelViewSet
 
 
 def index_view(request):

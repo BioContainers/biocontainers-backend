@@ -1,5 +1,3 @@
-from enum import Enum
-
 from mongoengine import Document, EmbeddedDocument, fields
 
 
