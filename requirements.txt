@@ -5,3 +5,5 @@ djangorestframework-jsonapi==2.6.0
 djangorestframework-jwt==1.11.0   
 djangotoolbox==1.8.0
 django-rest-swagger==2.2.0
+mongoengine==0.9.0
+pymongo==2.8

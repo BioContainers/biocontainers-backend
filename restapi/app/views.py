@@ -15,19 +15,28 @@ def index_view(request):
 
 class ToolViewSet(MongoModelViewSet):
     """
-    Contains information about inputs/outputs of a single program
-    that may be used in Universe workflows.
+    retrieve: Return an specific Tool by Identifier id
+    list: Retrieve all the tools in the registry.
     """
     lookup_field = 'id'
     serializer_class = ToolSerializer
+
+    http_method_names = ['list','get', 'head']
 
     def get_queryset(self):
         return Tool.objects.all()
 
 
+
 class ToolVersionViewSet(MongoModelViewSet):
+    """
+        retrieve: Return an specific Tool Version by Identifier id
+        list: Retrieve all the tool Versions in the registry.
+        """
     lookup_field = 'id'
+
     serializer_class = ToolVersionSerializer
+    http_method_names = ['list', 'get', 'head']
 
     def get_queryset(self):
         return ToolVersion.objects.all()

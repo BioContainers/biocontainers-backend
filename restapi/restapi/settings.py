@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'rest_framework',
     'rest_framework_mongoengine',
+    'mongoengine.django.mongo_auth',
 ]
 
 MIDDLEWARE = [
@@ -91,17 +92,18 @@ DATABASES = {
 # We define 2 Mongo databases - default and test
 MONGODB_DATABASES = {
     "default": {
-        "name": "bioconDB",
-        "host": "localhost",
-        "port": 27017,
-        "tz_aware": True,  # if you use timezones in django (USE_TZ = True)
+        "NAME": "bioconDB",
+        "HOST": "localhost",
+        "PORT": 27017,
+        'USER': 'admin',
+        'PASSWORD': 'admin01',
+        'AUTH_SOURCE': 'admin',
     },
 
     "test": {
-        "name": "test_BioConDB",
-        "host": "localhost",
-        "port": 27017,
-        "tz_aware": True,  # if you use timezones in django (USE_TZ = True)
+        "NAME": "test_BioConDB",
+        "HOST": "localhost",
+        "PORT": 27017,
     }
 }
 
@@ -127,8 +129,11 @@ else:
 # establish connection with default or test database, depending on the management command, being run
 # note that this connection syntax is correct for mongoengine0.9-, but mongoengine0.10+ introduced slight changes
 mongoengine.connect(
-    db=MONGODB_DATABASES[db]['name'],
-    host=MONGODB_DATABASES[db]['host']
+    db=MONGODB_DATABASES[db]['NAME'],
+    host=MONGODB_DATABASES[db]['HOST'],
+    port=MONGODB_DATABASES[db]['PORT'],
+    username=MONGODB_DATABASES[db]['USER'],
+    password=MONGODB_DATABASES[db]['PASSWORD']
 )
 
 
@@ -136,13 +141,23 @@ mongoengine.connect(
 # while all the real functionality is associated with MONGOENGINE_USER_DOCUMENT
 # AUTH_USER_MODEL = 'mongo_auth.MongoUser'
 
-# MONGOENGINE_USER_DOCUMENT = 'users.models.User'
+# MONGOENGINE_USER_DOCUMENT = 'mongoengine.django.auth.User'
+#
+# # Don't confuse Django's AUTHENTICATION_BACKENDS with DRF's AUTHENTICATION_CLASSES!
+# AUTHENTICATION_BACKENDS = (
+#     #'mongoengine.django.auth.MongoEngineBackend',
+#     'django.contrib.auth.backends.ModelBackend'
+# )
 
-# Don't confuse Django's AUTHENTICATION_BACKENDS with DRF's AUTHENTICATION_CLASSES!
-AUTHENTICATION_BACKENDS = (
-    'mongoengine.django.auth.MongoEngineBackend',
-    #'django.contrib.auth.backends.ModelBackend'
-)
+# AUTH_USER_MODEL = 'mongo_auth.MongoUser'
+#
+# MONGOENGINE_USER_DOCUMENT = 'users.models.User'
+#
+# # Don't confuse Django's AUTHENTICATION_BACKENDS with DRF's AUTHENTICATION_CLASSES!
+# AUTHENTICATION_BACKENDS = (
+#     'mongoengine.django.auth.MongoEngineBackend',
+#     #'django.contrib.auth.backends.ModelBackend'
+# )
 
 
 # Password validation
