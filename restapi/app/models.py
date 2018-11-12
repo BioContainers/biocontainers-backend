@@ -1,52 +1,81 @@
+from enum import Enum
+
 from mongoengine import Document, EmbeddedDocument, fields
 
 
-class Author(Document):
-    name = fields.StringField()
+class ToolClass:
+    SINGLETOOL = 'SINGLE TOOL'
+    MULTITOOL = 'MULTI TOOL'
+    SERVICE = 'SERVICE'
+    WOKFLOW = 'WORKFLOW'
 
 
-class Book(Document):
-    name = fields.StringField()
-    author = fields.ReferenceField(Author, dbref=True)
+class ContainerType:
+    DOCKER = 'DOCKER'
+    CONDA = 'CONDA'
+    BIOCONDUCTOR = 'BIOCONDUCTOR'
+    SINGULARITY = 'SINGULARITY'
 
+class Container(EmbeddedDocument):
+    tag = fields.StringField(required=True, primary_key=True)
 
-class ToolInput(EmbeddedDocument):
-    id = fields.StringField(required=True)
-    type = fields.ListField(fields.DynamicField(null=True))
-    label = fields.StringField(required=True, null=True)
-    description = fields.StringField(required=False, null=True)
-    default = fields.DynamicField(required=False)
-    inputBinding = fields.DynamicField(required=True)
-    required = fields.BooleanField(required=False, default=True)
-
-
-class ToolOutput(EmbeddedDocument):
-    id = fields.StringField(required=True)
-    type = fields.ListField(fields.DynamicField(null=True))
-    label = fields.StringField(required=False)
-    default = fields.DynamicField(required=False, null=True)
+    # Full Tag quay.io / biocontainers / abaca: 1.2 - -python ** /
+    fullTag = fields.StringField(required=True)
+    containerType = fields.StringField()
+    binariesURLs = fields.ListField(fields.StringField(max_length=200), required=False)
     description = fields.StringField(required=False)
-    outputBinding = fields.DynamicField(required=False)
-    required = fields.BooleanField(required=False, default=True)
+    size = fields.IntField(required=False)
+    downloads = fields.IntField(required=False)
+    lastUpdate = fields.DateTimeField(required=False)
+    maintainer = fields.ListField(fields.StringField(max_length=200), required=False)
+    containerRecipeURL = fields.StringField(required=False)
+    license = fields.StringField(required=False)
+    softwareURL = fields.StringField(required=False)
+    documentationURL = fields.StringField(required=False)
+    searchText = fields.StringField(required=False)
+
+class Descriptor(EmbeddedDocument):
+    descriptorType = fields.StringField()
+    descriptor = fields.StringField()
+    descriptorURL = fields.StringField()
+
+
+class ToolVersion(Document):
+    id = fields.StringField(required=True, primary_key=True)
+    vars()['class'] = fields.StringField(verbose_name="class", required=True)
+    name = fields.StringField(required=True)
+    version = fields.StringField(required=True)
+    description = fields.StringField(required=False)
+    urlHome = fields.StringField(required=False)
+    docURL = fields.StringField(required=False)
+    containIds = fields.ListField(fields.StringField(max_length=200), required=False)
+    containerImages = fields.EmbeddedDocumentListField(Container, required=True)
+    descriptors = fields.EmbeddedDocumentListField(Descriptor, required=False)
+    lastUpdate = fields.StringField(required=True)
+    searchText = fields.StringField(required=True)
+    downloads = fields.StringField(required=True)
+    toolClasses = fields.ListField(fields.StringField(max_length=200))
 
 
 class Tool(Document):
     id = fields.StringField(required=True, primary_key=True)
-    # 'class' is a reserved word in python, so to get a field called "class", we use the following trick with vars():
     vars()['class'] = fields.StringField(verbose_name="class", required=True)
-    label = fields.StringField(required=True)
-    description = fields.StringField(required=True, null=True)
-    owner = fields.ListField(fields.StringField())
-    contributor = fields.ListField(fields.StringField())
-    inputs = fields.EmbeddedDocumentListField(ToolInput)
-    outputs = fields.EmbeddedDocumentListField(ToolOutput)
-    baseCommand = fields.DynamicField(required=True)
-    arguments = fields.DynamicField(required=True)
-    requirements = fields.DynamicField(required=True, null=True)
-    hints = fields.DynamicField(required=False, null=True)
-    cwlVersion = fields.StringField(required=False, null=True, choices=['cwl:draft-2'])
-    stdin = fields.StringField(required=False, null=True)
-    stdout = fields.StringField(required=False, null=True)
-    successCodes = fields.ListField(fields.IntField(), required=False)
-    temporaryFailCodes = fields.ListField(fields.IntField(), required=False)
-    permanentFailCodes = fields.ListField(fields.IntField(), required=False)
+    name = fields.StringField(required=True)
+    description = fields.StringField(required=False)
+    urlHome = fields.StringField(required=False)
+    latestVersion = fields.StringField(required=False)
+    toolClasses = fields.ListField(fields.StringField(max_length=10), required=False)
+    organization = fields.ListField(required=False)
+    author = fields.StringField(required=False)
+    containIds = fields.ListField(fields.StringField(max_length=200), required=False)
+    hasChecker = fields.BooleanField(required=False)
+    checkerURL = fields.StringField(required=False)
+    isVerified = fields.BooleanField(required=False)
+    verifiedSource = fields.StringField(required=False)
+    toolVersions = fields.ListField(fields.IntField(), required=True)
+    additionalIdentifiers = fields.ListField(fields.StringField(max_length=200), required=False)
+    registryURL = fields.StringField(required=False)
+    license = fields.StringField(required=False)
+
+
+

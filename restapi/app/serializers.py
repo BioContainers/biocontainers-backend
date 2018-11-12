@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework_mongoengine import serializers as mongoserializers
 
-from app.models import Tool, Author, Book
+from app.models import Tool, ToolVersion
 
 
 class ToolSerializer(mongoserializers.DocumentSerializer):
@@ -12,13 +12,9 @@ class ToolSerializer(mongoserializers.DocumentSerializer):
         fields = '__all__'
 
 
-class AuthorSerializer(mongoserializers.DocumentSerializer):
-    class Meta:
-        model = Author
-        fields = '__all__'
+class ToolVersionSerializer(mongoserializers.DocumentSerializer):
+    id = serializers.CharField(read_only=False)
 
-
-class BookSerializer(mongoserializers.DocumentSerializer):
     class Meta:
-        model = Book
+        model = ToolVersion
         fields = '__all__'

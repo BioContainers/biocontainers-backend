@@ -14,8 +14,6 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.conf import settings
-from django.conf.urls.static import static
 from django.conf.urls import include, url
 from django.contrib import admin
 from rest_framework.routers import DefaultRouter
@@ -23,17 +21,15 @@ from rest_framework_swagger.views import get_swagger_view
 
 from app.views import *
 
-from restapi.routers import HybridRouter
 
 # We use a single global DRF Router that routes views from all apps in project
 router = DefaultRouter()
 
 # app views and viewsets
 router.register(r'tool', ToolViewSet, r"tool")
-router.register(r'container', AuthorViewSet, r"author")
-router.register(r'book', BookViewSet, r"book")
+router.register(r'toolversion', ToolVersionViewSet, r"toolversion")
 
-schema_view = get_swagger_view(title='Snippets API')
+schema_view = get_swagger_view(title='BioContainers API')
 
 urlpatterns = [
     # default django admin interface (currently unused)
