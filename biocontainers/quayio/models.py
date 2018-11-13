@@ -2,10 +2,33 @@ import json
 import requests
 
 
+class QuayIOShortContainer(object):
+    """ This class contains the information of one small container"""
+
+    def __init__(self, dict):
+        self.dict = dict
+
+    def name(self):
+        return self.dict['name']
+
+    def description(self):
+        return self.dict['description']
+
+    def is_public(self):
+        return self.dict['is_public']
+
+    def namespace(self):
+        return self.dict['namespace']
+
+    def last_modified(self):
+        return self.dict['last_modified']
+
+
 class QuayIOReader(object):
     """
-    This class containes the services to retrieve the containers from Quay.io
+    This class contains the services to retrieve the containers from Quay.io
     """
+
     def __int__(self):
         pass
 
@@ -19,11 +42,14 @@ class QuayIOReader(object):
         self.namespace = namespace
 
     def get_list_containers(self):
-        stringURL = self.quayIOContainers.replace('%namespace%', self.namespace)
-        response = requests.get(stringURL)
-
-        containerList = None
+        string_url = self.quayIOContainers.replace('%namespace%', self.namespace)
+        response = requests.get(string_url)
+        container_list = []
         if response.status_code == 200:
-            containerList = json.loads(response.content.decode('utf-8'))
+            json_data = json.loads(response.content.decode('utf-8'))
+            for key in json_data['repositories']:
+                container = QuayIOShortContainer(key)
+                container_list.append(container)
+                print(container.name())
 
-        return containerList
+        return container_list
