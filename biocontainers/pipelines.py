@@ -41,7 +41,8 @@ def import_quayio(config):
     reader.quayio_details_url(config['DEFAULT']['QUAYIO_CONTAINER_DETAILS'])
     reader.namespace(config['DEFAULT']['NAMESPACE'])
 
-    containers = reader.get_list_containers()
+    reader.get_list_containers()
+    containers = reader.get_containers()
 
 
 
