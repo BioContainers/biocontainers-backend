@@ -1,8 +1,11 @@
 import argparse
 import configparser
+import logging
 
-
+from biocontainers.dockerhub.models import DockerHubReader
 from biocontainers.quayio.models import QuayIOReader
+
+logger = logging.getLogger('biocontainers.pipelines')
 
 
 def get_config():
@@ -34,28 +37,42 @@ def import_quayio(config):
     :param config: Parameters for quayio
     :return:
     """
-    print("Starting importing Conda packages")
+    logger.info("Starting importing Conda packages")
 
     reader = QuayIOReader()
     reader.quayio_list_url(config['DEFAULT']['QUAYIO_CONTAINER_LIST'])
     reader.quayio_details_url(config['DEFAULT']['QUAYIO_CONTAINER_DETAILS'])
     reader.namespace(config['DEFAULT']['NAMESPACE'])
-
-    reader.get_list_containers()
     containers = reader.get_containers()
 
 
+def import_dockerhub(config):
+    """
+    Import dockerhub containers into the registry database
+    :param config:
+    :return:
+    """
+
+    logger.info("Starting importing DockerHub packages")
+    reader = DockerHubReader()
+    reader.dockerhub_list_url(config['DEFAULT']['DOCKER_HUB'])
+    reader.dockerhub_details_url(config['DEFAULT']['DOCKER_HUB_CONTAINER'])
+    reader.namespace(config['DEFAULT']['NAMESPACE'])
+    containers = reader.get_containers()
 
 
-def main(parameters):
+def main(args):
     config = get_config()
-
     if config['DEFAULT']['VERBOSE'] == "True":
         for key in config['DEFAULT']:
             print(key + "=" + config['DEFAULT'][key])
-        print(parameters)
-    if parameters.import_quayio is not False:
+        print(args)
+    if args.import_quayio is not False:
         import_quayio(config)
+
+    if args.import_docker is not False:
+        import_dockerhub(config)
+
 
 if __name__ == "__main__":
     parameters = get_parameters().parse_args()
