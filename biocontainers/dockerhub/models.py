@@ -7,7 +7,10 @@ logger = logging.getLogger('biocontainers.dockerhub.models')
 
 
 class DockerHubContainer(object):
-    """ This class contains the information of one small container"""
+    """
+    This class contains the information of one small docker container
+    """
+    tags = []
 
     def __init__(self, attributes):
         self.attributes = attributes
@@ -33,6 +36,11 @@ class DockerHubContainer(object):
     def is_starred(self):
         return self.attributes['start_count'] > 0
 
+    def add_all_tags(self, tags):
+        self.tags = []
+        for key in tags:
+            self.tags.append(key)
+
 
 class DockerHubReader(object):
     """
@@ -46,8 +54,11 @@ class DockerHubReader(object):
     def dockerhub_list_url(self, url):
         self.dockerhub_list_url = url
 
-    def dockerhub_details_url(self, url):
-        self.dockerhub_details_url = url
+    # def dockerhub_details_url(self, url):
+    #     self.dockerhub_details_url = url
+
+    def dockerhub_tags_url(self, url):
+        self.dockerhub_tags_url = url
 
     def namespace(self, namespace):
         self.namespace = namespace
@@ -81,7 +92,7 @@ class DockerHubReader(object):
         if not self.containers_list:
             self.containers_list = self.get_list_containers()
 
-        string_url = self.dockerhub_details_url.replace('%namespace%', self.namespace)
+        string_url = self.dockerhub_tags_url.replace('%namespace%', self.namespace)
         containers_list = []
         for short_container in self.container_list:
             url = string_url.replace('%container_name%', short_container.name())
@@ -89,7 +100,8 @@ class DockerHubReader(object):
                 response = requests.get(url)
                 if response.status_code == 200:
                     json_data = json.loads(response.content.decode('utf-8'))
-                    container = DockerHubContainer(json_data)
+                    short_container.add_all_tags(json_data['results'])
+                    container = short_container
                     containers_list.append(container)
                     print(container.name())
             except ConnectionError:

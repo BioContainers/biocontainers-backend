@@ -56,7 +56,8 @@ def import_dockerhub(config):
     logger.info("Starting importing DockerHub packages")
     reader = DockerHubReader()
     reader.dockerhub_list_url(config['DEFAULT']['DOCKER_HUB'])
-    reader.dockerhub_details_url(config['DEFAULT']['DOCKER_HUB_CONTAINER'])
+    # reader.dockerhub_details_url(config['DEFAULT']['DOCKER_HUB_CONTAINER'])
+    reader.dockerhub_tags_url(config['DEFAULT']['DOCKER_HUB_TAG'])
     reader.namespace(config['DEFAULT']['NAMESPACE'])
     containers = reader.get_containers()
 
