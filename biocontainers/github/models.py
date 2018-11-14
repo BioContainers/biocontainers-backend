@@ -220,10 +220,10 @@ class GitHubCondaReader:
                         entry = {'name': key['path'], 'recipe': recipe}
                         self.conda_recipes.append(entry)
                         logger.info(key['path'])
-                    except (ScannerError, ConstructorError, TypeError, AttributeError) as error:
+                    except (ScannerError, ConstructorError, TypeError, AttributeError, NoneType) as error:
                         logger.error("Error reading conda definition of tool -- " + key['path'] + " " + error)
             else:
-                string_url = self.github_config.repository_readable_url.replace("%recipe_software_tool_name%",
+                string_url = self.github_config.repository_readable_url.replace("%%recipe_software_tool_name%%",
                                                                                 key['path'])
                 response = requests.get(string_url)
                 if response.status_code == 200:
@@ -232,10 +232,12 @@ class GitHubCondaReader:
                     except (ScannerError, ConstructorError, TypeError, AttributeError):
                         json_data = response.content.decode('latin-1')
                         json_data = json_data.decode('utf-8')
-
-                    yaml_content = yaml.load(json_data)
-                    recipe = CondaRecipe(yaml_content)
-                    entry = {'name': key['path'], 'recipe': recipe}
-                    self.conda_recipes.append(entry)
+                    try:
+                        yaml_content = yaml.load(json_data)
+                        recipe = CondaRecipe(yaml_content)
+                        entry = {'name': key['path'], 'recipe': recipe}
+                        self.conda_recipes.append(entry)
+                    except:
+                        logger.error("An error parsing the yaml file of -- " + string_url)
 
         return self.conda_recipes
