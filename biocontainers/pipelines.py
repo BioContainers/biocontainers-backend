@@ -3,6 +3,7 @@ import configparser
 import logging
 
 from biocontainers.dockerhub.models import DockerHubReader
+from biocontainers.github.models import GitHubCondaReader, GitHubConfiguration
 from biocontainers.quayio.models import QuayIOReader
 
 logger = logging.getLogger('biocontainers.pipelines')
@@ -39,11 +40,17 @@ def import_quayio(config):
     """
     logger.info("Starting importing Conda packages")
 
-    reader = QuayIOReader()
-    reader.quayio_list_url(config['DEFAULT']['QUAYIO_CONTAINER_LIST'])
-    reader.quayio_details_url(config['DEFAULT']['QUAYIO_CONTAINER_DETAILS'])
-    reader.namespace(config['DEFAULT']['NAMESPACE'])
-    containers = reader.get_containers()
+    # reader = QuayIOReader()
+    # reader.quayio_list_url(config['DEFAULT']['QUAYIO_CONTAINER_LIST'])
+    # reader.quayio_details_url(config['DEFAULT']['QUAYIO_CONTAINER_DETAILS'])
+    # reader.namespace(config['DEFAULT']['NAMESPACE'])
+    # containers = reader.get_containers()
+    github_conf = GitHubConfiguration(config['DEFAULT']['GITHUB_API_CONDA'],
+                                      config['DEFAULT']['GITHUB_CONDA_RECIPES_READABLE'])
+    github_reader = GitHubCondaReader(github_conf)
+    recipe = github_reader.read_conda_recipe("peptide-shaker", "1.16.0")
+    conda_recipes = github_reader.read_conda_recipes()
+    print(recipe.description())
 
 
 def import_dockerhub(config):

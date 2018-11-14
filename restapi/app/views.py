@@ -19,11 +19,10 @@ class ToolViewSet(MongoModelViewSet):
     lookup_field = 'id'
     serializer_class = ToolSerializer
 
-    http_method_names = ['list','get', 'head']
+    http_method_names = ['list', 'get', 'head']
 
     def get_queryset(self):
         return Tool.objects.all()
-
 
 
 class ToolVersionViewSet(MongoModelViewSet):
@@ -38,6 +37,3 @@ class ToolVersionViewSet(MongoModelViewSet):
 
     def get_queryset(self):
         return ToolVersion.objects.all()
-
-
-

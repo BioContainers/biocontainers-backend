@@ -14,6 +14,7 @@ class ContainerType:
     BIOCONDUCTOR = 'BIOCONDUCTOR'
     SINGULARITY = 'SINGULARITY'
 
+
 class Container(EmbeddedDocument):
     tag = fields.StringField(required=True, primary_key=True)
 
@@ -31,6 +32,7 @@ class Container(EmbeddedDocument):
     softwareURL = fields.StringField(required=False)
     documentationURL = fields.StringField(required=False)
     searchText = fields.StringField(required=False)
+
 
 class Descriptor(EmbeddedDocument):
     descriptorType = fields.StringField()
@@ -74,6 +76,3 @@ class Tool(Document):
     additionalIdentifiers = fields.ListField(fields.StringField(max_length=200), required=False)
     registryURL = fields.StringField(required=False)
     license = fields.StringField(required=False)
-
-
-

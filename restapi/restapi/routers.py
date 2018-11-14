@@ -9,6 +9,7 @@ class HybridRouter(routers.DefaultRouter):
     """
     This hybrid router registers both ViewSets and APIViews and shows them in the api_root_view.
     """
+
     def __init__(self, *args, **kwargs):
         super(HybridRouter, self).__init__(*args, **kwargs)
         self._api_view_urls = {}

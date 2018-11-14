@@ -54,9 +54,6 @@ class DockerHubReader(object):
     def dockerhub_list_url(self, url):
         self.dockerhub_list_url = url
 
-    # def dockerhub_details_url(self, url):
-    #     self.dockerhub_details_url = url
-
     def dockerhub_tags_url(self, url):
         self.dockerhub_tags_url = url
 
@@ -71,7 +68,7 @@ class DockerHubReader(object):
         """
         string_url = self.dockerhub_list_url.replace('%namespace%', self.namespace)
         self.container_list = []
-        while (string_url is not None):
+        while string_url is not None:
             response = requests.get(string_url)
             if response.status_code == 200:
                 json_data = json.loads(response.content.decode('utf-8'))

@@ -98,3 +98,12 @@ class ToolVersion:
 
     def add_image_container(self, image_container):
         self.image_containers.append(image_container)
+
+
+class CondaRecipe:
+    """
+    This class storage the data of Conda Recipes. This class is use to read metadata from the conda Recipes
+    """
+
+    def __init__(self, attributes):
+        self.attributes = attributes

@@ -5,6 +5,7 @@ import requests
 
 logger = logging.getLogger('biocontainers.quayio.models')
 
+
 class QuayIOContainer(object):
     """ This class contains the information of one small container"""
 
