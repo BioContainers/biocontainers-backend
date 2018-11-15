@@ -10,6 +10,7 @@ from pymodm.manager import Manager
 constants_tool_classes = ['TOOL', 'MULTI-TOOL', 'SERVICE', 'WORKFLOW']
 constants_container_type = ['SINGULARITY', 'DOCKER', 'CONDA']
 
+
 class PipelineConfiguration:
     def __init__(self, docker_hub, docker_hub_container, docker_hub_tags):
         self.dockerHub = docker_hub
@@ -43,7 +44,6 @@ class Descriptor(EmbeddedMongoModel):
 
 
 class MongoTool(MongoModel):
-
     """
     Mongo Tool Class contains the persistence information of a Tool.
     """
@@ -60,7 +60,7 @@ class MongoTool(MongoModel):
     registry_url = fields.CharField(max_length=500)
     license = fields.CharField(max_length=1000)
     additional_metadata = fields.CharField()
-    tool_classes = fields.ListField(fields.CharField(max_length=100, choices= constants_tool_classes))
+    tool_classes = fields.ListField(fields.CharField(max_length=100, choices=constants_tool_classes))
     authors = fields.ListField(fields.CharField(max_length=200))
     tool_contains = fields.ListField(fields.CharField(max_length=400))
     tool_versions = fields.ListField(fields.CharField(max_length=400))
@@ -109,7 +109,7 @@ class MongoToolVersion(MongoModel):
 
     # Specific of Tool Version
     ref_tool = fields.ReferenceField(MongoTool)
-    hash_name = fields.CharField(max_length= 2000)
+    hash_name = fields.CharField(max_length=2000)
     descriptors = fields.EmbeddedDocumentListField('Descriptor')
     image_containers = fields.EmbeddedDocumentListField('ContainerImage')
     last_update = fields.DateTimeField()
@@ -120,7 +120,9 @@ class MongoToolVersion(MongoModel):
     class Meta:
         write_concern = WriteConcern(j=True)
         final = True
-        indexes = [IndexModel([("id", pymongo.DESCENDING), ("name", pymongo.DESCENDING), ("version", pymongo.DESCENDING)], unique=True)]
+        indexes = [
+            IndexModel([("id", pymongo.DESCENDING), ("name", pymongo.DESCENDING), ("version", pymongo.DESCENDING)],
+                       unique=True)]
 
 
 class CondaRecipe:
@@ -130,6 +132,7 @@ class CondaRecipe:
 
     def __init__(self, attributes):
         self.attributes = attributes
+
 
 class Tool:
     """

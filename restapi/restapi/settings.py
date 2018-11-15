@@ -18,7 +18,6 @@ import mongoengine
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
@@ -29,7 +28,6 @@ SECRET_KEY = '$@#a_dvj6ra)#d_q9@87zm4d)xw4&dk^^sv8-q)q%h$cc7guz)'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -78,7 +76,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'restapi.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
@@ -120,11 +117,11 @@ def is_test():
         print("Using a default mongo database")
         return False
 
+
 if is_test():
     db = 'test'
 else:
     db = 'default'
-
 
 # establish connection with default or test database, depending on the management command, being run
 # note that this connection syntax is correct for mongoengine0.9-, but mongoengine0.10+ introduced slight changes
@@ -135,7 +132,6 @@ mongoengine.connect(
     username=MONGODB_DATABASES[db]['USER'],
     password=MONGODB_DATABASES[db]['PASSWORD']
 )
-
 
 # This is a dummy django model. It's just a crutch to keep django content,
 # while all the real functionality is associated with MONGOENGINE_USER_DOCUMENT
@@ -178,7 +174,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
@@ -191,7 +186,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/

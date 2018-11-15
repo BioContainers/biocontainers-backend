@@ -7,6 +7,7 @@ from biocontainers.github.models import GitHubConfiguration, GitHubDockerReader,
 logger = logging.getLogger('biocontainers.tests')
 logging.basicConfig(level=logging.INFO)
 
+
 class GitHubTestMethods(unittest.TestCase):
     def test_get_list_docker_recipes(self):
         config = GitHubConfiguration(
