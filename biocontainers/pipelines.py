@@ -48,7 +48,6 @@ def import_quayio(config):
     github_conf = GitHubConfiguration(config['DEFAULT']['GITHUB_API_CONDA'],
                                       config['DEFAULT']['GITHUB_CONDA_RECIPES_READABLE'])
     github_reader = GitHubCondaReader(github_conf)
-    recipe = github_reader.read_conda_recipe("peptide-shaker", "1.16.0")
     conda_recipes = github_reader.read_conda_recipes()
     print(recipe.description())
 

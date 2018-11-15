@@ -12,3 +12,4 @@ dockerfile-parse==0.0.11
 ruamel.yaml==0.15.77
 ruamel.yaml.jinja2==0.2.2
 PyYAML==3.13
+pymodm==0.4.1

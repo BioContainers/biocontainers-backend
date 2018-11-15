@@ -1,3 +1,10 @@
+
+from pymodm import MongoModel, fields, ReferenceField
+import pymongo
+from pymongo.common import WriteConcern
+from pymongo.operations import IndexModel
+
+
 class PipelineConfiguration:
     def __init__(self, docker_hub, docker_hub_container, docker_hub_tags):
         self.dockerHub = docker_hub
@@ -64,6 +71,71 @@ class Tool:
 
     def add_tool_class(self, tool_class):
         self.tool_classes.append(tool_class)
+
+class MongoTool(MongoModel):
+
+    """
+    Mongo Tool Class contains the persistance information of a Tool
+    """
+
+    id = fields.CharField(max_length=200)
+    name = fields.CharField(max_length=1000)
+    description = fields.CharField()
+    home_url = fields.CharField()
+    last_version = fields.CharField()
+    organization = fields.CharField()
+    has_checker = fields.BooleanField()
+    checker_url = fields.CharField(max_length=400)
+    is_verified = fields.BooleanField()
+    verified_source = fields.CharField(max_length=400)
+    registry_url = fields.CharField(max_length=500)
+    license = fields.CharField(max_length=1000)
+    additional_metadata = fields.CharField()
+    tool_classes = fields.ListField(
+        fields.CharField(max_length=100, choices=['TOOL', 'MULTI-TOOL', 'SERVICE', 'WORKFLOW']))
+    authors = fields.ListField(fields.CharField(max_length=200))
+    tool_contains = fields.ListField(fields.CharField(max_length=400))
+    tool_versions = fields.ListField(fields.CharField(max_length=400))
+    additional_identifiers = fields.CharField()
+
+
+    def init_from_tool(self, tool):
+        self.id = tool.id
+        self.name = tool.name
+        self.description = tool.name
+        # home_url = fields.CharField()
+        # last_version = fields.CharField()
+        # organization = fields.CharField()
+        # has_checker = fields.BooleanField()
+        # checker_url = fields.CharField(max_length=400)
+        # is_verified = fields.BooleanField()
+        # verified_source = fields.CharField(max_length=400)
+        # registry_url = fields.CharField(max_length=500)
+        # license = fields.CharField(max_length=1000)
+        # additional_metadata = fields.CharField()
+        # tool_classes = fields.ListField(
+        #     fields.CharField(max_length=100, choices=['TOOL', 'MULTI-TOOL', 'SERVICE', 'WORKFLOW']))
+        # authors = fields.ListField(fields.CharField(max_length=200))
+        # tool_contains = fields.ListField(fields.CharField(max_length=400))
+        # tool_versions = fields.ListField(fields.CharField(max_length=400))
+        # additional_identifiers = fields.CharField()
+
+
+
+    # def __new__(self, cls):
+    #     """
+    #     Create a new Tool Mongo from the Tool Class
+    #     :param cls: ToolClass
+    #     :return:
+    #     """
+    #     self.id = cls.id
+
+    class Meta:
+        write_concern = WriteConcern(j=True)
+        final = True
+        indexes = [IndexModel([("id", pymongo.DESCENDING), ("name", pymongo.DESCENDING)], unique=True)]
+
+
 
 
 class ToolVersion:
