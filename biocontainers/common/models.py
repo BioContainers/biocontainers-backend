@@ -1,9 +1,14 @@
+import datetime
 
-from pymodm import MongoModel, fields, ReferenceField
+from pymodm import MongoModel, fields, ReferenceField, EmbeddedMongoModel
 import pymongo
+from pymodm.queryset import QuerySet
 from pymongo.common import WriteConcern
 from pymongo.operations import IndexModel
+from pymodm.manager import Manager
 
+constants_tool_classes = ['TOOL', 'MULTI-TOOL', 'SERVICE', 'WORKFLOW']
+constants_container_type = ['SINGULARITY', 'DOCKER', 'CONDA']
 
 class PipelineConfiguration:
     def __init__(self, docker_hub, docker_hub_container, docker_hub_tags):
@@ -12,36 +17,119 @@ class PipelineConfiguration:
         self.dockerHubTags = docker_hub_tags
 
 
-class ContainerImage:
+class ContainerImage(EmbeddedMongoModel):
     """ This class handle how a container is build. Singularity, Docker, Conda, etc. """
-    maintainers = []
+    tag = fields.CharField()
+    full_tag = fields.CharField()
+    container_type = fields.CharField(max_length=1000, choices=constants_container_type)
+    binary_urls = fields.CharField()
+    description = fields.CharField()
+    recipe_url = fields.CharField()
+    license = fields.CharField()
+    additional_metadata = fields.CharField()
+    size = fields.IntegerField()
+    downloads = fields.IntegerField()
+    last_update = fields.DateTimeField(default=datetime.datetime.utcnow)
 
-    def __init__(self, tag, full_tag, container_type, binary_urls, description, recipe_url, license, software_url,
-                 doc_url, additional_metadata):
-        self.tag = tag
-        """quay.io/biocontainers/abaca:1.2 --python"""
-        self.full_tag = full_tag
-        self.container_type = container_type
-        self.binary_urls = binary_urls
-        self.description = description
-        self.recipe_url = recipe_url
-        self.license = license
-        self.software_url = software_url
-        self.doc_url = doc_url
-        self.additional_metadata = additional_metadata
 
-    def update_size(self, size):
-        self.size = size
+class Descriptor(EmbeddedMongoModel):
+    """
+    This class sotrage the information of a Tool descriptor
+    """
+    id = fields.CharField(max_length=100)
 
-    def update_downloads(self, downloads):
-        self.downloads = downloads
 
-    def update_last_update(self, last_update):
-        self.last_update = last_update
+# Mongo Classes to persistent the data model.
 
-    def add_maintainer(self, maintainer):
-        self.maintainers.append(maintainer)
 
+class MongoTool(MongoModel):
+
+    """
+    Mongo Tool Class contains the persistence information of a Tool.
+    """
+    id = fields.CharField(max_length=200, blank=False, required=True)
+    name = fields.CharField(max_length=1000, blank=True, required=False)
+    description = fields.CharField()
+    home_url = fields.CharField()
+    last_version = fields.CharField()
+    organization = fields.CharField()
+    has_checker = fields.BooleanField()
+    checker_url = fields.CharField(max_length=400)
+    is_verified = fields.BooleanField()
+    verified_source = fields.CharField(max_length=400)
+    registry_url = fields.CharField(max_length=500)
+    license = fields.CharField(max_length=1000)
+    additional_metadata = fields.CharField()
+    tool_classes = fields.ListField(fields.CharField(max_length=100, choices= constants_tool_classes))
+    authors = fields.ListField(fields.CharField(max_length=200))
+    tool_contains = fields.ListField(fields.CharField(max_length=400))
+    tool_versions = fields.ListField(fields.CharField(max_length=400))
+    additional_identifiers = fields.CharField()
+
+    class Meta:
+        write_concern = WriteConcern(j=True)
+        final = True
+        indexes = [IndexModel([("id", pymongo.DESCENDING), ("name", pymongo.DESCENDING)], unique=True)]
+        cascade = True
+
+    def get_tool_versions(self):
+        return list(MongoToolVersion.manager.mongo_tool_versions_by_tool(self._id))
+
+
+class ToolQuerySet(QuerySet):
+    def mongo_tool_versions_by_tool(self, tool_id):
+        return self.raw({'ref_tool': tool_id})
+
+
+class MongoToolVersion(MongoModel):
+    """
+    This class store the information of a Tool version (e.g. PeptideShacker 2.0 )
+    """
+    id = fields.CharField(max_length=200, blank=False, required=False)
+    name = fields.CharField(max_length=1000, blank=True, required=False)
+    version = fields.CharField(max_length=1000, blank=False, required=False)
+    description = fields.CharField()
+    home_url = fields.CharField()
+    doc_url = fields.CharField()
+    license = fields.CharField(max_length=1000)
+    additional_identifiers = fields.CharField()
+    organization = fields.CharField()
+    has_checker = fields.BooleanField()
+    checker_url = fields.CharField(max_length=400)
+    is_verified = fields.BooleanField()
+    verified_source = fields.CharField(max_length=400)
+    registry_url = fields.CharField(max_length=500)
+
+    additional_metadata = fields.CharField()
+    tool_classes = fields.ListField(
+        fields.CharField(max_length=100, choices=constants_tool_classes))
+    authors = fields.ListField(fields.CharField(max_length=200))
+    tool_contains = fields.ListField(fields.CharField(max_length=400))
+    tool_versions = fields.ListField(fields.CharField(max_length=400))
+
+    # Specific of Tool Version
+    ref_tool = fields.ReferenceField(MongoTool)
+    hash_name = fields.CharField(max_length= 2000)
+    descriptors = fields.EmbeddedDocumentListField('Descriptor')
+    image_containers = fields.EmbeddedDocumentListField('ContainerImage')
+    last_update = fields.DateTimeField()
+
+    # All queries must be executed via this_manger
+    manager = Manager.from_queryset(ToolQuerySet)()
+
+    class Meta:
+        write_concern = WriteConcern(j=True)
+        final = True
+        indexes = [IndexModel([("id", pymongo.DESCENDING), ("name", pymongo.DESCENDING), ("version", pymongo.DESCENDING)], unique=True)]
+
+
+class CondaRecipe:
+    """
+    This class storage the data of Conda Recipes. This class is use to read metadata from the conda Recipes
+    """
+
+    def __init__(self, attributes):
+        self.attributes = attributes
 
 class Tool:
     """
@@ -71,71 +159,6 @@ class Tool:
 
     def add_tool_class(self, tool_class):
         self.tool_classes.append(tool_class)
-
-class MongoTool(MongoModel):
-
-    """
-    Mongo Tool Class contains the persistance information of a Tool
-    """
-
-    id = fields.CharField(max_length=200)
-    name = fields.CharField(max_length=1000)
-    description = fields.CharField()
-    home_url = fields.CharField()
-    last_version = fields.CharField()
-    organization = fields.CharField()
-    has_checker = fields.BooleanField()
-    checker_url = fields.CharField(max_length=400)
-    is_verified = fields.BooleanField()
-    verified_source = fields.CharField(max_length=400)
-    registry_url = fields.CharField(max_length=500)
-    license = fields.CharField(max_length=1000)
-    additional_metadata = fields.CharField()
-    tool_classes = fields.ListField(
-        fields.CharField(max_length=100, choices=['TOOL', 'MULTI-TOOL', 'SERVICE', 'WORKFLOW']))
-    authors = fields.ListField(fields.CharField(max_length=200))
-    tool_contains = fields.ListField(fields.CharField(max_length=400))
-    tool_versions = fields.ListField(fields.CharField(max_length=400))
-    additional_identifiers = fields.CharField()
-
-
-    def init_from_tool(self, tool):
-        self.id = tool.id
-        self.name = tool.name
-        self.description = tool.name
-        # home_url = fields.CharField()
-        # last_version = fields.CharField()
-        # organization = fields.CharField()
-        # has_checker = fields.BooleanField()
-        # checker_url = fields.CharField(max_length=400)
-        # is_verified = fields.BooleanField()
-        # verified_source = fields.CharField(max_length=400)
-        # registry_url = fields.CharField(max_length=500)
-        # license = fields.CharField(max_length=1000)
-        # additional_metadata = fields.CharField()
-        # tool_classes = fields.ListField(
-        #     fields.CharField(max_length=100, choices=['TOOL', 'MULTI-TOOL', 'SERVICE', 'WORKFLOW']))
-        # authors = fields.ListField(fields.CharField(max_length=200))
-        # tool_contains = fields.ListField(fields.CharField(max_length=400))
-        # tool_versions = fields.ListField(fields.CharField(max_length=400))
-        # additional_identifiers = fields.CharField()
-
-
-
-    # def __new__(self, cls):
-    #     """
-    #     Create a new Tool Mongo from the Tool Class
-    #     :param cls: ToolClass
-    #     :return:
-    #     """
-    #     self.id = cls.id
-
-    class Meta:
-        write_concern = WriteConcern(j=True)
-        final = True
-        indexes = [IndexModel([("id", pymongo.DESCENDING), ("name", pymongo.DESCENDING)], unique=True)]
-
-
 
 
 class ToolVersion:
@@ -170,12 +193,3 @@ class ToolVersion:
 
     def add_image_container(self, image_container):
         self.image_containers.append(image_container)
-
-
-class CondaRecipe:
-    """
-    This class storage the data of Conda Recipes. This class is use to read metadata from the conda Recipes
-    """
-
-    def __init__(self, attributes):
-        self.attributes = attributes
