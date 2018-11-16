@@ -87,7 +87,7 @@ class QuayIOReader(object):
 
         string_url = self.quayio_details_url.replace('%namespace%', self.namespace)
         containers_list = []
-        for index in range(page * batch, batch * (page+1)):
+        for index in range(page * batch, batch * (page + 1)):
             short_container = self.container_list[index]
             url = string_url.replace('%container_name%', short_container.name())
             try:
