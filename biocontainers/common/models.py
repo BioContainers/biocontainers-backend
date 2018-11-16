@@ -30,7 +30,10 @@ class ContainerImage(EmbeddedMongoModel):
     additional_metadata = fields.CharField()
     size = fields.IntegerField()
     downloads = fields.IntegerField()
-    last_update = fields.DateTimeField(default=datetime.datetime.utcnow)
+    last_updated = fields.DateTimeField(default=datetime.datetime.utcnow)
+
+    def last_updated(self , datetime):
+        self.last_updated = datetime
 
 
 class Descriptor(EmbeddedMongoModel):
@@ -116,6 +119,15 @@ class MongoToolVersion(MongoModel):
 
     # All queries must be executed via this_manger
     manager = Manager.from_queryset(ToolQuerySet)()
+
+
+    def add_image_container(self, image_container):
+        """
+        Add a new container image to the to the list of containers.
+        :param image_container:
+        :return:
+        """
+        self.image_containers.append(image_container)
 
     class Meta:
         write_concern = WriteConcern(j=True)
