@@ -70,7 +70,7 @@ class QuayIOReader(object):
 
         return self.container_list
 
-    def get_containers(self):
+    def get_containers(self, page=None, batch=None):
         """
         This method returns the of containers descriptions for
         all Quay.io containers.
@@ -79,9 +79,16 @@ class QuayIOReader(object):
         if not self.containers_list:
             self.containers_list = self.get_list_containers()
 
+        if page == None:
+            page = 0
+
+        if batch == None:
+            batch = len(self.container_list)
+
         string_url = self.quayio_details_url.replace('%namespace%', self.namespace)
         containers_list = []
-        for short_container in self.container_list:
+        for index in range(page * batch, batch * (page+1)):
+            short_container = self.container_list[index]
             url = string_url.replace('%container_name%', short_container.name())
             try:
                 response = requests.get(url)

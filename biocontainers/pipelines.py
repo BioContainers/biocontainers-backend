@@ -2,6 +2,7 @@ import argparse
 import configparser
 import logging
 
+from biocontainers.biomongo.helpers import InsertContainers
 from biocontainers.dockerhub.models import DockerHubReader
 from biocontainers.github.models import GitHubCondaReader, GitHubConfiguration
 from biocontainers.quayio.models import QuayIOReader
@@ -40,16 +41,19 @@ def import_quayio(config):
     """
     logger.info("Starting importing Conda packages")
 
-    # reader = QuayIOReader()
-    # reader.quayio_list_url(config['DEFAULT']['QUAYIO_CONTAINER_LIST'])
-    # reader.quayio_details_url(config['DEFAULT']['QUAYIO_CONTAINER_DETAILS'])
-    # reader.namespace(config['DEFAULT']['NAMESPACE'])
-    # containers = reader.get_containers()
-    github_conf = GitHubConfiguration(config['DEFAULT']['GITHUB_API_CONDA'],
-                                      config['DEFAULT']['GITHUB_CONDA_RECIPES_READABLE'])
-    github_reader = GitHubCondaReader(github_conf)
-    conda_recipes = github_reader.read_conda_recipes()
-    print(recipe.description())
+    reader = QuayIOReader()
+    reader.quayio_list_url(config['DEFAULT']['QUAYIO_CONTAINER_LIST'])
+    reader.quayio_details_url(config['DEFAULT']['QUAYIO_CONTAINER_DETAILS'])
+    reader.namespace(config['DEFAULT']['NAMESPACE'])
+    quayio_containers = reader.get_containers(batch=10)
+    mongo_helper = InsertContainers(config['TEST']['CONNECTION_URL'])
+    mongo_helper.insert_quayio_containers(quayio_containers)
+
+    # github_conf = GitHubConfiguration(config['DEFAULT']['GITHUB_API_CONDA'],
+    #                                   config['DEFAULT']['GITHUB_CONDA_RECIPES_READABLE'])
+    # github_reader = GitHubCondaReader(github_conf)
+    # conda_recipes = github_reader.read_conda_recipes()
+    # print(recipe.description())
 
 
 def import_dockerhub(config):
