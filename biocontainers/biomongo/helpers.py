@@ -20,8 +20,9 @@ class InsertContainers:
         :param quayio_containers: List of Quay.io containers
         :return:
         """
-        tool_versions_dic = MongoToolVersion.get_all_tools()
-        tools_dic = MongoTool.get_all_tools()
+        tool_versions_dic = MongoToolVersion.objects.all()
+        tools_dic = MongoTool.objects.all()
+
         for container in quayio_containers:
             for key, val in container.tags().items():
 
