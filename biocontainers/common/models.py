@@ -46,6 +46,14 @@ class Descriptor(EmbeddedMongoModel):
 # Mongo Classes to persistent the data model.
 
 
+class ToolQuerySet(QuerySet):
+
+    def mongo_tool_versions_by_tool(self, tool_id):
+        return self.raw({'ref_tool': tool_id})
+
+    def mongo_all_tools(self):
+        return self.raw({})
+
 class MongoTool(MongoModel):
     """
     Mongo Tool Class contains the persistence information of a Tool.
@@ -69,6 +77,8 @@ class MongoTool(MongoModel):
     tool_versions = fields.ListField(fields.CharField(max_length=400))
     additional_identifiers = fields.CharField()
 
+    manager = Manager.from_queryset(ToolQuerySet)()
+
     class Meta:
         write_concern = WriteConcern(j=True)
         final = True
@@ -78,10 +88,9 @@ class MongoTool(MongoModel):
     def get_tool_versions(self):
         return list(MongoToolVersion.manager.mongo_tool_versions_by_tool(self._id))
 
-
-class ToolQuerySet(QuerySet):
-    def mongo_tool_versions_by_tool(self, tool_id):
-        return self.raw({'ref_tool': tool_id})
+    @staticmethod
+    def get_all_tools():
+        return MongoTool.manager.mongo_all_tools()
 
 
 class MongoToolVersion(MongoModel):
@@ -120,6 +129,10 @@ class MongoToolVersion(MongoModel):
     # All queries must be executed via this_manger
     manager = Manager.from_queryset(ToolQuerySet)()
 
+    @staticmethod
+    def get_all_tool_versions():
+        return MongoToolVersion.manager.mongo_all_tool_versions()
+
 
     def add_image_container(self, image_container):
         """
@@ -128,6 +141,10 @@ class MongoToolVersion(MongoModel):
         :return:
         """
         self.image_containers.append(image_container)
+
+    @staticmethod
+    def get_all_tool_versions():
+        return MongoToolVersion.objects.all()
 
     class Meta:
         write_concern = WriteConcern(j=True)
