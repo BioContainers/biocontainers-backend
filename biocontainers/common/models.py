@@ -32,7 +32,7 @@ class ContainerImage(EmbeddedMongoModel):
     downloads = fields.IntegerField()
     last_updated = fields.DateTimeField(default=datetime.datetime.utcnow)
 
-    def last_updated(self , datetime):
+    def last_updated(self, datetime):
         self.last_updated = datetime
 
 
@@ -53,6 +53,13 @@ class ToolQuerySet(QuerySet):
 
     def mongo_all_tools(self):
         return self.raw({})
+
+class ToolVersionQuerySet(QuerySet):
+
+    def mongo_all_tool_versions(self):
+        #self._return_raw = False
+        return list(self.all())
+
 
 class MongoTool(MongoModel):
     """
@@ -128,11 +135,11 @@ class MongoToolVersion(MongoModel):
 
     # All queries must be executed via this_manger
     manager = Manager.from_queryset(ToolQuerySet)()
+    manager_versions = Manager.from_queryset(ToolVersionQuerySet)()
 
     @staticmethod
     def get_all_tool_versions():
-        return MongoToolVersion.manager.mongo_all_tool_versions()
-
+        return MongoToolVersion.manager_versions.mongo_all_tool_versions()
 
     def add_image_container(self, image_container):
         """
@@ -142,9 +149,10 @@ class MongoToolVersion(MongoModel):
         """
         self.image_containers.append(image_container)
 
-    @staticmethod
-    def get_all_tool_versions():
-        return MongoToolVersion.objects.all()
+    def __getitem__(self, key):
+        if key == self.id:
+            return self
+        return
 
     class Meta:
         write_concern = WriteConcern(j=True)
@@ -152,6 +160,7 @@ class MongoToolVersion(MongoModel):
         indexes = [
             IndexModel([("id", pymongo.DESCENDING), ("name", pymongo.DESCENDING), ("version", pymongo.DESCENDING)],
                        unique=True)]
+
 
 
 class CondaRecipe:

@@ -1,8 +1,13 @@
+import operator
 import time
 import logging
+from collections import defaultdict
 
 from pymodm import connect
 from pymongo.errors import DuplicateKeyError
+
+import itertools
+from operator import itemgetter
 
 from biocontainers.common.models import MongoToolVersion, ContainerImage, MongoTool
 
@@ -20,8 +25,17 @@ class InsertContainers:
         :param quayio_containers: List of Quay.io containers
         :return:
         """
-        tool_versions_dic = MongoToolVersion.objects.all()
-        tools_dic = MongoTool.objects.all()
+        tool_versions_dic = {}
+        list_versions = list(MongoToolVersion.get_all_tool_versions())
+        tool_versions_dic = defaultdict(list)
+
+        for tool_version in list_versions:
+            tool_versions_dic[tool_version.id].append(tool_version)
+
+        tools_dic = {}
+        list_tools = list(MongoTool.get_all_tools())
+        for item in list_tools:
+            tools_dic.setdefault(item['id'], []).append(item)
 
         for container in quayio_containers:
             for key, val in container.tags().items():
@@ -35,6 +49,7 @@ class InsertContainers:
                     mongo_tool_version.version = version
                     mongo_tool_version.description = container.description()
                     mongo_tool_version.tool_classes = ['TOOL']
+                    mongo_tool_version.id = tool_version_id
                 else:
                     mongo_tool_version = tool_versions_dic[tool_version_id]
 
@@ -55,6 +70,8 @@ class InsertContainers:
                     mongo_tool.name = container.name()
                 else:
                     mongo_tool = tools_dic[tool_id]
+                mongo_tool.id = tool_id
+
                 try:
                     mongo_tool_version.save()
                 except DuplicateKeyError as error:
