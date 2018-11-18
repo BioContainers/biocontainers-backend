@@ -17,7 +17,7 @@ QUAYIO_DOMAIN = "quay.io/biocontainers/"
 
 class InsertContainers:
     def __init__(self, connect_url):
-        connection = connect(connect_url)
+         connection = connect(connect_url)
 
     def insert_quayio_containers(self, quayio_containers):
         """
@@ -51,7 +51,8 @@ class InsertContainers:
                     mongo_tool_version.tool_classes = ['TOOL']
                     mongo_tool_version.id = tool_version_id
                 else:
-                    mongo_tool_version = tool_versions_dic[tool_version_id]
+                    # Todo: Probably we need to find a better way to represent this.
+                    mongo_tool_version = tool_versions_dic[tool_version_id][0]
 
                 container_image = ContainerImage()
                 container_image.tag = key
@@ -61,7 +62,7 @@ class InsertContainers:
                 container_image.last_updated(datetime_object)
                 container_image.size = int(int(val['size']) / 1000000)
                 mongo_tool_version.add_image_container(container_image)
-                tool_versions_dic[tool_version_id] = mongo_tool_version
+                tool_versions_dic[tool_version_id][0] = mongo_tool_version
 
                 # Insert the corresponding tool
                 tool_id = container.name()
