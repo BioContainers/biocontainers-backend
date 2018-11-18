@@ -147,7 +147,13 @@ class MongoToolVersion(MongoModel):
         :param image_container:
         :return:
         """
-        self.image_containers.append(image_container)
+        new = True
+        for index, image_container_old in enumerate(self.image_containers):
+            if image_container.tag == image_container_old.tag and image_container.container_type == image_container_old.container_type:
+                self.image_containers[index] = image_container
+                new = False
+        if new:
+            self.image_containers.append(image_container)
 
     def __getitem__(self, key):
         if key == self.id:
