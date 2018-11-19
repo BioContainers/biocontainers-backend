@@ -13,6 +13,7 @@ from biocontainers.common.models import MongoToolVersion, ContainerImage, MongoT
 
 logger = logging.getLogger('biocontainers.quayio.models')
 QUAYIO_DOMAIN = "quay.io/biocontainers/"
+TOOL_VERSION_SPLITTER = '-'
 
 
 class InsertContainers:
@@ -40,9 +41,9 @@ class InsertContainers:
         for container in quayio_containers:
             for key, val in container.tags().items():
 
-                # Insert Tool version containers
+                # First insert Tool version containers
                 version = key.split("--", 1)[0]
-                tool_version_id = container.name() + '--' + version
+                tool_version_id = container.name() + TOOL_VERSION_SPLITTER + version
                 if tool_version_id not in tool_versions_dic:
                     mongo_tool_version = MongoToolVersion()
                     mongo_tool_version.name = container.name()
@@ -54,6 +55,7 @@ class InsertContainers:
                     # Todo: Probably we need to find a better way to represent this.
                     mongo_tool_version = tool_versions_dic[tool_version_id][0]
 
+                ## Insert the corresponding container image for in the version.
                 container_image = ContainerImage()
                 container_image.tag = key
                 container_image.full_tag = QUAYIO_DOMAIN + container.name() + ":" + key
@@ -69,14 +71,24 @@ class InsertContainers:
                 if tool_id not in tools_dic:
                     mongo_tool = MongoTool()
                     mongo_tool.name = container.name()
+                    mongo_tool.id = container.name()
+                    mongo_tool.description = container.description()
+                    mongo_tool.license = container.license()
                 else:
                     mongo_tool = tools_dic[tool_id]
-                mongo_tool.id = tool_id
+
+                try:
+                    mongo_tool.save()
+                except DuplicateKeyError as error:
+                    logger.error(" A tool with same name is already in the database -- " + tool_id)
+
+                mongo_tool_version.ref_tool = mongo_tool
+                #mongo_versions = mongo_tool.get_tool_versions()
 
                 try:
                     mongo_tool_version.save()
                 except DuplicateKeyError as error:
-                    logger.error(" A tool with a same name and version is in the database -- " + tool_version_id)
+                    logger.error(" A tool version with a same name and version is in the database -- " + tool_version_id)
 
 
 
