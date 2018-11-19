@@ -32,9 +32,6 @@ class ContainerImage(EmbeddedMongoModel):
     downloads = fields.IntegerField()
     last_updated = fields.DateTimeField()
 
-    def last_updated(self, datetime):
-        self.last_updated = datetime
-
 
 class Descriptor(EmbeddedMongoModel):
     """

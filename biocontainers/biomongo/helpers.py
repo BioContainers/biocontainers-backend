@@ -1,3 +1,4 @@
+import datetime
 import operator
 import time
 import logging
@@ -61,8 +62,9 @@ class InsertContainers:
                 container_image.full_tag = QUAYIO_DOMAIN + container.name() + ":" + key
 
                 container_image.container_type = 'DOCKER'
-                datetime_object = time.strptime(val['last_modified'][0:-15], '%a, %d %b %Y')
-                container_image.last_updated= datetime_object
+                #datetime_object = datetime.datetime.strptime(val['last_modified'][0:-15], '%a, %d %b %Y')
+                datetime_object =  datetime.datetime(int(2016), int(6), int(16))
+                container_image.last_updated = datetime_object
                 container_image.size = int(int(val['size']) / 1000000)
                 mongo_tool_version.add_image_container(container_image)
                 if tool_version_id in tool_versions_dic:
