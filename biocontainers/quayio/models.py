@@ -66,7 +66,7 @@ class QuayIOReader(object):
             for key in json_data['repositories']:
                 container = QuayIOContainer(key)
                 self.container_list.append(container)
-                print(container.name())
+                logger.info(" A short description has been retrieved from Quay.io for this container -- " + container.name())
 
         return self.container_list
 
@@ -96,9 +96,9 @@ class QuayIOReader(object):
                     json_data = json.loads(response.content.decode('utf-8'))
                     container = QuayIOContainer(json_data)
                     containers_list.append(container)
-                    print(container.name())
+                    logger.info(" A full description has been retrieved from Quay.io for this container -- " + container.name())
             except ConnectionError:
-                logger.error("Connection has failed to QuaIO for container ID --" + container.id)
+                logger.error(" Connection has failed to QuaIO for container ID --" + short_container.id)
 
         self.container_list = containers_list
         return self.container_list

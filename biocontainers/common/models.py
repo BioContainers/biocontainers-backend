@@ -51,10 +51,11 @@ class ToolQuerySet(QuerySet):
     def mongo_all_tools(self):
         return list(self.all())
 
+
 class ToolVersionQuerySet(QuerySet):
 
     def mongo_all_tool_versions(self):
-        #self._return_raw = False
+        # self._return_raw = False
         return list(self.all())
 
 
@@ -163,7 +164,6 @@ class MongoToolVersion(MongoModel):
         indexes = [
             IndexModel([("id", pymongo.DESCENDING), ("name", pymongo.DESCENDING), ("version", pymongo.DESCENDING)],
                        unique=True)]
-
 
 
 class CondaRecipe:

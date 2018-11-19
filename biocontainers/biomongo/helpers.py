@@ -19,7 +19,7 @@ TOOL_VERSION_SPLITTER = '-'
 
 class InsertContainers:
     def __init__(self, connect_url):
-         connection = connect(connect_url)
+        connection = connect(connect_url)
 
     def insert_quayio_containers(self, quayio_containers):
         """
@@ -62,8 +62,7 @@ class InsertContainers:
                 container_image.full_tag = QUAYIO_DOMAIN + container.name() + ":" + key
 
                 container_image.container_type = 'DOCKER'
-                #datetime_object = datetime.datetime.strptime(val['last_modified'][0:-15], '%a, %d %b %Y')
-                datetime_object =  datetime.datetime(int(2016), int(6), int(16))
+                datetime_object = datetime.datetime.strptime(val['last_modified'][0:-15], '%a, %d %b %Y')
                 container_image.last_updated = datetime_object
                 container_image.size = int(int(val['size']) / 1000000)
                 mongo_tool_version.add_image_container(container_image)
@@ -89,15 +88,12 @@ class InsertContainers:
                     logger.error(" A tool with same name is already in the database -- " + tool_id)
 
                 mongo_tool_version.ref_tool = mongo_tool
-                #mongo_versions = mongo_tool.get_tool_versions()
+                # mongo_versions = mongo_tool.get_tool_versions()
 
                 try:
                     mongo_tool_version.save()
                 except DuplicateKeyError as error:
-                    logger.error(" A tool version with a same name and version is in the database -- " + tool_version_id)
-
-
-
-
+                    logger.error(
+                        " A tool version with a same name and version is in the database -- " + tool_version_id)
 
         containers_list = list(tool_versions_dic.values())

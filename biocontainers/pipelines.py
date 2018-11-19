@@ -45,7 +45,7 @@ def import_quayio(config):
     reader.quayio_list_url(config['DEFAULT']['QUAYIO_CONTAINER_LIST'])
     reader.quayio_details_url(config['DEFAULT']['QUAYIO_CONTAINER_DETAILS'])
     reader.namespace(config['DEFAULT']['NAMESPACE'])
-    quayio_containers = reader.get_containers(batch=10)
+    quayio_containers = reader.get_containers()
     mongo_helper = InsertContainers(config['TEST']['CONNECTION_URL'])
     mongo_helper.insert_quayio_containers(quayio_containers)
 
