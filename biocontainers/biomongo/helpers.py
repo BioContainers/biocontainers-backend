@@ -26,22 +26,23 @@ class InsertContainers:
         :param quayio_containers: List of Quay.io containers
         :return:
         """
-        tool_versions_dic = {}
         list_versions = list(MongoToolVersion.get_all_tool_versions())
-        tool_versions_dic = defaultdict(list)
-
+        tool_versions_dic = {}
         for tool_version in list_versions:
-            tool_versions_dic[tool_version.id].append(tool_version)
+            tool_versions_dic[tool_version.id] = tool_version
 
         tools_dic = {}
         list_tools = list(MongoTool.get_all_tools())
-        for item in list_tools:
-            tools_dic.setdefault(item['id'], []).append(item)
+        for tool in list_tools:
+            tools_dic[tool.id] = tool
 
         for container in quayio_containers:
+            # The version is read from the container tag.
             for key, val in container.tags().items():
 
-                # First insert Tool version containers
+                # First insert Tool version containers. For that we need to parse first the version of the tool. Version is also handle as defined by
+                # the container provider Docker or Quay.io
+
                 version = key.split("--", 1)[0]
                 tool_version_id = container.name() + TOOL_VERSION_SPLITTER + version
                 if tool_version_id not in tool_versions_dic:
@@ -52,19 +53,22 @@ class InsertContainers:
                     mongo_tool_version.tool_classes = ['TOOL']
                     mongo_tool_version.id = tool_version_id
                 else:
-                    # Todo: Probably we need to find a better way to represent this.
-                    mongo_tool_version = tool_versions_dic[tool_version_id][0]
+                    mongo_tool_version = tool_versions_dic[tool_version_id]
 
-                ## Insert the corresponding container image for in the version.
+                ## Get the tag information (Container image) and add to the ToolVersion
                 container_image = ContainerImage()
                 container_image.tag = key
                 container_image.full_tag = QUAYIO_DOMAIN + container.name() + ":" + key
+
                 container_image.container_type = 'DOCKER'
                 datetime_object = time.strptime(val['last_modified'][0:-15], '%a, %d %b %Y')
                 container_image.last_updated(datetime_object)
                 container_image.size = int(int(val['size']) / 1000000)
                 mongo_tool_version.add_image_container(container_image)
-                tool_versions_dic[tool_version_id][0] = mongo_tool_version
+                if tool_version_id in tool_versions_dic:
+                    tool_versions_dic[tool_version_id] = mongo_tool_version
+                else:
+                    tool_versions_dic[tool_version_id] = mongo_tool_version
 
                 # Insert the corresponding tool
                 tool_id = container.name()
@@ -73,7 +77,7 @@ class InsertContainers:
                     mongo_tool.name = container.name()
                     mongo_tool.id = container.name()
                     mongo_tool.description = container.description()
-                    mongo_tool.license = container.license()
+                    tools_dic[tool_id].append(mongo_tool)
                 else:
                     mongo_tool = tools_dic[tool_id]
 

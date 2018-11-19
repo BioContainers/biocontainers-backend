@@ -21,7 +21,7 @@ class PipelineConfiguration:
 class ContainerImage(EmbeddedMongoModel):
     """ This class handle how a container is build. Singularity, Docker, Conda, etc. """
     tag = fields.CharField()
-    full_tag = fields.CharField()
+    full_tag = fields.CharField(required=True)
     container_type = fields.CharField(max_length=1000, choices=constants_container_type)
     binary_urls = fields.CharField()
     description = fields.CharField()
@@ -52,7 +52,7 @@ class ToolQuerySet(QuerySet):
         return self.raw({'ref_tool': tool_id})
 
     def mongo_all_tools(self):
-        return self.raw({})
+        return list(self.all())
 
 class ToolVersionQuerySet(QuerySet):
 
@@ -149,7 +149,7 @@ class MongoToolVersion(MongoModel):
         """
         new = True
         for index, image_container_old in enumerate(self.image_containers):
-            if image_container.tag == image_container_old.tag and image_container.container_type == image_container_old.container_type:
+            if image_container.full_tag == image_container_old.full_tag and image_container.container_type == image_container_old.container_type:
                 self.image_containers[index] = image_container
                 new = False
         if new:
