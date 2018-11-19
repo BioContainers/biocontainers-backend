@@ -62,7 +62,7 @@ class InsertContainers:
 
                 container_image.container_type = 'DOCKER'
                 datetime_object = time.strptime(val['last_modified'][0:-15], '%a, %d %b %Y')
-                container_image.last_updated(datetime_object)
+                container_image.last_updated= datetime_object
                 container_image.size = int(int(val['size']) / 1000000)
                 mongo_tool_version.add_image_container(container_image)
                 if tool_version_id in tool_versions_dic:
@@ -77,7 +77,7 @@ class InsertContainers:
                     mongo_tool.name = container.name()
                     mongo_tool.id = container.name()
                     mongo_tool.description = container.description()
-                    tools_dic[tool_id].append(mongo_tool)
+                    tools_dic[tool_id] = mongo_tool
                 else:
                     mongo_tool = tools_dic[tool_id]
 

@@ -30,7 +30,7 @@ class ContainerImage(EmbeddedMongoModel):
     additional_metadata = fields.CharField()
     size = fields.IntegerField()
     downloads = fields.IntegerField()
-    last_updated = fields.DateTimeField(default=datetime.datetime.utcnow)
+    last_updated = fields.DateTimeField()
 
     def last_updated(self, datetime):
         self.last_updated = datetime
