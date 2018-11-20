@@ -8,6 +8,8 @@ from biocontainers.common.models import MongoToolVersion, ContainerImage, MongoT
 
 logger = logging.getLogger('biocontainers.quayio.models')
 QUAYIO_DOMAIN = "quay.io/biocontainers/"
+DOCKER_DOMAIN = "biocontainers/"
+
 TOOL_VERSION_SPLITTER = '-'
 
 
@@ -132,7 +134,7 @@ class InsertContainers:
                 ## Get the tag information (Container image) and add to the ToolVersion
                 container_image = ContainerImage()
                 container_image.tag = key
-                container_image.full_tag = QUAYIO_DOMAIN + container.name() + ":" + key['name']
+                container_image.full_tag = DOCKER_DOMAIN + container.name() + ":" + key['name']
 
                 container_image.container_type = 'DOCKER'
                 datetime_object = datetime.datetime.strptime(key['last_updated'][0:-17], '%Y-%m-%d')
