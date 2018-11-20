@@ -1,7 +1,8 @@
 import json
 
 import logging
-import requests
+from urllib3.exceptions import NewConnectionError
+from biocontainers.common.utils import call_api
 
 logger = logging.getLogger('biocontainers.quayio.models')
 
@@ -59,14 +60,18 @@ class QuayIOReader(object):
         :return: list of container minimum metadata
         """
         string_url = self.quayIOContainers.replace('%namespace%', self.namespace)
-        response = requests.get(string_url)
-        self.container_list = []
-        if response.status_code == 200:
-            json_data = json.loads(response.content.decode('utf-8'))
-            for key in json_data['repositories']:
-                container = QuayIOContainer(key)
-                self.container_list.append(container)
-                logger.info(" A short description has been retrieved from Quay.io for this container -- " + container.name())
+        try:
+            response = call_api(string_url)
+            self.container_list = []
+            if response.status_code == 200:
+                json_data = json.loads(response.content.decode('utf-8'))
+                for key in json_data['repositories']:
+                    container = QuayIOContainer(key)
+                    self.container_list.append(container)
+                    logger.info(
+                        " A short description has been retrieved from Quay.io for this container -- " + container.name())
+        except (ConnectionError, NewConnectionError) as error:
+                    logger.error(" Connection has failed to QuaIO for following url --" + string_url)
 
         return self.container_list
 
@@ -91,13 +96,13 @@ class QuayIOReader(object):
             short_container = self.container_list[index]
             url = string_url.replace('%container_name%', short_container.name())
             try:
-                response = requests.get(url)
+                response = call_api(url)
                 if response.status_code == 200:
                     json_data = json.loads(response.content.decode('utf-8'))
                     container = QuayIOContainer(json_data)
                     containers_list.append(container)
                     logger.info(" A full description has been retrieved from Quay.io for this container -- " + container.name())
-            except ConnectionError:
+            except (ConnectionError, NewConnectionError) as error:
                 logger.error(" Connection has failed to QuaIO for container ID --" + short_container.id)
 
         self.container_list = containers_list

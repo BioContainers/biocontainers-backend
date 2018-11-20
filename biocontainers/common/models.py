@@ -1,11 +1,13 @@
 import datetime
 
-from pymodm import MongoModel, fields, ReferenceField, EmbeddedMongoModel
+from pymodm import MongoModel, fields, EmbeddedMongoModel
 import pymongo
 from pymodm.queryset import QuerySet
 from pymongo.common import WriteConcern
 from pymongo.operations import IndexModel
 from pymodm.manager import Manager
+
+
 
 constants_tool_classes = ['TOOL', 'MULTI-TOOL', 'SERVICE', 'WORKFLOW']
 constants_container_type = ['SINGULARITY', 'DOCKER', 'CONDA']
@@ -65,7 +67,7 @@ class MongoTool(MongoModel):
     """
     id = fields.CharField(max_length=200, blank=False, required=True)
     name = fields.CharField(max_length=1000, blank=True, required=False)
-    description = fields.CharField()
+    description = fields.CharField(blank=True)
     home_url = fields.CharField()
     last_version = fields.CharField()
     organization = fields.CharField()
@@ -105,7 +107,7 @@ class MongoToolVersion(MongoModel):
     id = fields.CharField(max_length=200, blank=False, required=False)
     name = fields.CharField(max_length=1000, blank=True, required=False)
     version = fields.CharField(max_length=1000, blank=False, required=False)
-    description = fields.CharField()
+    description = fields.CharField(blank=True)
     home_url = fields.CharField()
     doc_url = fields.CharField()
     license = fields.CharField(max_length=1000)
@@ -237,3 +239,6 @@ class ToolVersion:
 
     def add_image_container(self, image_container):
         self.image_containers.append(image_container)
+
+
+

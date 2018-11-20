@@ -45,15 +45,16 @@ def import_quayio(config):
     reader.quayio_list_url(config['DEFAULT']['QUAYIO_CONTAINER_LIST'])
     reader.quayio_details_url(config['DEFAULT']['QUAYIO_CONTAINER_DETAILS'])
     reader.namespace(config['DEFAULT']['NAMESPACE'])
-    quayio_containers = reader.get_containers()
+    quayio_containers = reader.get_containers(batch=2000)
+
     mongo_helper = InsertContainers(config['TEST']['CONNECTION_URL'])
     mongo_helper.insert_quayio_containers(quayio_containers)
 
     # github_conf = GitHubConfiguration(config['DEFAULT']['GITHUB_API_CONDA'],
     #                                   config['DEFAULT']['GITHUB_CONDA_RECIPES_READABLE'])
     # github_reader = GitHubCondaReader(github_conf)
-    # conda_recipes = github_reader.read_conda_recipes()
-    # print(recipe.description())
+    # # conda_recipes = github_reader.read_conda_recipes()
+    # # print(recipe.description())
 
 
 def import_dockerhub(config):
@@ -66,10 +67,13 @@ def import_dockerhub(config):
     logger.info("Starting importing DockerHub packages")
     reader = DockerHubReader()
     reader.dockerhub_list_url(config['DEFAULT']['DOCKER_HUB'])
-    # reader.dockerhub_details_url(config['DEFAULT']['DOCKER_HUB_CONTAINER'])
     reader.dockerhub_tags_url(config['DEFAULT']['DOCKER_HUB_TAG'])
     reader.namespace(config['DEFAULT']['NAMESPACE'])
-    containers = reader.get_containers()
+    dockerhub_containers = reader.get_containers(batch=200)
+
+    mongo_helper = InsertContainers(config['TEST']['CONNECTION_URL'])
+    mongo_helper.insert_dockerhub_containers(dockerhub_containers)
+
 
 
 def main(args):

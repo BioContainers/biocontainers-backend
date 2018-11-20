@@ -1,7 +1,8 @@
 import json
 
 import logging
-import requests
+
+from biocontainers.common.utils import call_api
 
 logger = logging.getLogger('biocontainers.dockerhub.models')
 
@@ -69,7 +70,7 @@ class DockerHubReader(object):
         string_url = self.dockerhub_list_url.replace('%namespace%', self.namespace)
         self.container_list = []
         while string_url is not None:
-            response = requests.get(string_url)
+            response = call_api(string_url)
             if response.status_code == 200:
                 json_data = json.loads(response.content.decode('utf-8'))
                 for key in json_data['results']:
@@ -80,7 +81,7 @@ class DockerHubReader(object):
 
         return self.container_list
 
-    def get_containers(self):
+    def get_containers(self, page=None, batch=None):
         """
         This method returns the of containers descriptions for
         all DockerHub containers.
@@ -89,12 +90,20 @@ class DockerHubReader(object):
         if not self.containers_list:
             self.containers_list = self.get_list_containers()
 
+        if page == None:
+            page = 0
+
+        if batch == None:
+            batch = len(self.container_list)
+
         string_url = self.dockerhub_tags_url.replace('%namespace%', self.namespace)
         containers_list = []
-        for short_container in self.container_list:
+
+        for index in range(page * batch, batch * (page + 1)):
+            short_container = self.container_list[index]
             url = string_url.replace('%container_name%', short_container.name())
             try:
-                response = requests.get(url)
+                response = call_api(url)
                 if response.status_code == 200:
                     json_data = json.loads(response.content.decode('utf-8'))
                     short_container.add_all_tags(json_data['results'])
