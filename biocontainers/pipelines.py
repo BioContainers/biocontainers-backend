@@ -2,6 +2,8 @@ import argparse
 import configparser
 import logging
 
+import click
+
 from biocontainers.biomongo.helpers import InsertContainers
 from biocontainers.dockerhub.models import DockerHubReader
 from biocontainers.github.models import GitHubCondaReader, GitHubConfiguration
@@ -10,27 +12,14 @@ from biocontainers.quayio.models import QuayIOReader
 logger = logging.getLogger('biocontainers.pipelines')
 
 
-def get_config():
+def get_config(file):
     """
     This method read the default configuration file configuration.ini in the same path of the pipeline execution
     :return:
     """
     config = configparser.ConfigParser()
-    config.read("configuration.ini")
+    config.read(file)
     return config
-
-
-def get_parameters():
-    """
-    This method provide a possibility to read arguments for the pipeline and combine then with the default
-    configuration
-    :return:
-    """
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-q", "--import_quayio", help="Import Quay.io Recipes", action='store_true')
-    parser.add_argument("-d", "--import_docker", help="Import Docker Recipes", action='store_true')
-
-    return parser
 
 
 def import_quayio(config):
@@ -75,20 +64,22 @@ def import_dockerhub(config):
     mongo_helper.insert_dockerhub_containers(dockerhub_containers)
 
 
-
-def main(args):
-    config = get_config()
+@click.command()
+@click.option('--import-quayio', '-q', help='Import Quay.io Recipes', is_flag=True)
+@click.option('--import-docker','-d', help="Import Docker Recipes", is_flag=True)
+@click.option('--config-file', '-c',type=click.Path(),default='configuration.ini')
+def main(import_quayio, import_docker, config_file):
+    config = get_config(config_file)
     if config['DEFAULT']['VERBOSE'] == "True":
         for key in config['DEFAULT']:
             print(key + "=" + config['DEFAULT'][key])
-        print(args)
-    if args.import_quayio is not False:
+
+    if import_quayio is not False:
         import_quayio(config)
 
-    if args.import_docker is not False:
+    if import_docker is not False:
         import_dockerhub(config)
 
 
 if __name__ == "__main__":
-    parameters = get_parameters().parse_args()
-    main(parameters)
+    main()
