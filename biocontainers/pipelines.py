@@ -6,7 +6,7 @@ import click
 
 from biocontainers.biomongo.helpers import InsertContainers
 from biocontainers.dockerhub.models import DockerHubReader
-from biocontainers.github.models import GitHubCondaReader, GitHubConfiguration
+from biocontainers.github.models import GitHubCondaReader, GitHubConfiguration, GitHubDockerReader
 from biocontainers.quayio.models import QuayIOReader
 
 logger = logging.getLogger('biocontainers.pipelines')
@@ -39,12 +39,6 @@ def import_quayio(config):
     mongo_helper = InsertContainers(config['TEST']['CONNECTION_URL'])
     mongo_helper.insert_quayio_containers(quayio_containers)
 
-    # github_conf = GitHubConfiguration(config['DEFAULT']['GITHUB_API_CONDA'],
-    #                                   config['DEFAULT']['GITHUB_CONDA_RECIPES_READABLE'])
-    # github_reader = GitHubCondaReader(github_conf)
-    # # conda_recipes = github_reader.read_conda_recipes()
-    # # print(recipe.description())
-
 
 def import_dockerhub(config):
     """
@@ -64,10 +58,22 @@ def import_dockerhub(config):
     mongo_helper.insert_dockerhub_containers(dockerhub_containers)
 
 
+def annotate_conda_recipes(config):
+    github_conf = GitHubConfiguration(config['DEFAULT']['GITHUB_API_CONDA'],
+                                      config['DEFAULT']['GITHUB_CONDA_RECIPES_READABLE'])
+    github_reader = GitHubCondaReader(github_conf)
+    conda_recipes = github_reader.read_conda_recipes()
+
+def annotate_docker_recipes(config):
+    github_conf = GitHubConfiguration(config['DEFAULT']['GITHUB_API_CONDA'],
+                                      config['DEFAULT']['GITHUB_CONDA_RECIPES_READABLE'])
+    github_reader = GitHubDockerReader(github_conf)
+    conda_recipes = github_reader.read_docker_recipes()
+
 @click.command()
 @click.option('--import-quayio', '-q', help='Import Quay.io Recipes', is_flag=True)
-@click.option('--import-docker','-d', help="Import Docker Recipes", is_flag=True)
-@click.option('--config-file', '-c',type=click.Path(),default='configuration.ini')
+@click.option('--import-docker', '-d', help="Import Docker Recipes", is_flag=True)
+@click.option('--config-file', '-c', type=click.Path(), default='configuration.ini')
 def main(import_quayio, import_docker, config_file):
     config = get_config(config_file)
     if config['DEFAULT']['VERBOSE'] == "True":
