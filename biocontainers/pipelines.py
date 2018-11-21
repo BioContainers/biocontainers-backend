@@ -36,7 +36,7 @@ def import_quayio(config):
     reader.namespace(config['DEFAULT']['NAMESPACE'])
     quayio_containers = reader.get_containers(batch=2000)
 
-    mongo_helper = InsertContainers(config['TEST']['CONNECTION_URL'])
+    mongo_helper = InsertContainers(config['TEST']['DATABASE_URI'])
     mongo_helper.insert_quayio_containers(quayio_containers)
 
 
@@ -54,7 +54,7 @@ def import_dockerhub(config):
     reader.namespace(config['DEFAULT']['NAMESPACE'])
     dockerhub_containers = reader.get_containers(batch=200)
 
-    mongo_helper = InsertContainers(config['TEST']['CONNECTION_URL'])
+    mongo_helper = InsertContainers(config['TEST']['DATABASE_URI'])
     mongo_helper.insert_dockerhub_containers(dockerhub_containers)
 
 
@@ -72,9 +72,12 @@ def annotate_docker_recipes(config):
 
 @click.command()
 @click.option('--import-quayio', '-q', help='Import Quay.io Recipes', is_flag=True)
-@click.option('--import-docker', '-d', help="Import Docker Recipes", is_flag=True)
-@click.option('--config-file', '-c', type=click.Path(), default='configuration.ini')
-def main(import_quayio, import_docker, config_file):
+@click.option('--import-docker', '-k', help="Import Docker Recipes", is_flag=True)
+@click.option('--config-file',   '-c', type=click.Path(), default='configuration.ini')
+@click.option('--database-uri',  '-d', help="Mongo Database URI (e.g. mongodb://localhost:27017/testdb)")
+@click.option('--database-user', '-u', help="Mongo database username")
+@click.option('--database-password', '-p', help="Mongo database password")
+def main(import_quayio, import_docker, config_file, database_uri, database_user, database_password):
     config = get_config(config_file)
     if config['DEFAULT']['VERBOSE'] == "True":
         for key in config['DEFAULT']:
