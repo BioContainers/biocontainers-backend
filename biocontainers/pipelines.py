@@ -31,12 +31,12 @@ def import_quayio_containers(config, config_profile):
     logger.info("Starting importing Conda packages")
 
     reader = QuayIOReader()
-    reader.quayio_list_url(config['DEFAULT']['QUAYIO_CONTAINER_LIST'])
-    reader.quayio_details_url(config['DEFAULT']['QUAYIO_CONTAINER_DETAILS'])
-    reader.namespace(config['DEFAULT']['NAMESPACE'])
-    quayio_containers = reader.get_containers(batch=2000)
+    reader.quayio_list_url(config[config_profile]['QUAYIO_CONTAINER_LIST'])
+    reader.quayio_details_url(config[config_profile]['QUAYIO_CONTAINER_DETAILS'])
+    reader.namespace(config[config_profile]['NAMESPACE'])
+    quayio_containers = reader.get_containers(batch=200)
 
-    mongo_helper = InsertContainers(config['TEST']['DATABASE_URI'])
+    mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
     mongo_helper.insert_quayio_containers(quayio_containers)
 
 
@@ -73,18 +73,17 @@ def annotate_docker_recipes(config, config_profile):
 
 
 @click.command()
-@click.option('--import-quayio', '-q', help='Import Quay.io Recipes', is_flag=True)
-@click.option('--import-docker', '-k', help="Import Docker Recipes", is_flag=True)
-@click.option('--config-file', '-c', type=click.Path(), default='configuration.ini')
-@click.option('--database-uri', '-d', help="Mongo Database URI (e.g. mongodb://localhost:27017/testdb)",
-              envvar='BICONTAINERS_DATABASE_URI')
-@click.option('--database-user', '-u', help="Mongo database username", envvar='BICONTAINERS_DATABASE_USER')
+@click.option('--import-quayio',     '-q', help='Import Quay.io Recipes', is_flag=True)
+@click.option('--import-docker',     '-k', help="Import Docker Recipes", is_flag=True)
+@click.option('--config-file',       '-c', type=click.Path(), default='configuration.ini')
+@click.option('--database-uri',      '-d', help="Mongo Database URI (e.g. mongodb://localhost:27017/testdb)", envvar='BICONTAINERS_DATABASE_URI')
+@click.option('--database-user',     '-u', help="Mongo database username", envvar='BICONTAINERS_DATABASE_USER')
 @click.option('--database-password', '-p', help="Mongo database password", envvar='BICONTAINERS_DATABASE_PASSWORD')
-@click.option('--config-profile', 'a', help="This option allow to select a config profile", default='DEFAULT')
+@click.option('--config-profile',    '-a', help="This option allow to select a config profile", default='PRODUCTION')
 def main(import_quayio, import_docker, config_file, database_uri, database_user, database_password, config_profile):
     config = get_config(config_file)
     if config[config_profile]['VERBOSE'] == "True":
-        for key in config[config_file]:
+        for key in config[config_profile]:
             print(key + "=" + config[config_profile][key])
 
     if import_quayio is not False:
