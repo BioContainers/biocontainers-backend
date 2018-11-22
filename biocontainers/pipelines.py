@@ -22,7 +22,7 @@ def get_config(file):
     return config
 
 
-def import_quayio(config):
+def import_quayio_containers(config, config_profile):
     """
     Import quayio containers into the registry database
     :param config: Parameters for quayio
@@ -40,7 +40,7 @@ def import_quayio(config):
     mongo_helper.insert_quayio_containers(quayio_containers)
 
 
-def import_dockerhub(config):
+def import_dockerhub_containers(config, config_profile):
     """
     Import dockerhub containers into the registry database
     :param config:
@@ -49,45 +49,49 @@ def import_dockerhub(config):
 
     logger.info("Starting importing DockerHub packages")
     reader = DockerHubReader()
-    reader.dockerhub_list_url(config['DEFAULT']['DOCKER_HUB'])
-    reader.dockerhub_tags_url(config['DEFAULT']['DOCKER_HUB_TAG'])
-    reader.namespace(config['DEFAULT']['NAMESPACE'])
+    reader.dockerhub_list_url(config[config_profile]['DOCKER_HUB'])
+    reader.dockerhub_tags_url(config[config_profile]['DOCKER_HUB_TAG'])
+    reader.namespace(config[config_profile]['NAMESPACE'])
     dockerhub_containers = reader.get_containers(batch=200)
 
-    mongo_helper = InsertContainers(config['TEST']['DATABASE_URI'])
+    mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
     mongo_helper.insert_dockerhub_containers(dockerhub_containers)
 
 
-def annotate_conda_recipes(config):
-    github_conf = GitHubConfiguration(config['DEFAULT']['GITHUB_API_CONDA'],
-                                      config['DEFAULT']['GITHUB_CONDA_RECIPES_READABLE'])
+def annotate_conda_recipes(config, config_profile):
+    github_conf = GitHubConfiguration(config[config_profile]['GITHUB_API_CONDA'],
+                                      config[config_profile]['GITHUB_CONDA_RECIPES_READABLE'])
     github_reader = GitHubCondaReader(github_conf)
     conda_recipes = github_reader.read_conda_recipes()
 
-def annotate_docker_recipes(config):
-    github_conf = GitHubConfiguration(config['DEFAULT']['GITHUB_API_CONDA'],
-                                      config['DEFAULT']['GITHUB_CONDA_RECIPES_READABLE'])
+
+def annotate_docker_recipes(config, config_profile):
+    github_conf = GitHubConfiguration(config[config_profile]['GITHUB_API_CONDA'],
+                                      config[config_profile]['GITHUB_CONDA_RECIPES_READABLE'])
     github_reader = GitHubDockerReader(github_conf)
     conda_recipes = github_reader.read_docker_recipes()
+
 
 @click.command()
 @click.option('--import-quayio', '-q', help='Import Quay.io Recipes', is_flag=True)
 @click.option('--import-docker', '-k', help="Import Docker Recipes", is_flag=True)
-@click.option('--config-file',   '-c', type=click.Path(), default='configuration.ini')
-@click.option('--database-uri',  '-d', help="Mongo Database URI (e.g. mongodb://localhost:27017/testdb)")
-@click.option('--database-user', '-u', help="Mongo database username")
-@click.option('--database-password', '-p', help="Mongo database password")
-def main(import_quayio, import_docker, config_file, database_uri, database_user, database_password):
+@click.option('--config-file', '-c', type=click.Path(), default='configuration.ini')
+@click.option('--database-uri', '-d', help="Mongo Database URI (e.g. mongodb://localhost:27017/testdb)",
+              envvar='BICONTAINERS_DATABASE_URI')
+@click.option('--database-user', '-u', help="Mongo database username", envvar='BICONTAINERS_DATABASE_USER')
+@click.option('--database-password', '-p', help="Mongo database password", envvar='BICONTAINERS_DATABASE_PASSWORD')
+@click.option('--config-profile', 'a', help="This option allow to select a config profile", default='DEFAULT')
+def main(import_quayio, import_docker, config_file, database_uri, database_user, database_password, config_profile):
     config = get_config(config_file)
-    if config['DEFAULT']['VERBOSE'] == "True":
-        for key in config['DEFAULT']:
-            print(key + "=" + config['DEFAULT'][key])
+    if config[config_profile]['VERBOSE'] == "True":
+        for key in config[config_file]:
+            print(key + "=" + config[config_profile][key])
 
     if import_quayio is not False:
-        import_quayio(config)
+        import_quayio_containers(config, config_profile)
 
     if import_docker is not False:
-        import_dockerhub(config)
+        import_dockerhub_containers(config, config_profile)
 
 
 if __name__ == "__main__":
