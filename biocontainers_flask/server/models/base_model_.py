@@ -3,7 +3,7 @@ import pprint
 import six
 import typing
 
-from biocontainers_flask_server import util
+from biocontainers_flask.server import util
 
 T = typing.TypeVar('T')
 

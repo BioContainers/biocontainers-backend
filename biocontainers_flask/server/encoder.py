@@ -1,7 +1,8 @@
+
 from connexion.apps.flask_app import FlaskJSONEncoder
 import six
 
-from biocontainers_flask_server.models.base_model_ import Model
+from biocontainers_flask.server.models.base_model_ import Model
 
 
 class JSONEncoder(FlaskJSONEncoder):

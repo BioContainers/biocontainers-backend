@@ -2,7 +2,7 @@
 
 import connexion
 
-from biocontainers_flask_server import encoder
+from biocontainers_flask.server import encoder
 
 
 def main():

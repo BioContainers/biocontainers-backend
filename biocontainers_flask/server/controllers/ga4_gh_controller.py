@@ -1,14 +1,14 @@
 import connexion
 import six
 
-from biocontainers_flask_server.models.error import Error  # noqa: E501
-from biocontainers_flask_server.models.file_wrapper import FileWrapper  # noqa: E501
-from biocontainers_flask_server.models.metadata import Metadata  # noqa: E501
-from biocontainers_flask_server.models.tool import Tool  # noqa: E501
-from biocontainers_flask_server.models.tool_class import ToolClass  # noqa: E501
-from biocontainers_flask_server.models.tool_file import ToolFile  # noqa: E501
-from biocontainers_flask_server.models.tool_version import ToolVersion  # noqa: E501
-from biocontainers_flask_server import util
+from biocontainers_flask.server.models.error import Error  # noqa: E501
+from biocontainers_flask.server.models.file_wrapper import FileWrapper  # noqa: E501
+from biocontainers_flask.server.models.metadata import Metadata  # noqa: E501
+from biocontainers_flask.server.models.tool import Tool  # noqa: E501
+from biocontainers_flask.server.models.tool_class import ToolClass  # noqa: E501
+from biocontainers_flask.server.models.tool_file import ToolFile  # noqa: E501
+from biocontainers_flask.server.models.tool_version import ToolVersion  # noqa: E501
+from biocontainers_flask.server import util
 
 
 def metadata_get():  # noqa: E501
@@ -64,6 +64,8 @@ def tools_get(id=None, alias=None, registry=None, organization=None, name=None, 
 
     :rtype: List[Tool]
     """
+    tools = []
+
     return 'do some magic!'
 
 

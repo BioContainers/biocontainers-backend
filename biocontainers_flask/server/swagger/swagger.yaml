@@ -2,21 +2,22 @@
 swagger: "2.0"
 info:
   description: "Proposed API for GA4GH (Global Alliance for Genomics & Health) tool\
-    \ repositories. A tool consists of a set of container images that are paired with\
+    \ and BioContainers Initiative. A tool consists of a set of container images that are paired with\
     \ a set of documents. Examples of documents include CWL (Common Workflow Language)\
     \ or WDL (Workflow Description Language) or NFL (Nextflow) that describe how to\
     \ use those images and a set of specifications for those images (examples are\
     \ Dockerfiles or Singularity recipes) that describe how to reproduce those images\
-    \ in the future. We use the following terminology, a \"container image\" describes\
+    \ in the future. \
+      We use the following terminology, a \"container image\" describes\
     \ a container as stored at rest on a filesystem, a \"tool\" describes one of the\
     \ triples as described above. In practice, examples of \"tools\" include CWL CommandLineTools,\
     \ CWL Workflows, WDL workflows, and Nextflow workflows that reference containers\
     \ in formats such as Docker or Singularity. "
   version: "2.0.0"
-  title: "GA4GH Tool Discovery API"
+  title: "BioContainers Tool Discovery API"
 basePath: "/api/v2/"
 tags:
-- name: "GA4GH"
+- name: "BioContainers"
   description: "A set of resources proposed as a common standard for tool repositories"
 produces:
 - "application/json"
@@ -25,7 +26,7 @@ paths:
   /tools/{id}:
     get:
       tags:
-      - "GA4GH"
+      - "BioContainers"
       summary: "List one specific tool, acts as an anchor for self references"
       description: "This endpoint returns one specific tool (which has ToolVersions\
         \ nested inside it)"
@@ -46,11 +47,11 @@ paths:
           description: "The tool can not be found."
           schema:
             $ref: "#/definitions/Error"
-      x-swagger-router-controller: "biocontainers_flask_server.controllers.ga4_gh_controller"
+      x-swagger-router-controller: "biocontainers_flask.server.controllers.ga4_gh_controller"
   /tools/{id}/versions:
     get:
       tags:
-      - "GA4GH"
+      - "BioContainers"
       summary: "List versions of a tool"
       description: "Returns all versions of the specified tool"
       operationId: "tools_id_versions_get"
@@ -68,11 +69,11 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/ToolVersion"
-      x-swagger-router-controller: "biocontainers_flask_server.controllers.ga4_gh_controller"
+      x-swagger-router-controller: "biocontainers_flask.server.controllers.ga4_gh_controller"
   /tools/{id}/versions/{version_id}:
     get:
       tags:
-      - "GA4GH"
+      - "BioContainers"
       summary: "List one specific tool version, acts as an anchor for self references"
       description: "This endpoint returns one specific tool version"
       operationId: "tools_id_versions_version_id_get"
@@ -98,11 +99,11 @@ paths:
           description: "The tool can not be found."
           schema:
             $ref: "#/definitions/Error"
-      x-swagger-router-controller: "biocontainers_flask_server.controllers.ga4_gh_controller"
+      x-swagger-router-controller: "biocontainers_flask.server.controllers.ga4_gh_controller"
   /tools:
     get:
       tags:
-      - "GA4GH"
+      - "BioContainers"
       summary: "List all tools"
       description: "This endpoint returns all tools available or a filtered subset\
         \ using metadata query parameters.\n"
@@ -196,11 +197,11 @@ paths:
             current_limit:
               type: "integer"
               description: "The current page record limit used for this result"
-      x-swagger-router-controller: "biocontainers_flask_server.controllers.ga4_gh_controller"
+      x-swagger-router-controller: "biocontainers_flask.server.controllers.ga4_gh_controller"
   /tools/{id}/versions/{version_id}/{type}/descriptor:
     get:
       tags:
-      - "GA4GH"
+      - "BioContainers"
       summary: "Get the tool descriptor for the specified tool"
       description: "Returns the descriptor for the specified tool (examples include\
         \ CWL, WDL, or Nextflow documents)."
@@ -236,11 +237,11 @@ paths:
           description: "The tool descriptor can not be found."
           schema:
             $ref: "#/definitions/Error"
-      x-swagger-router-controller: "biocontainers_flask_server.controllers.ga4_gh_controller"
+      x-swagger-router-controller: "biocontainers_flask.server.controllers.ga4_gh_controller"
   /tools/{id}/versions/{version_id}/{type}/descriptor/{relative_path}:
     get:
       tags:
-      - "GA4GH"
+      - "BioContainers"
       summary: "Get additional tool descriptor files relative to the main file"
       description: "Descriptors can often include imports that refer to additional\
         \ descriptors. This returns additional descriptors for the specified tool\
@@ -293,11 +294,11 @@ paths:
           description: "The tool can not be output in the specified type."
           schema:
             $ref: "#/definitions/Error"
-      x-swagger-router-controller: "biocontainers_flask_server.controllers.ga4_gh_controller"
+      x-swagger-router-controller: "biocontainers_flask.server.controllers.ga4_gh_controller"
   /tools/{id}/versions/{version_id}/{type}/tests:
     get:
       tags:
-      - "GA4GH"
+      - "BioContainers"
       summary: "Get a list of test JSONs"
       description: "Get a list of test JSONs (these allow you to execute the tool\
         \ successfully) suitable for use with this descriptor type."
@@ -334,11 +335,11 @@ paths:
           description: "The tool can not be output in the specified type."
           schema:
             $ref: "#/definitions/Error"
-      x-swagger-router-controller: "biocontainers_flask_server.controllers.ga4_gh_controller"
+      x-swagger-router-controller: "biocontainers_flask.server.controllers.ga4_gh_controller"
   /tools/{id}/versions/{version_id}/{type}/files:
     get:
       tags:
-      - "GA4GH"
+      - "BioContainers"
       summary: "Get a list of objects that contain the relative path and file type"
       description: "Get a list of objects that contain the relative path and file\
         \ type. The descriptors are intended for use with the /tools/{id}/versions/{version_id}/{type}/descriptor/{relative_path}\
@@ -374,11 +375,11 @@ paths:
           description: "The tool can not be output in the specified type."
           schema:
             $ref: "#/definitions/Error"
-      x-swagger-router-controller: "biocontainers_flask_server.controllers.ga4_gh_controller"
+      x-swagger-router-controller: "biocontainers_flask.server.controllers.ga4_gh_controller"
   /tools/{id}/versions/{version_id}/containerfile:
     get:
       tags:
-      - "GA4GH"
+      - "BioContainers"
       summary: "Get the container specification(s) for the specified image."
       description: "Returns the container specifications(s) for the specified image.\
         \ For example, a CWL CommandlineTool can be associated with one specification\
@@ -409,11 +410,11 @@ paths:
           description: "There are no container specifications for this tool"
           schema:
             $ref: "#/definitions/Error"
-      x-swagger-router-controller: "biocontainers_flask_server.controllers.ga4_gh_controller"
+      x-swagger-router-controller: "biocontainers_flask.server.controllers.ga4_gh_controller"
   /metadata:
     get:
       tags:
-      - "GA4GH"
+      - "BioContainers"
       summary: "Return some metadata that is useful for describing this registry"
       description: "Return some metadata that is useful for describing this registry"
       operationId: "metadata_get"
@@ -423,11 +424,11 @@ paths:
           description: "A Metadata object describing this service."
           schema:
             $ref: "#/definitions/Metadata"
-      x-swagger-router-controller: "biocontainers_flask_server.controllers.ga4_gh_controller"
+      x-swagger-router-controller: "biocontainers_flask.server.controllers.ga4_gh_controller"
   /toolClasses:
     get:
       tags:
-      - "GA4GH"
+      - "BioContainers"
       summary: "List all tool types"
       description: "This endpoint returns all tool-classes available\n"
       operationId: "tool_classes_get"
@@ -439,7 +440,7 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/ToolClass"
-      x-swagger-router-controller: "biocontainers_flask_server.controllers.ga4_gh_controller"
+      x-swagger-router-controller: "biocontainers_flask.server.controllers.ga4_gh_controller"
 definitions:
   ToolFile:
     type: "object"
@@ -447,7 +448,7 @@ definitions:
       path:
         type: "string"
         description: "Relative path of the file.  A descriptor's path can be used\
-          \ with the GA4GH .../{type}/descriptor/{relative_path} endpoint"
+          \ with the BioContainers .../{type}/descriptor/{relative_path} endpoint"
       file_type:
         type: "string"
         enum:
@@ -713,7 +714,7 @@ definitions:
         description: "The version of this registry"
       api_version:
         type: "string"
-        description: "The version of the GA4GH tool-registry API supported by this\
+        description: "The version of the BioContainers tool-registry API supported by this\
           \ registry"
       country:
         type: "string"
@@ -759,5 +760,5 @@ parameters:
     required: false
     type: "string"
 externalDocs:
-  description: "Description of GA4GH Tool Registry (Exchange) Schema"
+  description: "Description of BioContainers Tool Registry (Exchange) Schema"
   url: "https://github.com/ga4gh/tool-registry-schemas"
