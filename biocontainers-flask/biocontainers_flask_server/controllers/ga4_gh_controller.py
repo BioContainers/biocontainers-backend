@@ -19,7 +19,8 @@ def metadata_get():  # noqa: E501
 
     :rtype: Metadata
     """
-    return 'do some magic!'
+    metadata = Metadata(version="2.0", api_version="2.0", country="Europe", friendly_name="BioContainers API")
+    return metadata
 
 
 def tool_classes_get():  # noqa: E501
