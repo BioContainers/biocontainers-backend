@@ -1,8 +1,9 @@
 import connexion
 import six
 
-from biocontainers.common.models import MongoTool
-from biocontainers_flask.server.controllers.utils import transform_mongo_tool
+from biocontainers.common.models import MongoTool, _CONSTANT_TOOL_CLASSES
+from biocontainers_flask.server.controllers.utils import transform_mongo_tool, transform_mongo_tool_class, \
+    transform_dic_tool_class
 from biocontainers_flask.server.models.error import Error  # noqa: E501
 from biocontainers_flask.server.models.file_wrapper import FileWrapper  # noqa: E501
 from biocontainers_flask.server.models.metadata import Metadata  # noqa: E501
@@ -33,7 +34,11 @@ def tool_classes_get():  # noqa: E501
 
     :rtype: List[ToolClass]
     """
-    return 'do some magic!'
+    tool_classes = []
+    for key in _CONSTANT_TOOL_CLASSES:
+        tool_classes.append(transform_dic_tool_class(_CONSTANT_TOOL_CLASSES[key]))
+
+    return tool_classes
 
 
 def tools_get(id=None, alias=None, registry=None, organization=None, name=None, toolname=None, description=None,
@@ -88,7 +93,12 @@ def tools_id_get(id):  # noqa: E501
 
     :rtype: Tool
     """
-    return 'do some magic!'
+    mongo_tool = MongoTool.get_tool_by_id(id)
+    if mongo_tool is not None:
+        mongo_tool_versions = mongo_tool.get_tool_versions()
+        return transform_mongo_tool(mongo_tool, mongo_tool_versions)
+
+    return None
 
 
 def tools_id_versions_get(id):  # noqa: E501

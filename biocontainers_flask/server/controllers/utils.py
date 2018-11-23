@@ -16,6 +16,19 @@ def transform_mongo_tool_class(mongo_tool_class):
     return tool_class
 
 
+def transform_dic_tool_class(dic_tool_class):
+    """
+    This method transform a Mongo Tool Class to an API Tool Class.
+    :param mongo_tool_class:
+    :return:
+    """
+    tool_class = ToolClass()
+    tool_class.id = dic_tool_class['id']
+    tool_class.description = dic_tool_class['description']
+    tool_class.name = dic_tool_class['name']
+    return tool_class
+
+
 def transform_mongo_tool(mongo_tool, mongo_tool_versions):
     tool = Tool()
     tool.id = mongo_tool.id
@@ -24,8 +37,7 @@ def transform_mongo_tool(mongo_tool, mongo_tool_versions):
     tool.verified = True
     tool.author = mongo_tool.get_main_author()
     tool.toolname = mongo_tool.name
-    tool.url = _PUBLIC_REGISTRY_URL+"tool/" + tool.id
-
+    tool.url = _PUBLIC_REGISTRY_URL + "tool/" + tool.id
 
     # Set the Tool Class
     mongo_tool_class = mongo_tool.get_main_tool_class()

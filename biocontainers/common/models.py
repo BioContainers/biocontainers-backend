@@ -83,6 +83,9 @@ class ToolQuerySet(QuerySet):
     def mongo_all_tools(self):
         return list(self.all())
 
+    def get_tool_by_id(self, tool_id):
+        return self.raw({'id': tool_id})
+
 
 class ToolVersionQuerySet(QuerySet):
 
@@ -161,6 +164,14 @@ class MongoTool(MongoModel):
     @staticmethod
     def get_all_tools():
         return MongoTool.manager.mongo_all_tools()
+
+    @staticmethod
+    def get_tool_by_id(id):
+        tools =  MongoTool.manager.get_tool_by_id(id)
+        tools_list = list(tools)
+        if tools_list is not None and len(tools_list)>0:
+            return tools_list[0]
+        return None
 
 
 class MongoToolVersion(MongoModel):
