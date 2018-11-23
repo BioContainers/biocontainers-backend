@@ -4,7 +4,7 @@ import logging
 from pymodm import connect
 from pymongo.errors import DuplicateKeyError
 
-from biocontainers.common.models import MongoToolVersion, ContainerImage, MongoTool
+from biocontainers.common.models import MongoToolVersion, ContainerImage, MongoTool, _CONSTANT_TOOL_CLASSES
 
 logger = logging.getLogger('biocontainers.quayio.models')
 QUAYIO_DOMAIN = "quay.io/biocontainers/"
@@ -51,7 +51,10 @@ class InsertContainers:
                     mongo_tool_version.name = container.name()
                     mongo_tool_version.version = version
                     mongo_tool_version.description = container.description()
-                    mongo_tool_version.tool_classes = ['TOOL']
+                    if "mulled-v2" not in mongo_tool_version.name:
+                        mongo_tool_version.tool_classes = [_CONSTANT_TOOL_CLASSES['CommandLineTool']]
+                    else:
+                        mongo_tool_version.tool_classes = [_CONSTANT_TOOL_CLASSES['CommandLineMultiTool']]
                     mongo_tool_version.id = tool_version_id
                     mongo_tool_version.add_author(BIOCONTAINERS_USER)
                     mongo_tool_version.add_author(BICONDA_USER)
@@ -78,6 +81,10 @@ class InsertContainers:
                 if tool_id not in tools_dic:
                     mongo_tool = MongoTool()
                     mongo_tool.name = container.name()
+                    if "mulled-v2" not in mongo_tool_version.name:
+                        mongo_tool.tool_classes = [_CONSTANT_TOOL_CLASSES['CommandLineTool']]
+                    else:
+                        mongo_tool.tool_classes = [_CONSTANT_TOOL_CLASSES['CommandLineMultiTool']]
                     mongo_tool.id = container.name()
                     mongo_tool.description = container.description()
                     mongo_tool.add_authors(mongo_tool_version.authors)

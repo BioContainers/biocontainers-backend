@@ -7,7 +7,33 @@ from pymongo.common import WriteConcern
 from pymongo.operations import IndexModel
 from pymodm.manager import Manager
 
-constants_tool_classes = ['TOOL', 'MULTI-TOOL', 'SERVICE', 'WORKFLOW']
+_CONSTANT_TOOL_CLASSES = {
+    "CommandLineTool":
+        {
+            "description": "CommandLineTool",
+            "id": "0",
+            "name": "CommandLineTool"
+        },
+    "Workflow":
+        {
+            "description": "Workflow",
+            "id": "1",
+            "name": "Workflow"
+        },
+    "CommandLineMultiTool":
+        {
+            "description": "CommandLineMultiTool",
+            "id": "3",
+            "name": "CommandLineMultiTool"
+        },
+    "Service":
+        {
+            "description": "Service",
+            "id": "4",
+            "name": "Service"
+        }
+}
+
 constants_container_type = ['SINGULARITY', 'DOCKER', 'CONDA']
 
 
@@ -16,6 +42,12 @@ class PipelineConfiguration:
         self.dockerHub = docker_hub
         self.dockerHubContainer = docker_hub_container
         self.dockerHubTags = docker_hub_tags
+
+
+class ToolClass(EmbeddedMongoModel):
+    description = fields.CharField()
+    id = fields.CharField(required=True)
+    name = fields.CharField()
 
 
 class ContainerImage(EmbeddedMongoModel):
@@ -76,7 +108,7 @@ class MongoTool(MongoModel):
     registry_url = fields.CharField(max_length=500)
     license = fields.CharField(max_length=1000)
     additional_metadata = fields.CharField()
-    tool_classes = fields.ListField(fields.CharField(max_length=100, choices=constants_tool_classes))
+    tool_classes = fields.EmbeddedDocumentListField('ToolClass')
     authors = fields.ListField(fields.CharField(max_length=200))
     tool_contains = fields.ListField(fields.CharField(max_length=400))
     tool_versions = fields.ListField(fields.CharField(max_length=400))
@@ -121,11 +153,10 @@ class MongoTool(MongoModel):
         This method return the specific tool
         :return:
         """
-        if self.tool_classes is not None and len(self.tool_classes) >0:
+        if self.tool_classes is not None and len(self.tool_classes) > 0:
             return self.tool_classes[0]
 
-        return constants_tool_classes[0]
-
+        return _CONSTANT_TOOL_CLASSES['CommandLineTool']
 
     @staticmethod
     def get_all_tools():
@@ -152,8 +183,7 @@ class MongoToolVersion(MongoModel):
     registry_url = fields.CharField(max_length=500)
 
     additional_metadata = fields.CharField()
-    tool_classes = fields.ListField(
-        fields.CharField(max_length=100, choices=constants_tool_classes))
+    tool_classes = fields.EmbeddedDocumentListField('ToolClass')
     authors = fields.ListField(fields.CharField(max_length=200))
     tool_contains = fields.ListField(fields.CharField(max_length=400))
     tool_versions = fields.ListField(fields.CharField(max_length=400))
