@@ -7,8 +7,6 @@ from pymongo.common import WriteConcern
 from pymongo.operations import IndexModel
 from pymodm.manager import Manager
 
-
-
 constants_tool_classes = ['TOOL', 'MULTI-TOOL', 'SERVICE', 'WORKFLOW']
 constants_container_type = ['SINGULARITY', 'DOCKER', 'CONDA']
 
@@ -95,6 +93,40 @@ class MongoTool(MongoModel):
     def get_tool_versions(self):
         return list(MongoToolVersion.manager.mongo_tool_versions_by_tool(self._id))
 
+    def add_authors(self, new_authors):
+        """
+        This method add a list of authors to the current list of author of the Tool
+        :param new_authors: New Authors
+        :return:
+        """
+        if self.authors is None:
+            self.authors = []
+
+        for author in new_authors:
+            if author not in self.authors:
+                self.authors.append(author)
+
+    def get_main_author(self):
+        """
+        This method returns first author of the list. The pipeline add the
+        BioContainers as first author of the container.
+        :return:
+        """
+        if len(self.authors) > 0:
+            return self.authors[0]
+        return None
+
+    def get_main_tool_class(self):
+        """
+        This method return the specific tool
+        :return:
+        """
+        if self.tool_classes is not None and len(self.tool_classes) >0:
+            return self.tool_classes[0]
+
+        return constants_tool_classes[0]
+
+
     @staticmethod
     def get_all_tools():
         return MongoTool.manager.mongo_all_tools()
@@ -159,6 +191,18 @@ class MongoToolVersion(MongoModel):
         if key == self.id:
             return self
         return
+
+    def add_author(self, author):
+        """
+        This method add a new author to the list of authors of the Tool Version
+        :param author: New author
+        :return:
+        """
+        if self.authors is None:
+            self.authors = []
+
+        if author not in self.authors:
+            self.authors.append(author)
 
     class Meta:
         write_concern = WriteConcern(j=True)
@@ -239,6 +283,3 @@ class ToolVersion:
 
     def add_image_container(self, image_container):
         self.image_containers.append(image_container)
-
-
-

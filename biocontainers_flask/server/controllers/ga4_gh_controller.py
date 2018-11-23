@@ -1,6 +1,7 @@
 import connexion
 import six
 
+from biocontainers.common.models import MongoTool
 from biocontainers_flask.server.models.error import Error  # noqa: E501
 from biocontainers_flask.server.models.file_wrapper import FileWrapper  # noqa: E501
 from biocontainers_flask.server.models.metadata import Metadata  # noqa: E501
@@ -10,6 +11,7 @@ from biocontainers_flask.server.models.tool_file import ToolFile  # noqa: E501
 from biocontainers_flask.server.models.tool_version import ToolVersion  # noqa: E501
 from biocontainers_flask.server import util
 
+_PUBLIC_REGISTRY_URL = "http://biocontainers.pro/registry/"
 
 def metadata_get():  # noqa: E501
     """Return some metadata that is useful for describing this registry
@@ -64,9 +66,29 @@ def tools_get(id=None, alias=None, registry=None, organization=None, name=None, 
 
     :rtype: List[Tool]
     """
+    mongo_tools = MongoTool.get_all_tools()
     tools = []
+    for mongo_tool in mongo_tools:
+        # Transform the mongo tool to API tool t
+        tool = Tool()
+        tool.id = mongo_tool.id
+        tool.description = mongo_tool.description
+        # By default all our tools will be declare as verified
+        tool.verified = True
+        tool.author = mongo_tool.get_main_author()
+        tool.toolname = mongo_tool.name
+        tool.toolclass = mongo_tool.get_main_tool_class()
+        tool.versions = []
+        mongo_tool_versions = mongo_tool.get_tool_versions()
+        for mongo_tool_version in mongo_tool_versions:
+            tool_version = ToolVersion()
+            tool_version.id = mongo_tool_version.id
+            # Todo: We should not hard-coded this in the future. This should be dynamically pick
+            tool_version.url = _PUBLIC_REGISTRY_URL + "tool/"+tool.id+"/version"+tool_version.id
+            tool.versions.append(tool_version)
+        tools.append(tool)
 
-    return 'do some magic!'
+    return tools
 
 
 def tools_id_get(id):  # noqa: E501

@@ -10,6 +10,9 @@ logger = logging.getLogger('biocontainers.quayio.models')
 QUAYIO_DOMAIN = "quay.io/biocontainers/"
 DOCKER_DOMAIN = "biocontainers/"
 
+BIOCONTAINERS_USER = "BioContainers Core Team <biodocker@gmail.com>"
+BICONDA_USER = "BioConda Core Team <https://github.com/bioconda/bioconda-recipes/issues>"
+
 TOOL_VERSION_SPLITTER = '-'
 
 
@@ -50,6 +53,8 @@ class InsertContainers:
                     mongo_tool_version.description = container.description()
                     mongo_tool_version.tool_classes = ['TOOL']
                     mongo_tool_version.id = tool_version_id
+                    mongo_tool_version.add_author(BIOCONTAINERS_USER)
+                    mongo_tool_version.add_author(BICONDA_USER)
                 else:
                     mongo_tool_version = tool_versions_dic[tool_version_id]
 
@@ -75,6 +80,7 @@ class InsertContainers:
                     mongo_tool.name = container.name()
                     mongo_tool.id = container.name()
                     mongo_tool.description = container.description()
+                    mongo_tool.add_authors(mongo_tool_version.authors)
                     tools_dic[tool_id] = mongo_tool
                 else:
                     mongo_tool = tools_dic[tool_id]
