@@ -1,3 +1,4 @@
+from biocontainers.common.models import MongoToolVersion
 from biocontainers_flask.server.models import ToolClass, Tool, ToolVersion
 
 _PUBLIC_REGISTRY_URL = "http://biocontainers.pro/registry/"
@@ -46,10 +47,21 @@ def transform_mongo_tool(mongo_tool, mongo_tool_versions):
     tool.versions = []
 
     for mongo_tool_version in mongo_tool_versions:
-        tool_version = ToolVersion()
-        tool_version.id = mongo_tool_version.id
-        # Todo: We should not hard-coded this in the future. This should be dynamically pick
-        tool_version.url = _PUBLIC_REGISTRY_URL + "tool/" + tool.id + "/version" + tool_version.id
-        tool.versions.append(tool_version)
+        tool.versions.append(transform_tool_version(mongo_tool_version, mongo_tool.id))
 
     return tool
+
+
+def transform_tool_version(mongo_tool_version: MongoToolVersion, mongo_tool_id: str) -> ToolVersion:
+    """
+    This method retrieve the ToolVersion for an MongoToolVersion.
+    :param mongo_tool_version: MongoToolVersion to be Transformed
+    :param mongo_tool_id: Tool id
+    :return:
+    """
+    tool_version = ToolVersion()
+    tool_version.id = mongo_tool_version.id
+    # Todo: We should not hard-coded this in the future. This should be dynamically pick
+    tool_version.url = _PUBLIC_REGISTRY_URL + "tool/" + mongo_tool_id + "/version/" + tool_version.id
+
+    return tool_version
