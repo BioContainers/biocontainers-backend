@@ -139,7 +139,7 @@ class InsertContainers:
                     mongo_tool_version.name = container.name()
                     mongo_tool_version.version = version
                     mongo_tool_version.description = container.description()
-                    mongo_tool_version.tool_classes = ['TOOL']
+                    mongo_tool_version.tool_classes = [_CONSTANT_TOOL_CLASSES['CommandLineTool']]
                     mongo_tool_version.id = tool_version_id
                 else:
                     mongo_tool_version = tool_versions_dic[tool_version_id]
@@ -166,7 +166,9 @@ class InsertContainers:
                     mongo_tool.name = container.name()
                     mongo_tool.id = container.name()
                     mongo_tool.description = container.description()
+                    mongo_tool.tool_classes = [_CONSTANT_TOOL_CLASSES['CommandLineTool']]
                     tools_dic[tool_id] = mongo_tool
+
                 else:
                     mongo_tool = tools_dic[tool_id]
 

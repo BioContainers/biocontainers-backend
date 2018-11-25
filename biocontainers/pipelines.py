@@ -1,3 +1,4 @@
+import argparse
 import configparser
 import logging
 
@@ -51,7 +52,7 @@ def import_dockerhub_containers(config, config_profile):
     reader.dockerhub_list_url(config[config_profile]['DOCKER_HUB'])
     reader.dockerhub_tags_url(config[config_profile]['DOCKER_HUB_TAG'])
     reader.namespace(config[config_profile]['NAMESPACE'])
-    dockerhub_containers = reader.get_containers(batch=200)
+    dockerhub_containers = reader.get_containers()
 
     mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
     mongo_helper.insert_dockerhub_containers(dockerhub_containers)

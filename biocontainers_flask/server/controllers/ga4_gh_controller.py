@@ -118,7 +118,6 @@ def tools_id_versions_get(id):  # noqa: E501
         for mongo_tool_version in mongo_tool_versions:
             tool_versions.append(transform_tool_version(mongo_tool_version, mongo_tool.id))
 
-
     return tool_versions
 
 
@@ -134,7 +133,7 @@ def tools_id_versions_version_id_containerfile_get(id, version_id):  # noqa: E50
 
     :rtype: List[FileWrapper]
     """
-    return 'do some magic!'
+    return 'No yet implemented!'
 
 
 def tools_id_versions_version_id_get(id, version_id):  # noqa: E501
@@ -149,7 +148,18 @@ def tools_id_versions_version_id_get(id, version_id):  # noqa: E501
 
     :rtype: ToolVersion
     """
-    return 'do some magic!'
+    mongo_tool = MongoTool.get_tool_by_id(id)
+    tool_versions = []
+    if mongo_tool is not None:
+        mongo_tool_versions = mongo_tool.get_tool_versions()
+        for mongo_tool_version in mongo_tool_versions:
+            tool_versions.append(transform_tool_version(mongo_tool_version, mongo_tool.id))
+
+    for tool_version in tool_versions:
+        if tool_version.id == version_id:
+            return tool_version
+
+    return None
 
 
 def tools_id_versions_version_id_type_descriptor_get(type, id, version_id):  # noqa: E501
@@ -166,7 +176,7 @@ def tools_id_versions_version_id_type_descriptor_get(type, id, version_id):  # n
 
     :rtype: FileWrapper
     """
-    return 'do some magic!'
+    return 'Not yet Implemented!'
 
 
 def tools_id_versions_version_id_type_descriptor_relative_path_get(type, id, version_id, relative_path):  # noqa: E501
@@ -185,7 +195,7 @@ def tools_id_versions_version_id_type_descriptor_relative_path_get(type, id, ver
 
     :rtype: FileWrapper
     """
-    return 'do some magic!'
+    return 'Not yet implemented!'
 
 
 def tools_id_versions_version_id_type_files_get(type, id, version_id):  # noqa: E501
@@ -202,7 +212,7 @@ def tools_id_versions_version_id_type_files_get(type, id, version_id):  # noqa: 
 
     :rtype: List[ToolFile]
     """
-    return 'do some magic!'
+    return 'Not Yet Implemented'
 
 
 def tools_id_versions_version_id_type_tests_get(type, id, version_id):  # noqa: E501
@@ -219,4 +229,4 @@ def tools_id_versions_version_id_type_tests_get(type, id, version_id):  # noqa: 
 
     :rtype: List[FileWrapper]
     """
-    return 'do some magic!'
+    return 'Not Yet Implemented'
