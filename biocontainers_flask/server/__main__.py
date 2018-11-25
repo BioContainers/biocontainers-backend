@@ -9,11 +9,10 @@ from biocontainers_flask.server import encoder
 _PUBLIC_REGISTRY_URL = "http://biocontainers.pro/registry/"
 
 
-@staticmethod
 def connect_to_db(db_name, db_host, db_auth_database, db_user, db_password, db_port):
     uri = 'mongodb://' + db_user + ":" + db_password + '@' + db_host + ':' + \
-          db_port + '/' + db_name + '?ssl=true&replicaSet=mongo-shard-0&authSource=' + db_auth_database
-    connect(uri, 'api-alias')
+          db_port + '/' + db_name + '?ssl=false&authSource=' + db_auth_database
+    connect(uri, 'default')
 
 
 def print_help(ctx, param, value):
@@ -21,6 +20,7 @@ def print_help(ctx, param, value):
         return
     click.echo(ctx.get_help())
     ctx.exit()
+
 
 @click.command()
 @click.option('-db', '--db-name', help="Name of the database", envvar='BIOCONT_DB_NAME')
