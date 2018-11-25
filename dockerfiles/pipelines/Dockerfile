@@ -1,11 +1,11 @@
 
 ################## BASE IMAGE ######################
 
-FROM python:2.7.15-alpine3.6
+FROM python:3.4.9-alpine3.7
 
 ################## METADATA ######################
 
-LABEL base_image="python:2.7.15-alpine3.6"
+LABEL base_image="python:3.4.9-alpine3.7"
 LABEL version="1"
 LABEL software="biocontainers-pipelines-py"
 LABEL software.version="1.0.0"
@@ -19,15 +19,18 @@ MAINTAINER Yasset Perez-Riverol <ypriverol@gmail.com>
 
 ################## INSTALLATION ######################
 
-RUN apk update && apk add wget git python
+RUN apk update && apk add wget git
+RUN python -m pip install requests
+RUN python --version
+RUN pip --version
 RUN git clone --single-branch -b master https://github.com/BioContainers/biocontainers-backend.git
-RUN cd /biocontainers-backend && python pip -r requirements.txt
+RUN cd /biocontainers-backend && pip install -r biocontainers/requirements.txt && pip install -r biocontainers_flask/requirements.txt
 
 FROM openjdk:8-jre-stretch
 
 RUN echo "deb http://repo.mongodb.org/apt/debian stretch/mongodb-org/4.0 main" | tee /etc/apt/sources.list.d/mongodb-org-4.0.list
 RUN apt-get update && apt-get install -y --allow-unauthenticated mongodb-org-shell
 
-COPY --from=0 /registry-backend/registry-pipelines/target/registry-pipelines-1.0-SNAPSHOT.jar /registry-pipelines.jar
+
 
 
