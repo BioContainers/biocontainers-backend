@@ -24,8 +24,8 @@ RUN python -m pip install requests
 RUN python --version
 RUN pip --version
 RUN git clone --single-branch -b master https://github.com/BioContainers/biocontainers-backend.git
-RUN cd /biocontainers-backend && pip install -r biocontainers/requirements.txt && pip install -r biocontainers_flask/requirements.txt \
-    && export PYTHONPATH="."
+RUN cd /biocontainers-backend && pip install -r biocontainers/requirements.txt && pip install -r biocontainers_flask/requirements.txt
+RUN export PYTHONPATH=.
 
 RUN echo "deb http://repo.mongodb.org/apt/debian stretch/mongodb-org/4.0 main" | tee /etc/apt/sources.list.d/mongodb-org-4.0.list
 RUN apt-get update && apt-get install -y --allow-unauthenticated mongodb-org-shell
