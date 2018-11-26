@@ -19,7 +19,7 @@ MAINTAINER Yasset Perez-Riverol <ypriverol@gmail.com>
 
 ################## INSTALLATION ######################
 
-RUN apk update && apk add wget git
+RUN apk update && apk wget git
 RUN python -m pip install requests
 RUN python --version
 RUN pip --version

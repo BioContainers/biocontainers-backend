@@ -1,0 +1,8 @@
+image:
+  repository: "ypriverol/biocontainers-api-py"
+  tag: "1.0.0"
+
+
+mongodb:
+  persistence:
+    enabled: true
