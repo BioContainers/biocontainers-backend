@@ -27,7 +27,6 @@ cat mongo_exec.js
 mongo --host $MONGODB_HOST -u root -p $MONGO_ROOT_PASS --authenticationDatabase \
   $MONGODB_ADMIN_DB mongo_exec.js
 
-python biocontainers_flask/server/server.py --db-name $BIOCONT_DB_NAME --db-host $MONGODB_HOST \
-  --db-auth-database $MONGODB_ADMIN_DB  --db-user $MONGODB_USER --db-password $MONGODB_PASS \
-  --db-port 27017
+python /biocontainers-backend/biocontainers_flask/server/server.py --db-name $BIOCONT_DB_NAME --db-host $MONGODB_HOST \
+  --db-auth-database $MONGODB_ADMIN_DB  --db-user $MONGODB_USER --db-password $MONGODB_PASS
 
