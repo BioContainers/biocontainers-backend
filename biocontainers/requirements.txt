@@ -7,4 +7,4 @@ PyYAML==3.13
 pymodm==0.4.1
 ratelimit==2.2.0
 git+git://github.com/lokoArt/pymodm_rest.git
-click==0.92.3
+click==7.0
