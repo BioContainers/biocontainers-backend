@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: gateway-ingress
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: mysite.com
+    http:
+      paths:
+      - backend:
+          serviceName: api-service
+          servicePort: 8080
+        path: /

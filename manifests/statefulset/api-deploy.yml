@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: api-service
+  labels:
+    run: api-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: api-service
+    spec:
+      containers:
+      - name: api-service
+        image: nhatthai/api-service
+        ports:
+        - containerPort: 8080
+          protocol: TCP

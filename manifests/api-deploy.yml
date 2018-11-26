@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: biocontainers-api
+  labels:
+    run: biocontainers-api
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: biocontainers-api
+    spec:
+      containers:
+      - name: api-service
+        image: biocontainers/biocontainers-api:latest
+        ports:
+        - containerPort: 8080
+          protocol: TCP
