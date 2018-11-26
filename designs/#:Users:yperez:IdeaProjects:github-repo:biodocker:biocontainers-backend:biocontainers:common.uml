@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>Python</ID>
+  <OriginalElement>#/Users/yperez/IdeaProjects/github-repo/biodocker/biocontainers-backend/biocontainers/common</OriginalElement>
+  <nodes>
+    <node x="1590.4917247386759" y="547.3850174216026">biocontainers.common.models.MongoToolVersion</node>
+    <node x="840.2851214672861" y="588.8893728222997">pymodm.base.models.MongoModel</node>
+    <node x="890.441637630662" y="904.5836236933799">biocontainers.common.models.ToolQuerySet</node>
+    <node x="1730.9242160278745" y="46.02221254355402">pymodm.base.models.EmbeddedMongoModel</node>
+    <node x="1087.0" y="0.0">object</node>
+    <node x="1942.978658536585" y="228.38066202090602">biocontainers.common.models.ContainerImage</node>
+    <node x="1459.2852787456447" y="137.36236933797932">biocontainers.common.models.ToolClass</node>
+    <node x="2037.2129790940767" y="115.18902439024419">biocontainers.common.models.Descriptor</node>
+    <node x="103.75" y="543.0">pymodm.queryset.QuerySet</node>
+    <node x="1238.581470189702" y="560.5770905923345">biocontainers.common.models.CondaRecipe</node>
+    <node x="674.625" y="784.7639372822301">biocontainers.common.models.ToolVersionQuerySet</node>
+    <node x="1243.267857142857" y="715.1432926829265">biocontainers.common.models.MongoTool</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="biocontainers.common.models.ToolQuerySet" target="pymodm.queryset.QuerySet">
+      <point x="0.0" y="-48.0" />
+      <point x="1052.104094076655" y="1462.8122822299651" />
+      <point x="222.0" y="1457.0" />
+      <point x="-118.25" y="444.5" />
+    </edge>
+    <edge source="biocontainers.common.models.ToolVersionQuerySet" target="pymodm.queryset.QuerySet">
+      <point x="0.0" y="-26.0" />
+      <point x="857.1123693379791" y="1463.9747386759582" />
+      <point x="458.5" y="1457.0" />
+      <point x="118.25" y="444.5" />
+    </edge>
+    <edge source="pymodm.queryset.QuerySet" target="object">
+      <point x="0.0" y="-444.5" />
+      <point x="340.25" y="513.0" />
+      <point x="1123.625" y="513.0" />
+      <point x="-109.875" y="246.5" />
+    </edge>
+    <edge source="pymodm.base.models.EmbeddedMongoModel" target="object">
+      <point x="0.0" y="-15.0" />
+      <point x="1868.5" y="513.0" />
+      <point x="1343.375" y="513.0" />
+      <point x="109.875" y="246.5" />
+    </edge>
+    <edge source="biocontainers.common.models.ContainerImage" target="pymodm.base.models.EmbeddedMongoModel">
+      <point x="0.0" y="-136.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="biocontainers.common.models.MongoTool" target="pymodm.base.models.MongoModel">
+      <point x="0.0" y="-313.0" />
+      <point x="1189.5004355400697" y="675.829268292683" />
+      <point x="1086.9532399341851" y="663.0422473867595" />
+      <point x="-63.0" y="15.0" />
+    </edge>
+    <edge source="biocontainers.common.models.MongoToolVersion" target="pymodm.base.models.MongoModel">
+      <point x="0.0" y="-368.0" />
+      <point x="1454.4407665505225" y="679.316637630662" />
+      <point x="1322.2241458575302" y="685.1289198606271" />
+      <point x="63.0" y="15.0" />
+    </edge>
+    <edge source="biocontainers.common.models.CondaRecipe" target="object">
+      <point x="0.0" y="-37.5" />
+      <point x="1416.4930555555557" y="523.0" />
+      <point x="1270.125" y="523.0" />
+      <point x="36.625" y="246.5" />
+    </edge>
+    <edge source="biocontainers.common.models.ToolClass" target="pymodm.base.models.EmbeddedMongoModel">
+      <point x="0.0" y="-48.0" />
+      <point x="1728.330574912892" y="286.4063588850174" />
+      <point x="1784.9200058072008" y="270.131968641115" />
+      <point x="-105.66666666666669" y="15.0" />
+    </edge>
+    <edge source="biocontainers.common.models.Descriptor" target="pymodm.base.models.EmbeddedMongoModel">
+      <point x="0.0" y="-26.0" />
+      <point x="2215.2617595818815" y="65.53963414634143" />
+      <point x="2158.9972415795582" y="66.70209059233446" />
+      <point x="105.66666666666663" y="15.0" />
+    </edge>
+    <edge source="pymodm.base.models.MongoModel" target="object">
+      <point x="0.0" y="-15.0" />
+      <point x="1032.545138888889" y="523.0" />
+      <point x="1196.875" y="523.0" />
+      <point x="-36.625" y="246.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.5602472836268266" x="1324.5" y="807.3555139436901" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Fields</Category>
+  </Categories>
+</Diagram>
+
