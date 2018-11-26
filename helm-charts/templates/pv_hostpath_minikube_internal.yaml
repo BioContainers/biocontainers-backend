@@ -1,0 +1,16 @@
+{{ if .Values.pv_minikube }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mongo-pv
+  labels:
+     app: {{ template "mongodb.fullname" . }}
+spec:
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "{{ .Values.pv.minikube.hostPath }}"
+    type: DirectoryOrCreate
+{{ end }}

@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "biocontainer-registry.fullname" . }}
+  labels:
+    app: {{ template "biocontainer-registry.name" . }}
+    chart: {{ template "biocontainer-registry.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      {{ if eq .Values.service.type "NodePort" }}
+      nodePort: {{.Values.service.nodePort}}
+      {{ end }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ template "biocontainer-registry.name" . }}
+    release: {{ .Release.Name }}

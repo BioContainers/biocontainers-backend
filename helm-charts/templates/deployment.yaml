@@ -1,0 +1,66 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "biocontainer-registry.fullname" . }}
+  labels:
+    app: {{ template "biocontainer-registry.name" . }}
+    chart: {{ template "biocontainer-registry.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "biocontainer-registry.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "biocontainer-registry.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: "MONGO_ROOT_PASS"
+              value: {{ .Values.mongodb.mongodbRootPassword}}
+            - name: "BIOCONT_DB_NAME"
+              value: {{ .Values.biocont_db_name }}
+            - name: "MONGODB_ADMIN_DB"
+              value: {{ .Values.mongodb.mongodbDatabase }}
+            - name: "MONGODB_PASS"
+              value: {{ .Values.mongodb.mongodbPassword }}
+            - name: "MONGODB_USER"
+              value: {{ .Values.mongodb.mongodbUsername }}
+            - name: "MONGODB_HOST"
+              value: {{ template "mongodb.fullname" . }}
+            - name: "MONGODB_PORT"
+              value: {{ .Values.mongodb.port }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /api/v2
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /api/v2
+              port: http
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
