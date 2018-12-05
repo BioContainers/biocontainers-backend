@@ -15,8 +15,8 @@ BioContainers Pipelines
 The BioContainers pipelines contains the tools and workflows to insert quay.io and and dockerhub containers. In addition,
 it gets the information from containers recipes Dockefile or Conda recipes to annotate the containers.
 
-Pre-requisites
-~~~~~~~
+## Pre-requisites
+
 
 - MongoDB
 - Python > 3.4
