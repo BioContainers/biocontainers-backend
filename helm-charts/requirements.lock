@@ -1,6 +1,0 @@
-dependencies:
-- name: mongodb
-  repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 4.0.4
-digest: sha256:9759a9458f26a3fc5a1b4494b9f6b968b1fa0c4e54e5b6e83a902524d93effe0
-generated: 2018-08-10T16:57:38.818811732+01:00
