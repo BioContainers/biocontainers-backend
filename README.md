@@ -30,7 +30,7 @@ $ cd biocontainers-backend
 $ export PYTHONPATH=$PYTHONPATH:./
 ```
 
-
+## Running the pipelines
 
 The pipelines can be run using the following command:
 
@@ -38,7 +38,7 @@ The pipelines can be run using the following command:
 python3.4 biocontainers/pipelines.py --config-file biocontainers/configuration.ini
 ```
 
-This will pront the following options:
+This will prompt the following options:
 
 ```
   -q, --import-quayio             Import Quay.io Recipes
@@ -57,5 +57,29 @@ This will pront the following options:
 
 BioContainers Flask API
 --------------------------
+
+
+Kubernetes deployment
+--------------------------
+
+In order to facilitate the testing and deployment of the **BioContainers Registry** Resource we have created a kubernetes
+[helm charts deployment](https://helm.sh/). This will enable easy deployment of the solution in a kubernetes cluster or
+in a local [minikube instalation](https://kubernetes.io/docs/setup/minikube/).
+
+### Prerequisites
+
+- [Docker](https://www.docker.com/)
+- [minikube](https://kubernetes.io/docs/setup/minikube/)
+- [git](https://git-scm.com/)
+
+
+## Running in minikube
+
+Deploying the API is really simple using the Kubernetes configuration:
+
+```bash
+helm install -f helm-example-configs/minikube.yaml ./biocontainer-registry
+```
+
 
 
