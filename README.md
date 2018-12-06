@@ -72,6 +72,21 @@ in a local [minikube instalation](https://kubernetes.io/docs/setup/minikube/).
 - [minikube](https://kubernetes.io/docs/setup/minikube/)
 - [git](https://git-scm.com/)
 
+## Build the docker images
+
+- Build the service
+
+```bash
+docker build -t ypriverol/biocontainers-api-py:1.0.0 .
+docker push ypriverol/biocontainers-api-py:1.0.0
+```
+
+- Build the pipelines:
+
+```bash
+docker build -t ypriverol/biocontainers-pipelines-py:1.0.0 .
+docker build -t ypriverol/biocontainers-pipelines-py:1.0.0
+```
 
 ## Running in minikube
 
