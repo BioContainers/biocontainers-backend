@@ -141,6 +141,7 @@ class InsertContainers:
                     mongo_tool_version.description = container.description()
                     mongo_tool_version.tool_classes = [_CONSTANT_TOOL_CLASSES['CommandLineTool']]
                     mongo_tool_version.id = tool_version_id
+                    mongo_tool_version.add_author(BIOCONTAINERS_USER)
                 else:
                     mongo_tool_version = tool_versions_dic[tool_version_id]
 
@@ -168,7 +169,7 @@ class InsertContainers:
                     mongo_tool.description = container.description()
                     mongo_tool.tool_classes = [_CONSTANT_TOOL_CLASSES['CommandLineTool']]
                     tools_dic[tool_id] = mongo_tool
-
+                    mongo_tool.add_authors(mongo_tool_version.authors)
                 else:
                     mongo_tool = tools_dic[tool_id]
 

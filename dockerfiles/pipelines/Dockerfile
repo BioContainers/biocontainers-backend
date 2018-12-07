@@ -34,5 +34,5 @@ RUN apt-get update && apt-get install -y --allow-unauthenticated mongodb-org-she
 ADD run.sh /biocontainers-backend/run.sh
 RUN chmod u+x /biocontainers-backend/run.sh
 ENV PATH    $PATH:/biocontainers-backend/
-ENTRYPOINT ["run.sh"]
+##ENTRYPOINT ["run.sh"]
 

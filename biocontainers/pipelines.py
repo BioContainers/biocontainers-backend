@@ -91,7 +91,7 @@ def get_database_uri(param):
 @click.option('--config-profile', '-a', help="This option allow to select a config profile", default='PRODUCTION')
 @click.option('-db', '--db-name', help="Name of the database", envvar='BIOCONT_DB_NAME')
 @click.option('-h', '--db-host', help='Host the database', envvar='MONGODB_HOST')
-@click.option('-auth', '--db-auth-database', help='Authentication database in Mongo', envvar='MONGODB_ADMIN_DB')
+@click.option('-a', '--db-auth-database', help='Authentication database in Mongo', envvar='MONGODB_ADMIN_DB')
 @click.option('-u', '--db-user', help='Database root user', envvar='MONGODB_USER', default='admin')
 @click.option('-pw', '--db-password', help='Database password', envvar='MONGODB_PASS')
 @click.option('-p', '--db-port', help='Database port', envvar='MONGO_PORT', default='27017')

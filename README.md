@@ -17,7 +17,6 @@ it gets the information from containers recipes Dockefile or Conda recipes to an
 
 ## Pre-requisites
 
-
 - MongoDB
 - Python > 3.4
 
@@ -96,5 +95,10 @@ Deploying the API is really simple using the Kubernetes configuration:
 helm install -f helm-example-configs/minikube.yaml ./biocontainer-registry
 ```
 
+Some important commands for kubernetes:
 
+Remove container:
+```
+kubectl delete deployment biocontainers-pipelines-py
+```
 
