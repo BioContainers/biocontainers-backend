@@ -31,6 +31,7 @@ def get_config(file):
 def import_quayio_containers(config, config_profile):
     """
     Import quayio containers into the registry database
+    :param config_profile:
     :param config: Parameters for quayio
     :return:
     """
@@ -49,6 +50,7 @@ def import_quayio_containers(config, config_profile):
 def import_dockerhub_containers(config, config_profile):
     """
     Import dockerhub containers into the registry database
+    :param config_profile:
     :param config:
     :return:
     """

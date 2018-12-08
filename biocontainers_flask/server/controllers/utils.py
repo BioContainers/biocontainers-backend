@@ -20,7 +20,7 @@ def transform_mongo_tool_class(mongo_tool_class):
 def transform_dic_tool_class(dic_tool_class):
     """
     This method transform a Mongo Tool Class to an API Tool Class.
-    :param mongo_tool_class:
+    :param dic_tool_class:
     :return:
     """
     tool_class = ToolClass()

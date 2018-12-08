@@ -1,8 +1,8 @@
-
 import requests
 from ratelimit import limits, sleep_and_retry
 
 FIFTEEN_MINUTES = 60
+
 
 @sleep_and_retry
 @limits(calls=15, period=FIFTEEN_MINUTES)

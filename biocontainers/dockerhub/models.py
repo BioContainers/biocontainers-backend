@@ -90,7 +90,7 @@ class DockerHubReader(object):
         if not self.containers_list:
             self.containers_list = self.get_list_containers()
 
-        if page == None:
+        if page is None:
             page = 0
 
         if batch == None:

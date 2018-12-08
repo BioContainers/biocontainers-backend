@@ -2,16 +2,6 @@
 
 from __future__ import absolute_import
 
-from flask import json
-from six import BytesIO
-
-from biocontainers_flask_server.models.error import Error  # noqa: E501
-from biocontainers_flask_server.models.file_wrapper import FileWrapper  # noqa: E501
-from biocontainers_flask_server.models.metadata import Metadata  # noqa: E501
-from biocontainers_flask_server.models.tool import Tool  # noqa: E501
-from biocontainers_flask_server.models.tool_class import ToolClass  # noqa: E501
-from biocontainers_flask_server.models.tool_file import ToolFile  # noqa: E501
-from biocontainers_flask_server.models.tool_version import ToolVersion  # noqa: E501
 from biocontainers_flask_server.test import BaseTestCase
 
 

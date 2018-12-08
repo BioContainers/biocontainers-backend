@@ -1,8 +1,11 @@
 image:
   repository: "ypriverol/biocontainers-api-py"
   tag: "1.0.0"
+  pullPolicy: Always
 
 
 mongodb:
   persistence:
     enabled: true
+
+

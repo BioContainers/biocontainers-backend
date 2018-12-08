@@ -220,7 +220,7 @@ class GitHubCondaReader:
                         entry = {'name': key['path'], 'recipe': recipe}
                         self.conda_recipes.append(entry)
                         logger.info(key['path'])
-                    except (ScannerError, ConstructorError, TypeError, AttributeError, NoneType) as error:
+                    except (ScannerError, ConstructorError, TypeError, AttributeError) as error:
                         logger.error("Error reading conda definition of tool -- " + key['path'] + " " + error)
             else:
                 string_url = self.github_config.repository_readable_url.replace("%%recipe_software_tool_name%%",

@@ -1,11 +1,9 @@
-import datetime
-
-from pymodm import MongoModel, fields, EmbeddedMongoModel
 import pymongo
+from pymodm import MongoModel, fields, EmbeddedMongoModel
+from pymodm.manager import Manager
 from pymodm.queryset import QuerySet
 from pymongo.common import WriteConcern
 from pymongo.operations import IndexModel
-from pymodm.manager import Manager
 
 _CONSTANT_TOOL_CLASSES = {
     "CommandLineTool":
@@ -167,9 +165,9 @@ class MongoTool(MongoModel):
 
     @staticmethod
     def get_tool_by_id(id):
-        tools =  MongoTool.manager.get_tool_by_id(id)
+        tools = MongoTool.manager.get_tool_by_id(id)
         tools_list = list(tools)
-        if tools_list is not None and len(tools_list)>0:
+        if tools_list is not None and len(tools_list) > 0:
             return tools_list[0]
         return None
 

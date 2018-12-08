@@ -1,17 +1,9 @@
-import connexion
-import six
-
 from biocontainers.common.models import MongoTool, _CONSTANT_TOOL_CLASSES
-from biocontainers_flask.server.controllers.utils import transform_mongo_tool, transform_mongo_tool_class, \
-    transform_dic_tool_class, transform_tool_version
-from biocontainers_flask.server.models.error import Error  # noqa: E501
+from biocontainers_flask.server.controllers.utils import transform_mongo_tool, transform_dic_tool_class, transform_tool_version
 from biocontainers_flask.server.models.file_wrapper import FileWrapper  # noqa: E501
 from biocontainers_flask.server.models.metadata import Metadata  # noqa: E501
 from biocontainers_flask.server.models.tool import Tool  # noqa: E501
-from biocontainers_flask.server.models.tool_class import ToolClass  # noqa: E501
-from biocontainers_flask.server.models.tool_file import ToolFile  # noqa: E501
 from biocontainers_flask.server.models.tool_version import ToolVersion  # noqa: E501
-from biocontainers_flask.server import util
 
 
 def metadata_get():  # noqa: E501
@@ -72,13 +64,27 @@ def tools_get(id=None, alias=None, registry=None, organization=None, name=None, 
 
     :rtype: List[Tool]
     """
-    mongo_tools = MongoTool.get_all_tools()
     tools = []
-    for mongo_tool in mongo_tools:
-        # Transform the mongo tool to API tool
-        mongo_tool_versions = mongo_tool.get_tool_versions()
-        tool = transform_mongo_tool(mongo_tool, mongo_tool_versions)
-        tools.append(tool)
+    if(id is not None):
+        mongo_tool = MongoTool.get_tool_by_id(id)
+        if mongo_tool is not None:
+            mongo_tool_versions = mongo_tool.get_tool_versions()
+            tools.append(transform_mongo_tool(mongo_tool, mongo_tool_versions))
+    else:
+        mongo_tools = MongoTool.get_all_tools()
+        for mongo_tool in mongo_tools:
+            # Transform the mongo tool to API tool
+            mongo_tool_versions = mongo_tool.get_tool_versions()
+            tool = transform_mongo_tool(mongo_tool, mongo_tool_versions)
+            tools.append(tool)
+
+    # If the checker is provided, we filter for checker tools.
+    if checker is not None:
+        new_tools = []
+        for tool in tools:
+            if tool.has_checker == checker:
+                new_tools.append(tool)
+        tools = new_tools
 
     return tools
 
