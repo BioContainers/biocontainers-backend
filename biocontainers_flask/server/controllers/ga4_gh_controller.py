@@ -65,13 +65,18 @@ def tools_get(id=None, alias=None, registry=None, organization=None, name=None, 
     :rtype: List[Tool]
     """
     tools = []
-    if(id is not None):
+    if id is not None:
         mongo_tool = MongoTool.get_tool_by_id(id)
         if mongo_tool is not None:
             mongo_tool_versions = mongo_tool.get_tool_versions()
             tools.append(transform_mongo_tool(mongo_tool, mongo_tool_versions))
-    else:
+    if toolname is None and alias is None and author \
+            is None and name is None and description is None and organization is None:
         mongo_tools = MongoTool.get_all_tools()
+    if toolname is not None or alias is not None or name is not None:
+        mongo_tools = MongoTool.get_tools_by_name(toolname, alias, name)
+
+    if mongo_tools is not None:
         for mongo_tool in mongo_tools:
             # Transform the mongo tool to API tool
             mongo_tool_versions = mongo_tool.get_tool_versions()

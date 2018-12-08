@@ -71,8 +71,6 @@ class Descriptor(EmbeddedMongoModel):
 
 
 # Mongo Classes to persistent the data model.
-
-
 class ToolQuerySet(QuerySet):
 
     def mongo_tool_versions_by_tool(self, tool_id):
@@ -83,6 +81,9 @@ class ToolQuerySet(QuerySet):
 
     def get_tool_by_id(self, tool_id):
         return self.raw({'id': tool_id})
+
+    def get_tools_by_name(self, toolname, alias, name):
+        return list(self.all())
 
 
 class ToolVersionQuerySet(QuerySet):
@@ -162,6 +163,10 @@ class MongoTool(MongoModel):
     @staticmethod
     def get_all_tools():
         return MongoTool.manager.mongo_all_tools()
+
+    @staticmethod
+    def get_tools_by_name(toolname, alias, name):
+        return MongoTool.manager.get_tools_by_name(toolname, alias, name)
 
     @staticmethod
     def get_tool_by_id(id):
