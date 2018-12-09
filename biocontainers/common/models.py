@@ -83,7 +83,15 @@ class ToolQuerySet(QuerySet):
         return self.raw({'id': tool_id})
 
     def get_tools_by_name(self, toolname, alias, name):
-        return list(self.all())
+        query = []
+        if name is not None:
+            query.append({"name": {"$regex": name}})
+        if alias is not None:
+            query.append({"aliases": {"$regex": alias}})
+        if toolname is not None:
+            {"toolname": {"$regex": toolname}}
+
+        return list(self.raw({"$or": query}))
 
 
 class ToolVersionQuerySet(QuerySet):
