@@ -7,7 +7,7 @@ from biocontainers.common.utils import call_api
 logger = logging.getLogger('biocontainers.dockerhub.models')
 
 
-class DockerHubContainer(object):
+class DockerHubContainer:
     """
     This class contains the information of one small docker container
     """
@@ -16,11 +16,24 @@ class DockerHubContainer(object):
     def __init__(self, attributes):
         self.attributes = attributes
 
+    @staticmethod
+    def registry():
+        return 'dockerhub'
+
     def name(self):
+        return self.attributes['name']
+
+    def alias(self):
         return self.attributes['name']
 
     def description(self):
         return self.attributes['description']
+
+    def organization(self):
+        return self.attributes['namespace']
+
+    def checker(self):
+        return True
 
     def is_public(self):
         return self.attributes['is_private'] != 'false'
@@ -43,64 +56,56 @@ class DockerHubContainer(object):
             self.tags.append(key)
 
 
-class DockerHubReader(object):
+class DockerHubReader:
     """
     This class contains the services to retrieve the containers from Quay.io
     """
-    containers_list = []
 
-    def __new__(cls):
-        return object.__new__(cls)
-
-    def dockerhub_list_url(self, url):
-        self.dockerhub_list_url = url
-
-    def dockerhub_tags_url(self, url):
-        self.dockerhub_tags_url = url
-
-    def namespace(self, namespace):
+    def __init__(self, containers_list_url, container_details_url, namespace):
+        self.containers_list_url = containers_list_url
+        self.container_details_url = container_details_url
         self.namespace = namespace
+        self.containers_list = None
 
-    def get_list_containers(self):
+    def get_containers_list(self):
         """
         This method returns the list of small/short containers descriptions for
         all DockerHub containers.
         :return: list of container minimum metadata
         """
-        string_url = self.dockerhub_list_url.replace('%namespace%', self.namespace)
-        self.container_list = []
+        container_list = []
+        string_url = self.containers_list_url.replace('%namespace%', self.namespace)
         while string_url is not None:
             response = call_api(string_url)
             if response.status_code == 200:
                 json_data = json.loads(response.content.decode('utf-8'))
                 for key in json_data['results']:
                     container = DockerHubContainer(key)
-                    self.container_list.append(container)
+                    container_list.append(container)
                     logger.info(" Current tool has been retrieve from DockerHub -- " + container.name())
                 string_url = json_data['next']
 
-        return self.container_list
+        return container_list
 
-    def get_containers(self, page=None, batch=None):
+    def get_containers(self, page=0, batch=None):
         """
         This method returns the of containers descriptions for
         all DockerHub containers.
         :return: Containers List
         """
-        if not self.containers_list:
-            self.containers_list = self.get_list_containers()
+        if self.containers_list is None:
+            containers_list = self.get_containers_list()
+        else:
+            return self.containers_list
 
-        if page is None:
-            page = 0
+        if batch is None:
+            batch = len(containers_list)
 
-        if batch == None:
-            batch = len(self.container_list)
-
-        string_url = self.dockerhub_tags_url.replace('%namespace%', self.namespace)
-        containers_list = []
+        string_url = self.container_details_url.replace('%namespace%', self.namespace)
+        container_details_list = []
 
         for index in range(page * batch, batch * (page + 1)):
-            short_container = self.container_list[index]
+            short_container = containers_list[index]
             url = string_url.replace('%container_name%', short_container.name())
             try:
                 response = call_api(url)
@@ -108,10 +113,10 @@ class DockerHubReader(object):
                     json_data = json.loads(response.content.decode('utf-8'))
                     short_container.add_all_tags(json_data['results'])
                     container = short_container
-                    containers_list.append(container)
+                    container_details_list.append(container)
                     logger.info(" Current tool has been retrieve from DockerHub -- " + container.name())
             except ConnectionError:
-                logger.error(" Connection has failed to DockerHub for container ID --" + container.id)
+                logger.error(" Connection has failed to DockerHub for container ID --" + short_container.name())
 
-        self.container_list = containers_list
-        return self.container_list
+        self.containers_list = container_details_list
+        return self.containers_list
