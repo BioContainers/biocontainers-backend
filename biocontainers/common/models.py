@@ -123,6 +123,10 @@ class MongoTool(MongoModel):
     tool_contains = fields.ListField(fields.CharField(max_length=400))
     tool_versions = fields.ListField(fields.CharField(max_length=400))
     additional_identifiers = fields.CharField()
+    registries = fields.ListField(fields.CharField(max_length=200))
+    alias = fields.CharField(max_length=1000, blank=True, required=False)
+    checker = fields.BooleanField()
+
 
     manager = Manager.from_queryset(ToolQuerySet)()
 
@@ -137,7 +141,7 @@ class MongoTool(MongoModel):
 
     def add_authors(self, new_authors):
         """
-        This method add a list of authors to the current list of author of the Tool
+        This method adds a list of authors to the current list of author of the Tool
         :param new_authors: New Authors
         :return:
         """
@@ -147,6 +151,18 @@ class MongoTool(MongoModel):
         for author in new_authors:
             if author not in self.authors:
                 self.authors.append(author)
+
+    def add_registry(self, new_registry):
+        """
+        This method adds a registry to the current list of registries of the Tool
+        :param registry: New registry
+        :return:
+        """
+        if self.registries is None:
+            self.registries = []
+
+        if new_registry not in self.registries:
+            self.registries.append(new_registry)
 
     def get_main_author(self):
         """
