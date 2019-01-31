@@ -93,6 +93,11 @@ class ToolQuerySet(QuerySet):
 
         return list(self.raw({"$or": query}))
 
+    def exec_query(self, query):
+        return self.raw(query)
+
+    def exec_aggregate_query(self, *query):
+        return self.aggregate(*query)
 
 class ToolVersionQuerySet(QuerySet):
 
@@ -126,7 +131,6 @@ class MongoTool(MongoModel):
     registries = fields.ListField(fields.CharField(max_length=200))
     alias = fields.CharField(max_length=1000, blank=True, required=False)
     checker = fields.BooleanField()
-
 
     manager = Manager.from_queryset(ToolQuerySet)()
 
@@ -185,6 +189,28 @@ class MongoTool(MongoModel):
         return _CONSTANT_TOOL_CLASSES['CommandLineTool']
 
     @staticmethod
+    def get_main_author_dict(authors):
+        """
+        This method returns first author of the list. The pipeline add the
+        BioContainers as first author of the container.
+        :return:
+        """
+        if len(authors) > 0:
+            return authors[0]
+        return None
+
+    @staticmethod
+    def get_main_tool_class_dict(tool_classes):
+        """
+        This method return the specific tool
+        :return:
+        """
+        if tool_classes is not None and len(tool_classes) > 0:
+            return tool_classes[0]
+
+        return _CONSTANT_TOOL_CLASSES['CommandLineTool']
+
+    @staticmethod
     def get_all_tools():
         return MongoTool.manager.mongo_all_tools()
 
@@ -199,6 +225,52 @@ class MongoTool(MongoModel):
         if tools_list is not None and len(tools_list) > 0:
             return tools_list[0]
         return None
+
+    @staticmethod
+    def get_tools(id=None, alias=None, registry=None, organization=None, name=None, toolname=None, description=None,
+        author=None, checker=None, offset=None, limit=None):
+
+        #TODO: offset & limit => pagination
+
+        VERSIONS_STRING = "tool_versions"
+
+        lookup_condition = \
+            { "$lookup" :
+                {
+                    "from": "mongo_tool_version",
+                    "localField": "name",
+                    "foreignField": "name",
+                    "as": ("%s" % VERSIONS_STRING)
+                }
+            }
+
+        filters = []
+        if id is not None:
+            filters.append({"id": id})
+        if alias is not None:
+            filters.append({"aliases": {"$regex": alias}})
+        if registry is not None:
+            filters.append({"registries": {"$regex": registry}})
+        if organization is not None:
+            filters.append({"organization": organization})
+        if name is not None:
+            filters.append({("%s.name" % VERSIONS_STRING): {"$regex": name}})  # name : The name of the image i.e., tool_version
+        if toolname is not None:
+            filters.append({"name": {"$regex": toolname}}) #toolname : The name of the tool
+        if description is not None:
+            filters.append({"description": {"$regex": description}})
+        if author is not None:
+            filters.append({"authors": {"$regex": author}})
+        if checker is not None:
+            filters.append({"checker": checker})
+
+        if len(filters) > 0:
+            match_condition = {"$match": {"$and": filters}}
+            res = MongoTool.manager.exec_aggregate_query(lookup_condition, match_condition)
+        else:
+            res = MongoTool.manager.exec_aggregate_query(lookup_condition)
+
+        return res
 
 
 class MongoToolVersion(MongoModel):
