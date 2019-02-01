@@ -51,6 +51,7 @@ class InsertContainers:
                     mongo_tool_version.name = container.name()
                     mongo_tool_version.version = version
                     mongo_tool_version.description = container.description()
+                    mongo_tool_version.organization = container.organization()
                     if "mulled-v2" not in mongo_tool_version.name:
                         mongo_tool_version.tool_classes = [_CONSTANT_TOOL_CLASSES['CommandLineTool']]
                     else:
@@ -71,10 +72,7 @@ class InsertContainers:
                 container_image.last_updated = datetime_object
                 container_image.size = int(int(val['size']) / 1000000)
                 mongo_tool_version.add_image_container(container_image)
-                if tool_version_id in tool_versions_dic:
-                    tool_versions_dic[tool_version_id] = mongo_tool_version
-                else:
-                    tool_versions_dic[tool_version_id] = mongo_tool_version
+                tool_versions_dic[tool_version_id] = mongo_tool_version
 
                 # Insert the corresponding tool
                 tool_id = container.name()
@@ -88,9 +86,14 @@ class InsertContainers:
                     mongo_tool.id = container.name()
                     mongo_tool.description = container.description()
                     mongo_tool.add_authors(mongo_tool_version.authors)
-                    tools_dic[tool_id] = mongo_tool
+                    mongo_tool.alias = container.alias()
+                    mongo_tool.organization = container.organization()
+                    mongo_tool.checker = container.checker()
                 else:
                     mongo_tool = tools_dic[tool_id]
+
+                mongo_tool.add_registry(container.registry())
+                tools_dic[tool_id] = mongo_tool
 
                 try:
                     mongo_tool.save()
@@ -142,6 +145,7 @@ class InsertContainers:
                     mongo_tool_version.tool_classes = [_CONSTANT_TOOL_CLASSES['CommandLineTool']]
                     mongo_tool_version.id = tool_version_id
                     mongo_tool_version.add_author(BIOCONTAINERS_USER)
+                    mongo_tool_version.organization = container.organization()
                 else:
                     mongo_tool_version = tool_versions_dic[tool_version_id]
 
@@ -155,10 +159,7 @@ class InsertContainers:
                 container_image.last_updated = datetime_object
                 container_image.size = int(int(key['full_size']) / 1000000)
                 mongo_tool_version.add_image_container(container_image)
-                if tool_version_id in tool_versions_dic:
-                    tool_versions_dic[tool_version_id] = mongo_tool_version
-                else:
-                    tool_versions_dic[tool_version_id] = mongo_tool_version
+                tool_versions_dic[tool_version_id] = mongo_tool_version
 
                 # Insert the corresponding tool
                 tool_id = container.name()
@@ -170,8 +171,14 @@ class InsertContainers:
                     mongo_tool.tool_classes = [_CONSTANT_TOOL_CLASSES['CommandLineTool']]
                     tools_dic[tool_id] = mongo_tool
                     mongo_tool.add_authors(mongo_tool_version.authors)
+                    mongo_tool.alias = container.alias()
+                    mongo_tool.organization = container.organization()
+                    mongo_tool.checker = container.checker()
                 else:
                     mongo_tool = tools_dic[tool_id]
+
+                mongo_tool.add_registry(container.registry())
+                tools_dic[tool_id] = mongo_tool
 
                 try:
                     mongo_tool.save()

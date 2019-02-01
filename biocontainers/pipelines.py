@@ -37,11 +37,9 @@ def import_quayio_containers(config, config_profile):
     """
     logger.info("Starting importing Conda packages")
 
-    reader = QuayIOReader()
-    reader.quayio_list_url(config[config_profile]['QUAYIO_CONTAINER_LIST'])
-    reader.quayio_details_url(config[config_profile]['QUAYIO_CONTAINER_DETAILS'])
-    reader.namespace(config[config_profile]['NAMESPACE'])
-    quayio_containers = reader.get_containers(batch=50)
+    reader = QuayIOReader(config[config_profile]['QUAYIO_CONTAINER_LIST'],
+                          config[config_profile]['QUAYIO_CONTAINER_DETAILS'], config[config_profile]['NAMESPACE'])
+    quayio_containers = reader.get_containers(batch=5)
 
     mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
     mongo_helper.insert_quayio_containers(quayio_containers)
@@ -56,11 +54,9 @@ def import_dockerhub_containers(config, config_profile):
     """
 
     logger.info("Starting importing DockerHub packages")
-    reader = DockerHubReader()
-    reader.dockerhub_list_url(config[config_profile]['DOCKER_HUB'])
-    reader.dockerhub_tags_url(config[config_profile]['DOCKER_HUB_TAG'])
-    reader.namespace(config[config_profile]['NAMESPACE'])
-    dockerhub_containers = reader.get_containers()
+    reader = DockerHubReader(config[config_profile]['DOCKER_HUB'], config[config_profile]['DOCKER_HUB_TAG'],
+                             config[config_profile]['NAMESPACE'])
+    dockerhub_containers = reader.get_containers(batch=5)
 
     mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
     mongo_helper.insert_dockerhub_containers(dockerhub_containers)
@@ -100,7 +96,6 @@ def get_database_uri(param):
 @click.pass_context
 def main(ctx, import_quayio, import_docker, config_file, config_profile, db_name, db_host, db_auth_database, db_user,
          db_password, db_port):
-
     config = get_config(config_file)
     if config[config_profile]['VERBOSE'] == "True":
         for key in config[config_profile]:

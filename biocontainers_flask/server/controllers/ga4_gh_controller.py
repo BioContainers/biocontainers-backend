@@ -1,5 +1,6 @@
 from biocontainers.common.models import MongoTool, _CONSTANT_TOOL_CLASSES
-from biocontainers_flask.server.controllers.utils import transform_mongo_tool, transform_dic_tool_class, transform_tool_version
+from biocontainers_flask.server.controllers.utils import transform_mongo_tool, transform_dic_tool_class, \
+    transform_tool_version, transform_mongo_tool_dict
 from biocontainers_flask.server.models.file_wrapper import FileWrapper  # noqa: E501
 from biocontainers_flask.server.models.metadata import Metadata  # noqa: E501
 from biocontainers_flask.server.models.tool import Tool  # noqa: E501
@@ -65,22 +66,13 @@ def tools_get(id=None, alias=None, registry=None, organization=None, name=None, 
     :rtype: List[Tool]
     """
     tools = []
-    if id is not None:
-        mongo_tool = MongoTool.get_tool_by_id(id)
-        if mongo_tool is not None:
-            mongo_tool_versions = mongo_tool.get_tool_versions()
-            tools.append(transform_mongo_tool(mongo_tool, mongo_tool_versions))
-    if toolname is None and alias is None and author \
-            is None and name is None and description is None and organization is None:
-        mongo_tools = MongoTool.get_all_tools()
-    if toolname is not None or alias is not None or name is not None:
-        mongo_tools = MongoTool.get_tools_by_name(toolname, alias, name)
+
+    mongo_tools = MongoTool.get_tools(id, alias, registry, organization, name, toolname, description, author, checker, offset, limit)
 
     if mongo_tools is not None:
         for mongo_tool in mongo_tools:
             # Transform the mongo tool to API tool
-            mongo_tool_versions = mongo_tool.get_tool_versions()
-            tool = transform_mongo_tool(mongo_tool, mongo_tool_versions)
+            tool = transform_mongo_tool_dict(mongo_tool)
             tools.append(tool)
 
     # If the checker is provided, we filter for checker tools.
@@ -104,10 +96,9 @@ def tools_id_get(id):  # noqa: E501
 
     :rtype: Tool
     """
-    mongo_tool = MongoTool.get_tool_by_id(id)
-    if mongo_tool is not None:
-        mongo_tool_versions = mongo_tool.get_tool_versions()
-        return transform_mongo_tool(mongo_tool, mongo_tool_versions)
+    mongo_tool = tools_get(id=id)
+    if mongo_tool is not None and len(mongo_tool) > 0:
+        return mongo_tool[0]
 
     return None
 
