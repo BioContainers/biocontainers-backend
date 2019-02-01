@@ -34,6 +34,7 @@ def transform_mongo_tool_dict(mongo_tool):
     tool = Tool()
     tool.id = mongo_tool["id"]
     tool.description = mongo_tool["description"]
+    tool.organization = mongo_tool["organization"]
     # By default all our tools will be declare as verified
     tool.verified = True
     tool.author = MongoTool.get_main_author_dict(mongo_tool["authors"])

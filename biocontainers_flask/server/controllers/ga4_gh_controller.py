@@ -96,9 +96,9 @@ def tools_id_get(id):  # noqa: E501
 
     :rtype: Tool
     """
-    mongo_tool = MongoTool.get_tool_by_id(id)
-    if mongo_tool is not None:
-        return transform_mongo_tool(mongo_tool)
+    mongo_tool = tools_get(id=id)
+    if mongo_tool is not None and len(mongo_tool) > 0:
+        return mongo_tool[0]
 
     return None
 

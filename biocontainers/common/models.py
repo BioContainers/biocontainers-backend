@@ -234,6 +234,7 @@ class MongoTool(MongoModel):
 
         VERSIONS_STRING = "tool_versions"
 
+        #Fetch tools along with the tool_versions in one query (similar to SQL join)
         lookup_condition = \
             { "$lookup" :
                 {
@@ -248,7 +249,7 @@ class MongoTool(MongoModel):
         if id is not None:
             filters.append({"id": id})
         if alias is not None:
-            filters.append({"aliases": {"$regex": alias}})
+            filters.append({"alias": {"$regex": alias}})
         if registry is not None:
             filters.append({"registries": {"$regex": registry}})
         if organization is not None:
@@ -261,7 +262,7 @@ class MongoTool(MongoModel):
             filters.append({"description": {"$regex": description}})
         if author is not None:
             filters.append({"authors": {"$regex": author}})
-        if checker is not None:
+        if checker is not None: #TODO FIXME
             filters.append({"checker": checker})
 
         if len(filters) > 0:
