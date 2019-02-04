@@ -39,7 +39,7 @@ def import_quayio_containers(config, config_profile):
 
     reader = QuayIOReader(config[config_profile]['QUAYIO_CONTAINER_LIST'],
                           config[config_profile]['QUAYIO_CONTAINER_DETAILS'], config[config_profile]['NAMESPACE'])
-    quayio_containers = reader.get_containers(batch=5)
+    quayio_containers = reader.get_containers()
 
     mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
     mongo_helper.insert_quayio_containers(quayio_containers)
@@ -56,7 +56,7 @@ def import_dockerhub_containers(config, config_profile):
     logger.info("Starting importing DockerHub packages")
     reader = DockerHubReader(config[config_profile]['DOCKER_HUB'], config[config_profile]['DOCKER_HUB_TAG'],
                              config[config_profile]['NAMESPACE'])
-    dockerhub_containers = reader.get_containers(batch=5)
+    dockerhub_containers = reader.get_containers()
 
     mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
     mongo_helper.insert_dockerhub_containers(dockerhub_containers)

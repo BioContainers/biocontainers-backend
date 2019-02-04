@@ -1,3 +1,5 @@
+import math
+
 import pymongo
 from pymodm import MongoModel, fields, EmbeddedMongoModel
 from pymodm.manager import Manager
@@ -99,12 +101,23 @@ class ToolQuerySet(QuerySet):
     def exec_aggregate_query(self, *query):
         return self.aggregate(*query)
 
+    def get_ids(self, query, sort_order):
+        return self.raw(query).only('_id').order_by([('_id', sort_order)])
+
+
 class ToolVersionQuerySet(QuerySet):
 
     def mongo_all_tool_versions(self):
         # self._return_raw = False
         return list(self.all())
 
+class ToolsResponse:
+    tools = []
+    next_page = None
+    last_page = None
+    self_link = None
+    current_offset = None
+    current_limit = None
 
 class MongoTool(MongoModel):
     """
@@ -228,15 +241,64 @@ class MongoTool(MongoModel):
 
     @staticmethod
     def get_tools(id=None, alias=None, registry=None, organization=None, name=None, toolname=None, description=None,
-        author=None, checker=None, offset=None, limit=None):
+                  author=None, checker=None, offset=None, limit=None):
 
-        #TODO: offset & limit => pagination
+        filters = []
+        url_params = "?"
+        if id is not None:
+            filters.append({"id": id})
+            url_params += ("id=" + id + "&")
+        if alias is not None:
+            filters.append({"alias": {"$regex": alias}})
+            url_params += ("alias=" + alias + "&")
+        if registry is not None:
+            filters.append({"registries": {"$regex": registry}})
+            url_params += ("registry=" + registry + "&")
+        if organization is not None:
+            filters.append({"organization": organization})
+            url_params += ("organization=" + organization + "&")
+        if toolname is not None:
+            filters.append({"name": {"$regex": toolname}})  # toolname : The name of the tool
+            url_params += ("toolname=" + toolname + "&")
+        if description is not None:
+            filters.append({"description": {"$regex": description}})
+            url_params += ("description=" + description + "&")
+        if author is not None:
+            filters.append({"authors": {"$regex": author}})
+            url_params += ("author=" + author + "&")
+        if checker is not None:  # TODO FIXME
+            # filters.append({"checker": checker})
+            url_params += ("checker=" + checker + "&")
+
+        filters_query = {"$and": filters}
+
+        sort_order = pymongo.DESCENDING  # get recently saved tool first
+        if len(filters) > 0:
+            ids = MongoTool.manager.get_ids(filters_query, sort_order)
+        else:
+            ids = MongoTool.manager.get_ids([], sort_order)
+
+        ids_list = list(ids)
+        ids_len = len(ids_list)
+
+        offset = int(offset)
+        if offset >= ids_len:  # TODO throw error or return empty set
+            print("invalid offset value")
+            return None
 
         VERSIONS_STRING = "tool_versions"
 
-        #Fetch tools along with the tool_versions in one query (similar to SQL join)
+        if name is not None:  # name : The name of the image i.e., tool_version
+            filters.append({("%s.name" % VERSIONS_STRING): {"$regex": name}})
+            url_params += ("name=" + name + "&")
+
+        # for sort_order: pymongo.DESCENDING, condition = '$lte' otherwise '$gte'
+        filters.append({"_id": {'$lte': getattr(ids_list[offset], "_id")}})
+        filters_query = {"$and": filters}
+
+        # Fetch tools along with the tool_versions in one query (similar to SQL join)
         lookup_condition = \
-            { "$lookup" :
+            {"$lookup":
                 {
                     "from": "mongo_tool_version",
                     "localField": "name",
@@ -245,33 +307,35 @@ class MongoTool(MongoModel):
                 }
             }
 
-        filters = []
-        if id is not None:
-            filters.append({"id": id})
-        if alias is not None:
-            filters.append({"alias": {"$regex": alias}})
-        if registry is not None:
-            filters.append({"registries": {"$regex": registry}})
-        if organization is not None:
-            filters.append({"organization": organization})
-        if name is not None:
-            filters.append({("%s.name" % VERSIONS_STRING): {"$regex": name}})  # name : The name of the image i.e., tool_version
-        if toolname is not None:
-            filters.append({"name": {"$regex": toolname}}) #toolname : The name of the tool
-        if description is not None:
-            filters.append({"description": {"$regex": description}})
-        if author is not None:
-            filters.append({"authors": {"$regex": author}})
-        if checker is not None: #TODO FIXME
-            filters.append({"checker": checker})
+        sort_condition = {'$sort': {'_id': sort_order}}
+        limit_condition = {'$limit': limit}
 
-        if len(filters) > 0:
-            match_condition = {"$match": {"$and": filters}}
-            res = MongoTool.manager.exec_aggregate_query(lookup_condition, match_condition)
-        else:
-            res = MongoTool.manager.exec_aggregate_query(lookup_condition)
+        match_condition = {"$match": filters_query}
+        res = MongoTool.manager.exec_aggregate_query(lookup_condition, match_condition, sort_condition, limit_condition)
+        tools = list(res)
 
-        return res
+        url_params += ("limit=" + str(limit) + "&")
+
+        total_pages = math.ceil(ids_len/limit)
+        last_page_offset = (total_pages - 1) * limit
+
+        current_page_url = url_params + "offset=" + str(offset)
+        last_page_url = url_params + "offset=" + str(last_page_offset)
+
+        next_offset = offset + limit
+        next_page_url = None
+        if next_offset < ids_len:
+            next_page_url = url_params + "offset=" + str(next_offset)
+
+        resp = ToolsResponse()
+        resp.tools = tools
+        resp.next_page = next_page_url
+        resp.last_page = last_page_url
+        resp.self_link = current_page_url
+        resp.current_offset = offset
+        resp.current_limit = limit
+
+        return resp
 
 
 class MongoToolVersion(MongoModel):

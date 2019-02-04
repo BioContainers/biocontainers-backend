@@ -35,7 +35,7 @@ def tool_classes_get():  # noqa: E501
 
 
 def tools_get(id=None, alias=None, registry=None, organization=None, name=None, toolname=None, description=None,
-              author=None, checker=None, offset=None, limit=None):  # noqa: E501
+              author=None, checker=None, offset=0, limit=1000):  # noqa: E501
     """List all tools
 
     This endpoint returns all tools available or a filtered subset using metadata query parameters.  # noqa: E501
@@ -65,16 +65,35 @@ def tools_get(id=None, alias=None, registry=None, organization=None, name=None, 
 
     :rtype: List[Tool]
     """
+    resp = tools_get_common(id, alias, registry, organization, name, toolname, description, author, checker, offset,
+                               limit)
+    if resp is None:
+        return None
+
+    BASE_URL = "/tools"
+
+    next_page = None
+    if resp.next_page is not None:
+        next_page = BASE_URL + resp.next_page
+    return resp.tools, 200, {'next_page': next_page, 'last_page': BASE_URL + resp.last_page,
+                             'self_link': BASE_URL + resp.self_link, 'current_offset': resp.current_offset,
+                             'current_limit': resp.current_limit}
+
+
+def tools_get_common(id=None, alias=None, registry=None, organization=None, name=None, toolname=None, description=None,
+                     author=None, checker=None, offset=0, limit=1000):
     tools = []
+    resp = MongoTool.get_tools(id, alias, registry, organization, name, toolname, description, author, checker, offset,
+                               limit)
+    if resp is None:
+        return None
 
-    mongo_tools = MongoTool.get_tools(id, alias, registry, organization, name, toolname, description, author, checker, offset, limit)
-
+    mongo_tools = resp.tools
     if mongo_tools is not None:
         for mongo_tool in mongo_tools:
             # Transform the mongo tool to API tool
             tool = transform_mongo_tool_dict(mongo_tool)
             tools.append(tool)
-
     # If the checker is provided, we filter for checker tools.
     if checker is not None:
         new_tools = []
@@ -82,8 +101,8 @@ def tools_get(id=None, alias=None, registry=None, organization=None, name=None, 
             if tool.has_checker == checker:
                 new_tools.append(tool)
         tools = new_tools
-
-    return tools
+    resp.tools = tools
+    return resp
 
 
 def tools_id_get(id):  # noqa: E501
@@ -96,9 +115,9 @@ def tools_id_get(id):  # noqa: E501
 
     :rtype: Tool
     """
-    mongo_tool = tools_get(id=id)
-    if mongo_tool is not None and len(mongo_tool) > 0:
-        return mongo_tool[0]
+    resp = tools_get_common(id=id)
+    if resp is not None and resp.tools is not None and len(resp.tools) > 0:
+        return resp.tools[0]
 
     return None
 
