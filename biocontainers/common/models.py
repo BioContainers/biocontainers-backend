@@ -268,7 +268,7 @@ class MongoTool(MongoModel):
             filters.append({"id": id})
             url_params += ("id=" + id + "&")
         if alias is not None:
-            filters.append({"alias": {"$regex": alias}})
+            filters.append({"aliases": {"$regex": alias}})
             url_params += ("alias=" + alias + "&")
         if registry is not None:
             filters.append({"registries": {"$regex": registry}})

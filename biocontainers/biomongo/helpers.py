@@ -215,7 +215,7 @@ class InsertContainers:
                                                     }
                                                 })
 
-            # collection "tool_version: id" field has "-" instead of ":"
+            # collection "tool_version: id" field has "-" instead of ":" as a separator between tool-name & version
             mulled_name = mulled_name.replace(":", "-")
             MongoToolVersion.manager_versions.exec_update_query({"id": mulled_name},
                                                                 {"$set":
