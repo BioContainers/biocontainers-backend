@@ -5,7 +5,7 @@ import click
 
 from biocontainers.biomongo.helpers import InsertContainers
 from biocontainers.dockerhub.models import DockerHubReader
-from biocontainers.github.models import GitHubCondaReader, GitHubConfiguration, GitHubDockerReader
+from biocontainers.github.models import GitHubCondaReader, GitHubConfiguration, GitHubDockerReader, GitHubMulledReader
 from biocontainers.quayio.models import QuayIOReader
 
 logger = logging.getLogger('biocontainers.pipelines')
@@ -75,6 +75,15 @@ def annotate_docker_recipes(config, config_profile):
     github_reader = GitHubDockerReader(github_conf)
     conda_recipes = github_reader.read_docker_recipes()
 
+def annotate_multi_package_containers(config, config_profile):
+    github_conf = GitHubConfiguration(config[config_profile]['GITHUB_API_MULLED_FILES'],
+                                      config[config_profile]['GITHUB_MULLED_FILE_CONTENTS'])
+
+    reader = GitHubMulledReader(github_conf)
+    mulled_entries = reader.get_mulled_entries()
+    mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
+    mongo_helper.update_multi_package_containers(mulled_entries)
+
 
 def get_database_uri(param):
     uri = 'mongodb://' + param['MONGODB_USER'] + ":" + param['MONGODB_PASS'] + '@' + param['MONGODB_HOST'] + ':' + \
@@ -118,6 +127,7 @@ def main(ctx, import_quayio, import_docker, config_file, config_profile, db_name
     if import_docker is not False:
         import_dockerhub_containers(config, config_profile)
 
+    annotate_multi_package_containers(config, config_profile)
 
 if __name__ == "__main__":
     main()

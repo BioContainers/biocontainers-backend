@@ -1,5 +1,6 @@
 import datetime
 import logging
+import os
 
 from pymodm import connect
 from pymongo.errors import DuplicateKeyError
@@ -86,13 +87,13 @@ class InsertContainers:
                     mongo_tool.id = container.name()
                     mongo_tool.description = container.description()
                     mongo_tool.add_authors(mongo_tool_version.authors)
-                    mongo_tool.alias = container.alias()
                     mongo_tool.organization = container.organization()
                     mongo_tool.checker = container.checker()
                 else:
                     mongo_tool = tools_dic[tool_id]
 
                 mongo_tool.add_registry(container.registry())
+                mongo_tool.add_alias(container.alias())
                 tools_dic[tool_id] = mongo_tool
 
                 try:
@@ -171,13 +172,13 @@ class InsertContainers:
                     mongo_tool.tool_classes = [_CONSTANT_TOOL_CLASSES['CommandLineTool']]
                     tools_dic[tool_id] = mongo_tool
                     mongo_tool.add_authors(mongo_tool_version.authors)
-                    mongo_tool.alias = container.alias()
                     mongo_tool.organization = container.organization()
                     mongo_tool.checker = container.checker()
                 else:
                     mongo_tool = tools_dic[tool_id]
 
                 mongo_tool.add_registry(container.registry())
+                mongo_tool.add_alias(container.alias())
                 tools_dic[tool_id] = mongo_tool
 
                 try:
@@ -195,3 +196,30 @@ class InsertContainers:
                         " A tool version with a same name and version is in the database -- " + tool_version_id)
 
         containers_list = list(tool_versions_dic.values())
+
+    @staticmethod
+    def update_multi_package_containers(mulled_entries):
+        for entry in mulled_entries:
+            mulled_name = os.path.splitext(entry.file_name)[0]
+            mulled_tool_name = mulled_name.split(':')[0]
+            tools_array = entry.file_contents.split(',')
+            aliases = []
+            for tool in tools_array:
+                aliases.append(tool.split('=')[0])
+
+            MongoTool.manager.exec_update_query({"id": mulled_tool_name},
+                                                {"$addToSet":
+                                                    {
+                                                        "tool_contains": {"$each": tools_array},
+                                                        "aliases": {"$each": aliases}
+                                                    }
+                                                })
+
+            # collection "tool_version: id" field has "-" instead of ":" as a separator between tool-name & version
+            mulled_name = mulled_name.replace(":", "-")
+            MongoToolVersion.manager_versions.exec_update_query({"id": mulled_name},
+                                                                {"$set":
+                                                                     {"tool_contains": tools_array,
+                                                                      "aliases": aliases
+                                                                      }
+                                                                 })

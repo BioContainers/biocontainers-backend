@@ -101,6 +101,9 @@ class ToolQuerySet(QuerySet):
     def exec_aggregate_query(self, *query):
         return self.aggregate(*query)
 
+    def exec_update_query(self, lookup_condition, update, **kwargs):
+        return self.raw(lookup_condition).update(update, **kwargs)
+
     def get_ids(self, query, sort_order):
         return self.raw(query).only('_id').order_by([('_id', sort_order)])
 
@@ -110,6 +113,10 @@ class ToolVersionQuerySet(QuerySet):
     def mongo_all_tool_versions(self):
         # self._return_raw = False
         return list(self.all())
+
+    def exec_update_query(self, lookup_condition, update, **kwargs):
+        return self.raw(lookup_condition).update(update, **kwargs)
+
 
 class ToolsResponse:
     tools = []
@@ -142,7 +149,7 @@ class MongoTool(MongoModel):
     tool_versions = fields.ListField(fields.CharField(max_length=400))
     additional_identifiers = fields.CharField()
     registries = fields.ListField(fields.CharField(max_length=200))
-    alias = fields.CharField(max_length=1000, blank=True, required=False)
+    aliases = fields.ListField(fields.CharField())
     checker = fields.BooleanField()
 
     manager = Manager.from_queryset(ToolQuerySet)()
@@ -180,6 +187,18 @@ class MongoTool(MongoModel):
 
         if new_registry not in self.registries:
             self.registries.append(new_registry)
+
+    def add_alias(self, new_alias):
+        """
+        This method adds a registry to the current list of registries of the Tool
+        :param registry: New registry
+        :return:
+        """
+        if self.aliases is None:
+            self.aliases = []
+
+        if new_alias not in self.aliases:
+            self.aliases.append(new_alias)
 
     def get_main_author(self):
         """
@@ -249,7 +268,7 @@ class MongoTool(MongoModel):
             filters.append({"id": id})
             url_params += ("id=" + id + "&")
         if alias is not None:
-            filters.append({"alias": {"$regex": alias}})
+            filters.append({"aliases": {"$regex": alias}})
             url_params += ("alias=" + alias + "&")
         if registry is not None:
             filters.append({"registries": {"$regex": registry}})
@@ -362,6 +381,7 @@ class MongoToolVersion(MongoModel):
     authors = fields.ListField(fields.CharField(max_length=200))
     tool_contains = fields.ListField(fields.CharField(max_length=400))
     tool_versions = fields.ListField(fields.CharField(max_length=400))
+    aliases = fields.ListField(fields.CharField())
 
     # Specific of Tool Version
     ref_tool = fields.ReferenceField(MongoTool)

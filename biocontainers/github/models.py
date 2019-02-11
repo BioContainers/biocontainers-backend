@@ -1,3 +1,4 @@
+import configparser
 import logging
 import requests
 
@@ -241,3 +242,53 @@ class GitHubCondaReader:
                         logger.error("An error parsing the yaml file of -- " + string_url)
 
         return self.conda_recipes
+
+
+class MulledEntry:
+    def __init__(self, file_name, file_contents):
+        self.file_name = file_name
+        self.file_contents = file_contents
+
+
+class GitHubMulledReader:
+    """
+    This class contains the methods needed to Read the Mulled files from GitHub
+    """
+
+    def __init__(self, github_config):
+        self.mulled_files = []
+        self.mulled_entries = []
+        self.github_config = github_config
+
+    def get_files(self):
+        """
+        This method returns list of all mulled file names from Github.
+        :return: list of all mulled file names
+        """
+        string_url = self.github_config.repository_recursive_url
+        response = requests.get(string_url)
+        if response.status_code == 200:
+            json_data = json.loads(response.content.decode('utf-8'))
+            for file in json_data:
+                name = file['name']
+                if name.startswith("mulled"):
+                    self.mulled_files.append(name)
+        return self.mulled_files
+
+    def get_mulled_entries(self):
+        """
+        This method returns list of all mulled file names & its contents from Github.
+        :return: list of all mulled file names & its contents
+        """
+        if not self.mulled_files:
+            self.mulled_files = self.get_files()
+
+        for file_name in self.mulled_files:
+            string_url = self.github_config.repository_readable_url.replace("%file_name%",
+                                                                            file_name)
+            response = requests.get(string_url)
+            if response.status_code == 200:
+                json_data = response.content.decode('utf-8')
+                self.mulled_entries.append(MulledEntry(file_name, json_data))
+
+        return self.mulled_entries
