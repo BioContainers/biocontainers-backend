@@ -145,7 +145,7 @@ class MongoTool(MongoModel):
     additional_metadata = fields.CharField()
     tool_classes = fields.EmbeddedDocumentListField('ToolClass')
     authors = fields.ListField(fields.CharField(max_length=200))
-    tool_contains = fields.ListField(fields.CharField(max_length=400))
+    contains = fields.ListField(fields.CharField(max_length=400))
     tool_versions = fields.ListField(fields.CharField(max_length=400))
     additional_identifiers = fields.CharField()
     registries = fields.ListField(fields.CharField(max_length=200))
@@ -379,7 +379,7 @@ class MongoToolVersion(MongoModel):
     additional_metadata = fields.CharField()
     tool_classes = fields.EmbeddedDocumentListField('ToolClass')
     authors = fields.ListField(fields.CharField(max_length=200))
-    tool_contains = fields.ListField(fields.CharField(max_length=400))
+    contains = fields.ListField(fields.CharField(max_length=400))
     tool_versions = fields.ListField(fields.CharField(max_length=400))
     aliases = fields.ListField(fields.CharField())
 
@@ -452,7 +452,7 @@ class Tool:
     """
     tool_classes = []
     authors = []
-    tool_contains = []
+    contains = []
     tool_versions = []
     additional_identifiers = []
 
@@ -483,7 +483,7 @@ class ToolVersion:
     tool_classes = []
     descriptors = []
     image_containers = []
-    tool_contains = []
+    contains = []
     authors = []
 
     def __init__(self, id, name, version, description, home_url, doc_url, license, additional_identifiers, hash_name,

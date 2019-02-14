@@ -210,7 +210,7 @@ class InsertContainers:
             MongoTool.manager.exec_update_query({"id": mulled_tool_name},
                                                 {"$addToSet":
                                                     {
-                                                        "tool_contains": {"$each": tools_array},
+                                                        "contains": {"$each": tools_array},
                                                         "aliases": {"$each": aliases}
                                                     }
                                                 })
@@ -219,7 +219,7 @@ class InsertContainers:
             mulled_name = mulled_name.replace(":", "-")
             MongoToolVersion.manager_versions.exec_update_query({"id": mulled_name},
                                                                 {"$set":
-                                                                     {"tool_contains": tools_array,
+                                                                     {"contains": tools_array,
                                                                       "aliases": aliases
                                                                       }
                                                                  })
