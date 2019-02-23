@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: biocontainers-pipelines
 spec:
-  schedule: "0 0 * * *"
+  schedule: "0 12 * * 5"
   jobTemplate:
     spec:
       template:
