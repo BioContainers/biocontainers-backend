@@ -1,0 +1,33 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: biocontainers-pipelines
+spec:
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: biocontainers-pipelines
+              image: chakrabandla/biocontainer-pipelines:0.1
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: "MONGO_ROOT_PASS"
+                  value: {{ .Values.mongodb.mongodbRootPassword}}
+                - name: "BIOCONT_DB_NAME"
+                  value: {{ .Values.biocont_db_name }}
+                - name: "MONGODB_ADMIN_DB"
+                  value: {{ .Values.mongodb.mongodbDatabase }}
+                - name: "MONGODB_PASS"
+                  value: {{ .Values.mongodb.mongodbPassword }}
+                - name: "MONGODB_USER"
+                  value: {{ .Values.mongodb.mongodbUsername }}
+                - name: "MONGODB_HOST"
+                  value: {{ template "mongodb.fullname" . }}
+                - name: "MONGODB_PORT"
+                  value: {{ .Values.mongodb.port }}
+              args:
+                - /bin/sh
+                - /biocontainers-backend/run.sh
+          restartPolicy: OnFailure
