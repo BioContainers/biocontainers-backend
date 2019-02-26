@@ -66,7 +66,7 @@ def tools_get(id=None, alias=None, registry=None, organization=None, name=None, 
     :rtype: List[Tool]
     """
     resp = tools_get_common(id, alias, registry, organization, name, toolname, description, author, checker, offset,
-                               limit)
+                            limit)
     if resp is None:
         return None
 
