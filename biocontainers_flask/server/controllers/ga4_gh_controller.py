@@ -75,9 +75,7 @@ def tools_get(id=None, alias=None, registry=None, organization=None, name=None, 
     next_page = None
     if resp.next_page is not None:
         next_page = BASE_URL + resp.next_page
-    return resp.tools, 200, {'Access-Control-Allow-Methods': 'GET',
-                             'Access-Control-Allow-Headers': 'next_page, last_page, self_link, current_offset, current_limit',
-                             'next_page': next_page, 'last_page': BASE_URL + resp.last_page,
+    return resp.tools, 200, {'next_page': next_page, 'last_page': BASE_URL + resp.last_page,
                              'self_link': BASE_URL + resp.self_link, 'current_offset': resp.current_offset,
                              'current_limit': resp.current_limit}
 
