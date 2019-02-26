@@ -3,6 +3,7 @@
 import click
 import connexion
 from pymodm import connect
+from flask_cors import CORS
 
 from biocontainers_flask.server import encoder
 
@@ -37,6 +38,7 @@ def main(ctx, db_name, db_host, db_auth_database, db_user, db_password, db_port)
         print_help(ctx, None, value=True)
     connect_to_db(db_name, db_host, db_auth_database, db_user, db_password, db_port)
     app = connexion.App(__name__, specification_dir='./swagger/')
+    CORS(app.app) #adds CORS support
     app.app.json_encoder = encoder.JSONEncoder
     app.add_api('swagger.yaml', arguments={'title': 'GA4GH Tool Discovery API'})
     app.run(port=8080)

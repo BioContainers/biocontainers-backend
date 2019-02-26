@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: biocontainer-api
-          image: chakrabandla/biocontainer-api:0.1
+          image: chakrabandla/biocontainer-api:0.2
           imagePullPolicy: IfNotPresent
           env:
             - name: "MONGO_ROOT_PASS"
