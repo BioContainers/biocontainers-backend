@@ -237,11 +237,21 @@ class InsertContainers:
             if tool_version is not None:
                 if entry["recipe"].get_description() is not None:
                     tool_version.description = entry["recipe"].get_description()
+                if entry['recipe'].get_home_url() is not None:
+                    tool_version.home_url = entry['recipe'].get_home_url()
+                if entry['recipe'].get_license() is not None:
+                    tool_version.license = entry['recipe'].get_license()
                 tool_version.save()
                 logger.info("Updated tool version description of -- " + tool_version_id)
             if tool is not None:
                 if entry["recipe"].get_description() is not None:
                     tool.description = entry["recipe"].get_description()
+                if entry['recipe'].get_home_url() is not None:
+                    tool.home_url = entry['recipe'].get_home_url()
+                if entry['recipe'].get_license() is not None:
+                    tool.license = entry['recipe'].get_license()
+                if entry['recipe'].get_tags() is not None:
+                    tool.tool_tags = entry['recipe'].get_tags()
                 tool.save()
                 logger.info("Updated tool description of -- " + tool_version_id)
 

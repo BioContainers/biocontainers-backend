@@ -153,6 +153,7 @@ class MongoTool(MongoModel):
     registries = fields.ListField(fields.CharField(max_length=200))
     aliases = fields.ListField(fields.CharField())
     checker = fields.BooleanField()
+    tool_tags = fields.ListField(fields.CharField())
 
     manager = Manager.from_queryset(ToolQuerySet)()
 
@@ -384,6 +385,7 @@ class MongoToolVersion(MongoModel):
     contains = fields.ListField(fields.CharField(max_length=400))
     tool_versions = fields.ListField(fields.CharField(max_length=400))
     aliases = fields.ListField(fields.CharField())
+    container_recipe = fields.CharField(max_length=500)
 
     # Specific of Tool Version
     ref_tool = fields.ReferenceField(MongoTool)
