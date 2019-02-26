@@ -28,6 +28,11 @@ class DockerRecipe:
     def __init__(self, attributes):
         self.attributes = attributes
 
+    def get_description(self):
+        if 'about.summary' in self.attributes.labels:
+            return self.attributes.labels['about.summary']
+        return None
+
 
 class GitHubConfiguration:
     """
@@ -107,7 +112,7 @@ class GitHubDockerReader:
                     except (ScannerError, ConstructorError, TypeError, AttributeError) as error:
                         logger.error("Error reading conda definition of tool -- " + key['path'] + " " + error)
             else:
-                string_url = self.github_config.repository_readable_url.replace("%%recipe_software_tool_name%%",
+                string_url = self.github_config.repository_readable_url.replace("%recipe_software_tool_name%",
                                                                                 key['path'])
                 response = requests.get(string_url)
                 if response.status_code == 200:
