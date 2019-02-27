@@ -172,6 +172,11 @@ paths:
         type: "integer"
         default: 1000
         format: "int32"
+      - name: "all_fields_search"
+        in: "query"
+        description: "String to search all fields"
+        required: false
+        type: "string"
       responses:
         200:
           description: "An array of Tools that match the filter."
