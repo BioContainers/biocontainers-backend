@@ -262,7 +262,7 @@ class MongoTool(MongoModel):
 
         filters = []
         if id is not None:
-            filters.append({"id": {"$regex": id}})
+            filters.append({"id": id})
         if alias is not None:
             filters.append({"aliases": {"$regex": alias}})
         if registry is not None:
@@ -313,28 +313,14 @@ class MongoTool(MongoModel):
         if offset >= tools_len:  # empty list
             return None
 
-        offset_tool = tools[offset]
-
-        # for sort_order: pymongo.DESCENDING, condition = '$lte' otherwise '$gte'
-        sort_filter = {'$lte': offset_tool['_id']}
-
-        if is_all_field_search:
-            filters_query = {"$and": [{"_id": sort_filter}, {"$or": filters}]}
-        else:
-            filters.append({"_id": sort_filter})
-            filters_query = {"$and": filters}
-
-        match_condition = {"$match": filters_query}
-        limit_condition = {'$limit': limit}
-        res = MongoTool.manager.exec_aggregate_query(lookup_condition, match_condition, sort_condition, limit_condition)
-        tools = list(res)
+        next_offset = offset + limit
+        tools_paginated = tools[offset:next_offset]
 
         total_pages = math.ceil(tools_len / limit)
         last_page_offset = (total_pages - 1) * limit
-        next_offset = offset + limit
 
         resp = ToolsResponse()
-        resp.tools = tools
+        resp.tools = tools_paginated
         resp.last_page_offset = last_page_offset
         if next_offset < tools_len:
             resp.next_offset = next_offset
