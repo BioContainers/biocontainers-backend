@@ -147,7 +147,7 @@ class MongoTool(MongoModel):
     authors = fields.ListField(fields.CharField(max_length=200))
     contains = fields.ListField(fields.CharField(max_length=400))
     tool_versions = fields.ListField(fields.CharField(max_length=400))
-    additional_identifiers = fields.CharField()
+    additional_identifiers = fields.ListField(fields.CharField(max_length=400))
     registries = fields.ListField(fields.CharField(max_length=200))
     aliases = fields.ListField(fields.CharField())
     checker = fields.BooleanField()
@@ -280,9 +280,9 @@ class MongoTool(MongoModel):
             filters.append({"authors": {"$regex": author}})
         # if checker is not None:  # TODO
 
-        VERSIONS_STRING = "tool_versions"
+        versions_string = "tool_versions"
         if name is not None:  # name : The name of the image i.e., tool_version
-            filters.append({("%s.name" % VERSIONS_STRING): {"$regex": name}})
+            filters.append({("%s.name" % versions_string): {"$regex": name}})
 
         # Fetch tools along with the tool_versions in one query (similar to SQL join)
         lookup_condition = \
@@ -291,7 +291,7 @@ class MongoTool(MongoModel):
                     "from": "mongo_tool_version",
                     "localField": "name",
                     "foreignField": "name",
-                    "as": ("%s" % VERSIONS_STRING)
+                    "as": ("%s" % versions_string)
                 }
             }
 
@@ -380,8 +380,6 @@ class MongoToolVersion(MongoModel):
         if tools_list is not None and len(tools_list) > 0:
             return tools_list[0]
         return None
-
-
 
     def add_image_container(self, image_container):
         """

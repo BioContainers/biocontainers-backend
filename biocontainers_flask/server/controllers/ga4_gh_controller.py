@@ -43,6 +43,7 @@ def tools_get(id=None, alias=None, registry=None, organization=None, name=None, 
 
     This endpoint returns all tools available or a filtered subset using metadata query parameters.  # noqa: E501
 
+    :param all_fields_search: Search by all fields.
     :param id: A unique identifier of the tool, scoped to this registry, for example &#x60;123456&#x60;
     :type id: str
     :param alias: OPTIONAL for tool registries that support aliases. If provided will only return entries with the given alias.

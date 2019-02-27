@@ -6,6 +6,7 @@ from typing import List  # noqa: F401
 
 from biocontainers_flask.server import util
 from biocontainers_flask.server.models.base_model_ import Model
+from biocontainers_flask.server.models.container_image import ContainerImage
 from biocontainers_flask.server.models.descriptor_type import DescriptorType  # noqa: F401,E501
 
 
@@ -15,7 +16,7 @@ class ToolVersion(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name: str=None, url: str=None, id: str=None, image: str=None, registry_url: str=None, image_name: str=None, descriptor_type: List[DescriptorType]=None, containerfile: bool=None, meta_version: str=None, verified: bool=None, verified_source: str=None):  # noqa: E501
+    def __init__(self, name: str=None, url: str=None, id: str=None, image: str=None, registry_url: str=None, image_name: str=None, descriptor_type: List[DescriptorType]=None, containerfile: bool=None, meta_version: str=None, verified: bool=None, verified_source: str=None, container_images: List[ContainerImage]=None):  # noqa: E501
         """ToolVersion - a model defined in Swagger
 
         :param name: The name of this ToolVersion.  # noqa: E501
@@ -52,7 +53,8 @@ class ToolVersion(Model):
             'containerfile': bool,
             'meta_version': str,
             'verified': bool,
-            'verified_source': str
+            'verified_source': str,
+            'container_images': List[ContainerImage]
         }
 
         self.attribute_map = {
@@ -66,7 +68,8 @@ class ToolVersion(Model):
             'containerfile': 'containerfile',
             'meta_version': 'meta_version',
             'verified': 'verified',
-            'verified_source': 'verified_source'
+            'verified_source': 'verified_source',
+            'container_images':'container_images'
         }
 
         self._name = name
@@ -80,6 +83,7 @@ class ToolVersion(Model):
         self._meta_version = meta_version
         self._verified = verified
         self._verified_source = verified_source
+        self._container_images = container_images
 
     @classmethod
     def from_dict(cls, dikt) -> 'ToolVersion':
@@ -348,3 +352,11 @@ class ToolVersion(Model):
         """
 
         self._verified_source = verified_source
+
+    @property
+    def container_images(self) -> List[ContainerImage]:
+        return self._container_images
+
+    @container_images.setter
+    def container_images(self, container_images: List[ContainerImage]):
+        self._container_images = container_images

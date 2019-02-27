@@ -59,7 +59,6 @@ class QuayIOReader:
         self.namespace = namespace
         self.containers_list = None
 
-
     def get_containers_list(self):
         """
         This method returns the list of small/short containers descriptions for

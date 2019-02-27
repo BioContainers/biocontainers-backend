@@ -252,6 +252,8 @@ class InsertContainers:
                     tool.license = entry['recipe'].get_license()
                 if entry['recipe'].get_tags() is not None:
                     tool.tool_tags = entry['recipe'].get_tags()
+                if entry['recipe'].get_additional_ids() is not None:
+                    tool.additional_identifiers = entry['recipe'].get_additional_ids()
                 tool.save()
                 logger.info("Updated tool description of -- " + tool_version_id)
 
@@ -284,6 +286,7 @@ class InsertContainers:
                     tool.save()
                     logger.info("Updated tool description of -- " + tool_version_id)
 
+            logger.info("The following tool has been analyzed -- " + tool_version_id)
 
 
 

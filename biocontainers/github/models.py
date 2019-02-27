@@ -1,4 +1,3 @@
-import configparser
 import logging
 import requests
 
@@ -70,14 +69,24 @@ class DockerRecipe:
             return self.attributes.labels['about.license']
         return None
 
+    def get_additional_ids(self):
+        ids = []
+        if 'extra.identifiers.biotools' in self.attributes.labels:
+            ids.append("biotools=" + self.attributes.labels['extra.identifiers.biotools'])
+            return ids
+
     def get_tags(self):
+        """
+        This function returns the different tags added to
+        :return:
+        """
         if 'about.tags' in self.attributes.labels:
             final_tags = []
             tags = self.attributes.labels['about.tags']
             all_tags = tags.split(",")
             for tag in all_tags:
                 tag_values = tag.split(":")
-                value = tag_values[len(tag_values)-1]
+                value = tag_values[len(tag_values) - 1]
                 if len(value) > 0:
                     final_tags.append(value.lower())
             if len(final_tags) > 0:
