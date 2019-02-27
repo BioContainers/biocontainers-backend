@@ -87,7 +87,8 @@ def transform_tool_version(mongo_tool_version: MongoToolVersion, mongo_tool_id: 
     tool_version.id = mongo_tool_version.id
     # Todo: We should not hard-coded this in the future. This should be dynamically pick
     tool_version.url = _PUBLIC_REGISTRY_URL + "tool/" + mongo_tool_id + "/version/" + tool_version.id
-    tool_version.name = tool_version.name
+    tool_version.name = mongo_tool_version.name
+    tool_version.meta_version = mongo_tool_version.version
     container_images = []
     for old_container_image in mongo_tool_version.image_containers:
         container_image = ContainerImage()
