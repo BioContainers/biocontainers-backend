@@ -172,7 +172,7 @@ paths:
         type: "integer"
         default: 1000
         format: "int32"
-      - name: "all_field_search"
+      - name: "all_fields_search"
         in: "query"
         description: "String to search all fields"
         required: false

@@ -120,11 +120,9 @@ class ToolVersionQuerySet(QuerySet):
 
 class ToolsResponse:
     tools = []
-    next_page = None
-    last_page = None
-    self_link = None
-    current_offset = None
-    current_limit = None
+    next_offset = None
+    last_page_offset = None
+
 
 class MongoTool(MongoModel):
     """
@@ -263,41 +261,25 @@ class MongoTool(MongoModel):
                   author=None, checker=None, offset=None, limit=None, is_all_field_search=False):
 
         filters = []
-        url_params = "?"
         if id is not None:
-            filters.append({"id": id})
-            url_params += ("id=" + id + "&")
+            filters.append({"id": {"$regex": id}})
         if alias is not None:
             filters.append({"aliases": {"$regex": alias}})
-            url_params += ("alias=" + alias + "&")
         if registry is not None:
             filters.append({"registries": {"$regex": registry}})
-            url_params += ("registry=" + registry + "&")
         if organization is not None:
-            filters.append({"organization": organization})
-            url_params += ("organization=" + organization + "&")
+            filters.append({"organization": {"$regex": organization}})
         if toolname is not None:
             filters.append({"name": {"$regex": toolname}})  # toolname : The name of the tool
-            url_params += ("toolname=" + toolname + "&")
         if description is not None:
             filters.append({"description": {"$regex": description}})
-            url_params += ("description=" + description + "&")
         if author is not None:
             filters.append({"authors": {"$regex": author}})
-            url_params += ("author=" + author + "&")
-        if checker is not None:  # TODO FIXME
-            # filters.append({"checker": checker})
-            url_params += ("checker=" + checker + "&")
+        # if checker is not None:  # TODO
 
         VERSIONS_STRING = "tool_versions"
         if name is not None:  # name : The name of the image i.e., tool_version
             filters.append({("%s.name" % VERSIONS_STRING): {"$regex": name}})
-            url_params += ("name=" + name + "&")
-
-        if is_all_field_search:
-            filters_query = {"$or": filters}
-        else:
-            filters_query = {"$and": filters}
 
         # Fetch tools along with the tool_versions in one query (similar to SQL join)
         lookup_condition = \
@@ -309,6 +291,11 @@ class MongoTool(MongoModel):
                     "as": ("%s" % VERSIONS_STRING)
                 }
             }
+
+        if is_all_field_search:
+            filters_query = {"$or": filters}
+        else:
+            filters_query = {"$and": filters}
 
         match_condition = {"$match": filters_query}
 
@@ -323,8 +310,7 @@ class MongoTool(MongoModel):
         tools = list(res)
         tools_len = len(tools)
         offset = int(offset)
-        if offset >= tools_len:  # TODO throw error or return empty set
-            print("invalid offset value")
+        if offset >= tools_len:  # empty list
             return None
 
         offset_tool = tools[offset]
@@ -343,26 +329,15 @@ class MongoTool(MongoModel):
         res = MongoTool.manager.exec_aggregate_query(lookup_condition, match_condition, sort_condition, limit_condition)
         tools = list(res)
 
-        url_params += ("limit=" + str(limit) + "&")
-
-        total_pages = math.ceil(tools_len/limit)
+        total_pages = math.ceil(tools_len / limit)
         last_page_offset = (total_pages - 1) * limit
-
-        current_page_url = url_params + "offset=" + str(offset)
-        last_page_url = url_params + "offset=" + str(last_page_offset)
-
         next_offset = offset + limit
-        next_page_url = None
-        if next_offset < tools_len:
-            next_page_url = url_params + "offset=" + str(next_offset)
 
         resp = ToolsResponse()
         resp.tools = tools
-        resp.next_page = next_page_url
-        resp.last_page = last_page_url
-        resp.self_link = current_page_url
-        resp.current_offset = offset
-        resp.current_limit = limit
+        resp.last_page_offset = last_page_offset
+        if next_offset < tools_len:
+            resp.next_offset = next_offset
 
         return resp
 

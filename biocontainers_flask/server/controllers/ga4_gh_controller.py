@@ -1,4 +1,5 @@
 from flask import request
+from werkzeug.urls import url_encode
 
 from biocontainers.common.models import MongoTool, _CONSTANT_TOOL_CLASSES
 from biocontainers_flask.server.controllers.utils import transform_mongo_tool, transform_dic_tool_class, \
@@ -37,7 +38,7 @@ def tool_classes_get():  # noqa: E501
 
 
 def tools_get(id=None, alias=None, registry=None, organization=None, name=None, toolname=None, description=None,
-              author=None, checker=None, offset=0, limit=1000, all_field_search=None):  # noqa: E501
+              author=None, checker=None, offset=0, limit=1000, all_fields_search=None):  # noqa: E501
     """List all tools
 
     This endpoint returns all tools available or a filtered subset using metadata query parameters.  # noqa: E501
@@ -67,28 +68,34 @@ def tools_get(id=None, alias=None, registry=None, organization=None, name=None, 
 
     :rtype: List[Tool]
     """
-    xxx = request.url
-    print(xxx)
 
     is_all_field_search = False
 
-    if all_field_search is not None:
-        id = alias = organization = name = toolname = description = author = all_field_search
+    if all_fields_search is not None:
+        id = alias = organization = name = toolname = description = author = all_fields_search
         is_all_field_search = True
 
     resp = tools_get_common(id, alias, registry, organization, name, toolname, description, author, checker, offset,
                             limit, is_all_field_search)
+
     if resp is None:
         return None
 
-    BASE_URL = "/tools"
-
     next_page = None
-    if resp.next_page is not None:
-        next_page = BASE_URL + resp.next_page
-    return resp.tools, 200, {'next_page': next_page, 'last_page': BASE_URL + resp.last_page,
-                             'self_link': BASE_URL + resp.self_link, 'current_offset': resp.current_offset,
-                             'current_limit': resp.current_limit}
+    if resp.next_offset is not None:
+        args_next_page = request.args.copy()
+        args_next_page['offset'] = resp.next_offset
+        args_next_page['limit'] = limit
+        next_page = '{}?{}'.format(request.base_url, url_encode(args_next_page))
+
+    args_last_page = request.args.copy()
+    args_last_page['offset'] = resp.last_page_offset
+    args_last_page['limit'] = limit
+    last_page = '{}?{}'.format(request.base_url, url_encode(args_last_page))
+
+    return resp.tools, 200, {'next_page': next_page, 'last_page': last_page,
+                             'self_link': request.url, 'current_offset': offset,
+                             'current_limit': limit}
 
 
 def tools_get_common(id=None, alias=None, registry=None, organization=None, name=None, toolname=None, description=None,
