@@ -41,7 +41,7 @@ class CondaRecipe:
 
     def get_version(self):
         if 'package' in self.attributes and 'version' in self.attributes['package']:
-            return self.attributes['package']['version']
+            return str(self.attributes['package']['version'])
         return None
 
     def get_name(self):
@@ -273,8 +273,6 @@ class GitHubCondaReader:
         self.conda_recipes = []
 
         for key in self.conda_github_files:
-            if len(self.conda_recipes) > 200:
-                break
             logger.info(key['path'])
             if self.github_config.use_api:
                 response = call_api(key['url'])

@@ -262,8 +262,11 @@ class InsertContainers:
         for entry in conda_recipes:
             logger.info("Annotating the recipe -- " + entry['name'])
             tool_version_id = None
-            if entry['recipe'].get_name() is not None and entry['recipe'].get_version() is not None and not entry['recipe'].get_name().contains("{") and not entry['recipe'].get_name().containes("|") :
-                tool_version_id = entry['recipe'].get_name()+ "-" + entry['recipe'].get_version()
+            if (entry['recipe'].get_name() is not None) and (entry['recipe'].get_version() is not None) \
+                    and ("{" not in entry['recipe'].get_name()) \
+                    and ("|" not in entry['recipe'].get_name()) and ("{" not in entry['recipe'].get_version()) \
+                    and ("|" not in entry['recipe'].get_version()):
+                tool_version_id = entry['recipe'].get_name() + "-" + entry['recipe'].get_version()
                 tool_id = entry['recipe'].get_name()
                 tool_version = MongoToolVersion.get_tool_version_by_id(tool_version_id)
                 tool = MongoTool.get_tool_by_id(tool_id)
