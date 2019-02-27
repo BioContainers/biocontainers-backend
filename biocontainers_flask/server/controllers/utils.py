@@ -2,7 +2,7 @@ from biocontainers.common.models import MongoToolVersion, MongoTool
 from biocontainers_flask.server.models import ToolClass, Tool, ToolVersion
 from biocontainers_flask.server.models.container_image import ContainerImage
 
-_PUBLIC_REGISTRY_URL = "http://biocontainers.pro/registry/"
+_PUBLIC_REGISTRY_URL = "http://api.biocontainers.pro/api/v2/"
 
 
 def transform_mongo_tool_class(mongo_tool_class):
@@ -40,7 +40,7 @@ def transform_mongo_tool_dict(mongo_tool):
     tool.verified = True
     tool.author = MongoTool.get_main_author_dict(mongo_tool["authors"])
     tool.toolname = mongo_tool["name"]
-    tool.url = _PUBLIC_REGISTRY_URL + "tool/" + tool.id
+    tool.url = _PUBLIC_REGISTRY_URL + "tools/" + tool.id
 
     # Set the Tool Class
     mongo_tool_class = MongoTool.get_main_tool_class_dict(mongo_tool["tool_classes"])
@@ -86,7 +86,7 @@ def transform_tool_version(mongo_tool_version: MongoToolVersion, mongo_tool_id: 
     tool_version = ToolVersion()
     tool_version.id = mongo_tool_version.id
     # Todo: We should not hard-coded this in the future. This should be dynamically pick
-    tool_version.url = _PUBLIC_REGISTRY_URL + "tool/" + mongo_tool_id + "/version/" + tool_version.id
+    tool_version.url = _PUBLIC_REGISTRY_URL + "tools/" + mongo_tool_id + "/versions/" + tool_version.id
     tool_version.name = mongo_tool_version.name
     tool_version.meta_version = mongo_tool_version.version
     container_images = []
@@ -114,6 +114,19 @@ def transform_tool_version_dict(mongo_tool_version, mongo_tool_id: str) -> ToolV
     tool_version = ToolVersion()
     tool_version.id = mongo_tool_version["id"]
     # Todo: We should not hard-coded this in the future. This should be dynamically pick
-    tool_version.url = _PUBLIC_REGISTRY_URL + "tool/" + mongo_tool_id + "/version/" + tool_version.id
+    tool_version.url = _PUBLIC_REGISTRY_URL + "tools/" + mongo_tool_id + "/versions/" + tool_version.id
+    tool_version.name = mongo_tool_version.name
+    tool_version.meta_version = mongo_tool_version.version
+    container_images = []
+    for old_container_image in mongo_tool_version.image_containers:
+        container_image = ContainerImage()
+        container_image.full_tag = old_container_image.full_tag
+        container_image.downloads = old_container_image.downloads
+        container_image.size = old_container_image.size
+        container_image.container_type = old_container_image.container_type
+        container_image.last_updated = old_container_image.last_updated
+
+        container_images.append(container_image)
+    tool_version.container_images = container_images
 
     return tool_version
