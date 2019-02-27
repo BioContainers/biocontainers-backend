@@ -1,3 +1,5 @@
+from flask import request
+
 from biocontainers.common.models import MongoTool, _CONSTANT_TOOL_CLASSES
 from biocontainers_flask.server.controllers.utils import transform_mongo_tool, transform_dic_tool_class, \
     transform_tool_version, transform_mongo_tool_dict
@@ -35,7 +37,7 @@ def tool_classes_get():  # noqa: E501
 
 
 def tools_get(id=None, alias=None, registry=None, organization=None, name=None, toolname=None, description=None,
-              author=None, checker=None, offset=0, limit=1000):  # noqa: E501
+              author=None, checker=None, offset=0, limit=1000, all_field_search=None):  # noqa: E501
     """List all tools
 
     This endpoint returns all tools available or a filtered subset using metadata query parameters.  # noqa: E501
@@ -65,8 +67,17 @@ def tools_get(id=None, alias=None, registry=None, organization=None, name=None, 
 
     :rtype: List[Tool]
     """
+    xxx = request.url
+    print(xxx)
+
+    is_all_field_search = False
+
+    if all_field_search is not None:
+        id = alias = organization = name = toolname = description = author = all_field_search
+        is_all_field_search = True
+
     resp = tools_get_common(id, alias, registry, organization, name, toolname, description, author, checker, offset,
-                            limit)
+                            limit, is_all_field_search)
     if resp is None:
         return None
 
@@ -81,10 +92,10 @@ def tools_get(id=None, alias=None, registry=None, organization=None, name=None, 
 
 
 def tools_get_common(id=None, alias=None, registry=None, organization=None, name=None, toolname=None, description=None,
-                     author=None, checker=None, offset=0, limit=1000):
+                     author=None, checker=None, offset=0, limit=1000, is_all_field_search=False):
     tools = []
     resp = MongoTool.get_tools(id, alias, registry, organization, name, toolname, description, author, checker, offset,
-                               limit)
+                               limit, is_all_field_search)
     if resp is None:
         return None
 

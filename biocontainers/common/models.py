@@ -260,7 +260,7 @@ class MongoTool(MongoModel):
 
     @staticmethod
     def get_tools(id=None, alias=None, registry=None, organization=None, name=None, toolname=None, description=None,
-                  author=None, checker=None, offset=None, limit=None):
+                  author=None, checker=None, offset=None, limit=None, is_all_field_search=False):
 
         filters = []
         url_params = "?"
@@ -289,7 +289,10 @@ class MongoTool(MongoModel):
             # filters.append({"checker": checker})
             url_params += ("checker=" + checker + "&")
 
-        filters_query = {"$and": filters}
+        if is_all_field_search:
+            filters_query = {"$or": filters}
+        else:
+            filters_query = {"$and": filters}
 
         sort_order = pymongo.DESCENDING  # get recently saved tool first
         if len(filters) > 0:
@@ -312,8 +315,13 @@ class MongoTool(MongoModel):
             url_params += ("name=" + name + "&")
 
         # for sort_order: pymongo.DESCENDING, condition = '$lte' otherwise '$gte'
-        filters.append({"_id": {'$lte': getattr(ids_list[offset], "_id")}})
-        filters_query = {"$and": filters}
+        # filters.append({"_id": {'$lte': getattr(ids_list[offset], "_id")}})
+
+        if is_all_field_search:
+            filters_query = {"$and": [{"_id": {'$lte': getattr(ids_list[offset], "_id")}}, {"$or": filters}]}
+        else:
+            filters.append({"_id": {'$lte': getattr(ids_list[offset], "_id")}})
+            filters_query = {"$and": filters}
 
         # Fetch tools along with the tool_versions in one query (similar to SQL join)
         lookup_condition = \
