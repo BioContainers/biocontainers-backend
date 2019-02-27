@@ -255,6 +255,34 @@ class InsertContainers:
                 tool.save()
                 logger.info("Updated tool description of -- " + tool_version_id)
 
+    @staticmethod
+    def annotate_conda_containers(conda_recipes):
+        for entry in conda_recipes:
+            logger.info("Annotating the recipe -- " + entry['name'])
+            tool_version_id = None
+            if entry['recipe'].get_name() is not None and entry['recipe'].get_version() is not None:
+                tool_version_id = entry['recipe'].get_name()+ "-" + entry['recipe'].get_version()
+                tool_id = entry['recipe'].get_name()
+                tool_version = MongoToolVersion.get_tool_version_by_id(tool_version_id)
+                tool = MongoTool.get_tool_by_id(tool_id)
+                if tool_version is not None:
+                    if entry["recipe"].get_description() is not None:
+                        tool_version.description = entry["recipe"].get_description()
+                    if entry['recipe'].get_home_url() is not None:
+                        tool_version.home_url = entry['recipe'].get_home_url()
+                    if entry['recipe'].get_license() is not None:
+                        tool_version.license = entry['recipe'].get_license()
+                    tool_version.save()
+                    logger.info("Updated tool version description of -- " + tool_version_id)
+                if tool is not None:
+                    if entry["recipe"].get_description() is not None:
+                        tool.description = entry["recipe"].get_description()
+                    if entry['recipe'].get_home_url() is not None:
+                        tool.home_url = entry['recipe'].get_home_url()
+                    if entry['recipe'].get_license() is not None:
+                        tool.license = entry['recipe'].get_license()
+                    tool.save()
+                    logger.info("Updated tool description of -- " + tool_version_id)
 
 
 

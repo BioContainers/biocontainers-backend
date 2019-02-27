@@ -12,6 +12,8 @@ from yaml.scanner import ScannerError
 from dockerfile_parse import DockerfileParser
 import tempfile
 
+from biocontainers.common.utils import call_api
+
 logger = logging.getLogger('biocontainers.github.models')
 logging.basicConfig(level=logging.INFO)
 
@@ -22,6 +24,31 @@ class CondaRecipe:
 
     def description(self):
         return self.attributes['about']['summary']
+
+    def get_description(self):
+        if 'about' in self.attributes:
+            return self.attributes['about']['summary']
+        return None
+
+    def get_home_url(self):
+        if 'about' in self.attributes:
+            return self.attributes['about']['home']
+        return None
+
+    def get_license(self):
+        if 'about' in self.attributes:
+            return self.attributes['about']['license']
+        return None
+
+    def get_version(self):
+        if 'package' in self.attributes and 'version' in self.attributes['package']:
+            return self.attributes['package']['version']
+        return None
+
+    def get_name(self):
+        if 'package' in self.attributes and 'name' in self.attributes['package']:
+            return self.attributes['package']['name']
+        return None
 
 
 class DockerRecipe:
@@ -237,9 +264,11 @@ class GitHubCondaReader:
         self.conda_recipes = []
 
         for key in self.conda_github_files:
+            # if len(self.conda_recipes) > 10:
+            #     break
             logger.info(key['path'])
             if self.github_config.use_api:
-                response = requests.get(key['url'])
+                response = call_api(key['url'])
                 if response.status_code == 200:
                     json_data = json.loads(response.content.decode('utf-8'))
                     hash_content = json_data['content']
@@ -253,9 +282,9 @@ class GitHubCondaReader:
                     except (ScannerError, ConstructorError, TypeError, AttributeError) as error:
                         logger.error("Error reading conda definition of tool -- " + key['path'] + " " + error)
             else:
-                string_url = self.github_config.repository_readable_url.replace("%%recipe_software_tool_name%%",
+                string_url = self.github_config.repository_readable_url.replace("%recipe_software_tool_name%",
                                                                                 key['path'])
-                response = requests.get(string_url)
+                response = call_api(string_url)
                 if response.status_code == 200:
                     try:
                         json_data = response.content.decode('utf-8')

@@ -67,6 +67,8 @@ def annotate_conda_recipes(config, config_profile):
                                       config[config_profile]['GITHUB_CONDA_RECIPES_READABLE'])
     github_reader = GitHubCondaReader(github_conf)
     conda_recipes = github_reader.read_conda_recipes()
+    mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
+    mongo_helper.annotate_conda_containers(conda_recipes)
 
 
 def annotate_docker_recipes(config, config_profile):
