@@ -111,11 +111,13 @@ class ToolQuerySet(QuerySet):
 class ToolVersionQuerySet(QuerySet):
 
     def mongo_all_tool_versions(self):
-        # self._return_raw = False
         return list(self.all())
 
     def exec_update_query(self, lookup_condition, update, **kwargs):
         return self.raw(lookup_condition).update(update, **kwargs)
+
+    def get_tool_version_by_id(self, tool_version_id):
+        return self.raw({"id": tool_version_id})
 
 
 class ToolsResponse:
@@ -149,6 +151,7 @@ class MongoTool(MongoModel):
     registries = fields.ListField(fields.CharField(max_length=200))
     aliases = fields.ListField(fields.CharField())
     checker = fields.BooleanField()
+    tool_tags = fields.ListField(fields.CharField())
 
     manager = Manager.from_queryset(ToolQuerySet)()
 
@@ -353,6 +356,7 @@ class MongoToolVersion(MongoModel):
     contains = fields.ListField(fields.CharField(max_length=400))
     tool_versions = fields.ListField(fields.CharField(max_length=400))
     aliases = fields.ListField(fields.CharField())
+    container_recipe = fields.CharField(max_length=500)
 
     # Specific of Tool Version
     ref_tool = fields.ReferenceField(MongoTool)
@@ -368,6 +372,16 @@ class MongoToolVersion(MongoModel):
     @staticmethod
     def get_all_tool_versions():
         return MongoToolVersion.manager_versions.mongo_all_tool_versions()
+
+    @staticmethod
+    def get_tool_version_by_id(tool_version_id):
+        tools = MongoToolVersion.manager_versions.get_tool_version_by_id(tool_version_id)
+        tools_list = list(tools)
+        if tools_list is not None and len(tools_list) > 0:
+            return tools_list[0]
+        return None
+
+
 
     def add_image_container(self, image_container):
         """

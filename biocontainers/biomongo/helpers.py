@@ -223,3 +223,40 @@ class InsertContainers:
                                                                       "aliases": aliases
                                                                       }
                                                                  })
+
+    @staticmethod
+    def annotate_docker_containers(docker_recipes):
+        for entry in docker_recipes:
+            logger.info("Annotating the recipe -- " + entry['name'])
+            name = entry['name']
+            name_parts = name.split("/")
+            tool_version_id = name_parts[0] + "-v" + name_parts[1]
+            tool_id = name_parts[0]
+            tool_version = MongoToolVersion.get_tool_version_by_id(tool_version_id)
+            tool = MongoTool.get_tool_by_id(tool_id)
+            if tool_version is not None:
+                if entry["recipe"].get_description() is not None:
+                    tool_version.description = entry["recipe"].get_description()
+                if entry['recipe'].get_home_url() is not None:
+                    tool_version.home_url = entry['recipe'].get_home_url()
+                if entry['recipe'].get_license() is not None:
+                    tool_version.license = entry['recipe'].get_license()
+                tool_version.save()
+                logger.info("Updated tool version description of -- " + tool_version_id)
+            if tool is not None:
+                if entry["recipe"].get_description() is not None:
+                    tool.description = entry["recipe"].get_description()
+                if entry['recipe'].get_home_url() is not None:
+                    tool.home_url = entry['recipe'].get_home_url()
+                if entry['recipe'].get_license() is not None:
+                    tool.license = entry['recipe'].get_license()
+                if entry['recipe'].get_tags() is not None:
+                    tool.tool_tags = entry['recipe'].get_tags()
+                tool.save()
+                logger.info("Updated tool description of -- " + tool_version_id)
+
+
+
+
+
+

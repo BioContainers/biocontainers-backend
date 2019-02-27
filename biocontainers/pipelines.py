@@ -70,10 +70,12 @@ def annotate_conda_recipes(config, config_profile):
 
 
 def annotate_docker_recipes(config, config_profile):
-    github_conf = GitHubConfiguration(config[config_profile]['GITHUB_API_CONDA'],
-                                      config[config_profile]['GITHUB_CONDA_RECIPES_READABLE'])
+    github_conf = GitHubConfiguration(config[config_profile]['GITHUB_API_DOCKER'],
+                                      config[config_profile]['GITHUG_DOCKER_RECIPES_READABLE'])
     github_reader = GitHubDockerReader(github_conf)
-    conda_recipes = github_reader.read_docker_recipes()
+    docker_recipes = github_reader.read_docker_recipes()
+    mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
+    mongo_helper.annotate_docker_containers(docker_recipes)
 
 def annotate_multi_package_containers(config, config_profile):
     github_conf = GitHubConfiguration(config[config_profile]['GITHUB_API_MULLED_FILES'],
@@ -94,6 +96,8 @@ def get_database_uri(param):
 @click.command()
 @click.option('--import-quayio', '-q', help='Import Quay.io Recipes', is_flag=True)
 @click.option('--import-docker', '-k', help="Import Docker Recipes", is_flag=True)
+@click.option('--annotate-docker','-ad', help='Annotate Docker Recipes', is_flag=True)
+@click.option('--annotate-quayio','-aq', help='Annotate Conda Recipes', is_flag=True)
 @click.option('--config-file', '-c', type=click.Path(), default='configuration.ini')
 @click.option('--config-profile', '-a', help="This option allow to select a config profile", default='PRODUCTION')
 @click.option('-db', '--db-name', help="Name of the database", envvar='BIOCONT_DB_NAME')
@@ -103,7 +107,7 @@ def get_database_uri(param):
 @click.option('-pw', '--db-password', help='Database password', envvar='MONGODB_PASS')
 @click.option('-p', '--db-port', help='Database port', envvar='MONGO_PORT', default='27017')
 @click.pass_context
-def main(ctx, import_quayio, import_docker, config_file, config_profile, db_name, db_host, db_auth_database, db_user,
+def main(ctx, import_quayio, import_docker, annotate_docker, annotate_quayio, config_file, config_profile, db_name, db_host, db_auth_database, db_user,
          db_password, db_port):
     config = get_config(config_file)
     if config[config_profile]['VERBOSE'] == "True":
@@ -126,6 +130,12 @@ def main(ctx, import_quayio, import_docker, config_file, config_profile, db_name
 
     if import_docker is not False:
         import_dockerhub_containers(config, config_profile)
+
+    if annotate_docker is not False:
+        annotate_docker_recipes(config, config_profile)
+
+    if annotate_quayio is not False:
+        annotate_conda_recipes(config, config_profile)
 
     annotate_multi_package_containers(config, config_profile)
 
