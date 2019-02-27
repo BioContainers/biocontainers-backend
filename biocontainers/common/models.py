@@ -289,38 +289,14 @@ class MongoTool(MongoModel):
             # filters.append({"checker": checker})
             url_params += ("checker=" + checker + "&")
 
-        if is_all_field_search:
-            filters_query = {"$or": filters}
-        else:
-            filters_query = {"$and": filters}
-
-        sort_order = pymongo.DESCENDING  # get recently saved tool first
-        if len(filters) > 0:
-            ids = MongoTool.manager.get_ids(filters_query, sort_order)
-        else:
-            ids = MongoTool.manager.get_ids([], sort_order)
-
-        ids_list = list(ids)
-        ids_len = len(ids_list)
-
-        offset = int(offset)
-        if offset >= ids_len:  # TODO throw error or return empty set
-            print("invalid offset value")
-            return None
-
         VERSIONS_STRING = "tool_versions"
-
         if name is not None:  # name : The name of the image i.e., tool_version
             filters.append({("%s.name" % VERSIONS_STRING): {"$regex": name}})
             url_params += ("name=" + name + "&")
 
-        # for sort_order: pymongo.DESCENDING, condition = '$lte' otherwise '$gte'
-        # filters.append({"_id": {'$lte': getattr(ids_list[offset], "_id")}})
-
         if is_all_field_search:
-            filters_query = {"$and": [{"_id": {'$lte': getattr(ids_list[offset], "_id")}}, {"$or": filters}]}
+            filters_query = {"$or": filters}
         else:
-            filters.append({"_id": {'$lte': getattr(ids_list[offset], "_id")}})
             filters_query = {"$and": filters}
 
         # Fetch tools along with the tool_versions in one query (similar to SQL join)
@@ -334,16 +310,42 @@ class MongoTool(MongoModel):
                 }
             }
 
+        match_condition = {"$match": filters_query}
+
+        sort_order = pymongo.DESCENDING  # get recently saved tool first
         sort_condition = {'$sort': {'_id': sort_order}}
-        limit_condition = {'$limit': limit}
+
+        if len(filters) > 0:
+            res = MongoTool.manager.exec_aggregate_query(lookup_condition, match_condition, sort_condition)
+        else:
+            res = MongoTool.manager.exec_aggregate_query(lookup_condition, sort_condition)
+
+        tools = list(res)
+        tools_len = len(tools)
+        offset = int(offset)
+        if offset >= tools_len:  # TODO throw error or return empty set
+            print("invalid offset value")
+            return None
+
+        offset_tool = tools[offset]
+
+        # for sort_order: pymongo.DESCENDING, condition = '$lte' otherwise '$gte'
+        sort_filter = {'$lte': offset_tool['_id']}
+
+        if is_all_field_search:
+            filters_query = {"$and": [{"_id": sort_filter}, {"$or": filters}]}
+        else:
+            filters.append({"_id": sort_filter})
+            filters_query = {"$and": filters}
 
         match_condition = {"$match": filters_query}
+        limit_condition = {'$limit': limit}
         res = MongoTool.manager.exec_aggregate_query(lookup_condition, match_condition, sort_condition, limit_condition)
         tools = list(res)
 
         url_params += ("limit=" + str(limit) + "&")
 
-        total_pages = math.ceil(ids_len/limit)
+        total_pages = math.ceil(tools_len/limit)
         last_page_offset = (total_pages - 1) * limit
 
         current_page_url = url_params + "offset=" + str(offset)
@@ -351,7 +353,7 @@ class MongoTool(MongoModel):
 
         next_offset = offset + limit
         next_page_url = None
-        if next_offset < ids_len:
+        if next_offset < tools_len:
             next_page_url = url_params + "offset=" + str(next_offset)
 
         resp = ToolsResponse()
