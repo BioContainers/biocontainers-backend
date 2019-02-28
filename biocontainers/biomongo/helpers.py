@@ -16,6 +16,8 @@ BICONDA_USER = "BioConda Core Team <https://github.com/bioconda/bioconda-recipes
 
 TOOL_VERSION_SPLITTER = '-'
 
+NOT_AVAILABLE = "Not available"
+
 
 class InsertContainers:
     def __init__(self, connect_url):
@@ -241,6 +243,8 @@ class InsertContainers:
                     tool_version.home_url = entry['recipe'].get_home_url()
                 if entry['recipe'].get_license() is not None:
                     tool_version.license = entry['recipe'].get_license()
+                else:
+                    tool_version.license = NOT_AVAILABLE
                 tool_version.save()
                 logger.info("Updated tool version description of -- " + tool_version_id)
             if tool is not None:
@@ -250,6 +254,8 @@ class InsertContainers:
                     tool.home_url = entry['recipe'].get_home_url()
                 if entry['recipe'].get_license() is not None:
                     tool.license = entry['recipe'].get_license()
+                else:
+                    tool.license = NOT_AVAILABLE
                 if entry['recipe'].get_tags() is not None:
                     tool.tool_tags = entry['recipe'].get_tags()
                 if entry['recipe'].get_additional_ids() is not None:
@@ -277,6 +283,8 @@ class InsertContainers:
                         tool_version.home_url = entry['recipe'].get_home_url()
                     if entry['recipe'].get_license() is not None:
                         tool_version.license = entry['recipe'].get_license()
+                    else:
+                        tool_version.license = NOT_AVAILABLE
                     tool_version.save()
                     logger.info("Updated tool version description of -- " + tool_version_id)
                 if tool is not None:
@@ -286,6 +294,9 @@ class InsertContainers:
                         tool.home_url = entry['recipe'].get_home_url()
                     if entry['recipe'].get_license() is not None:
                         tool.license = entry['recipe'].get_license()
+                    else:
+                        tool.license = NOT_AVAILABLE
+
                     tool.save()
                     logger.info("Updated tool description of -- " + tool_version_id)
 
