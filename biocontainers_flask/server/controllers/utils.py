@@ -36,6 +36,8 @@ def transform_mongo_tool_dict(mongo_tool):
     tool.id = mongo_tool["id"]
     tool.description = mongo_tool["description"]
     tool.organization = mongo_tool["organization"]
+    if 'license' in mongo_tool:
+        tool.license = mongo_tool['license']
     # By default all our tools will be declare as verified
     tool.verified = True
     tool.author = MongoTool.get_main_author_dict(mongo_tool["authors"])
@@ -61,6 +63,7 @@ def transform_mongo_tool(mongo_tool, mongo_tool_versions):
     # By default all our tools will be declare as verified
     tool.verified = True
     tool.author = mongo_tool.get_main_author()
+    tool.license = mongo_tool.license
     tool.toolname = mongo_tool.name
     tool.url = _PUBLIC_REGISTRY_URL + "tool/" + tool.id
 
@@ -97,7 +100,6 @@ def transform_tool_version(mongo_tool_version: MongoToolVersion, mongo_tool_id: 
         container_image.size = old_container_image.size
         container_image.container_type = old_container_image.container_type
         container_image.last_updated = old_container_image.last_updated
-
         container_images.append(container_image)
     tool_version.container_images = container_images
 
@@ -115,16 +117,21 @@ def transform_tool_version_dict(mongo_tool_version, mongo_tool_id: str) -> ToolV
     tool_version.id = mongo_tool_version["id"]
     # Todo: We should not hard-coded this in the future. This should be dynamically pick
     tool_version.url = _PUBLIC_REGISTRY_URL + "tools/" + mongo_tool_id + "/versions/" + tool_version.id
-    tool_version.name = mongo_tool_version.name
-    tool_version.meta_version = mongo_tool_version.version
+    tool_version.name = mongo_tool_version['name']
+    tool_version.meta_version = mongo_tool_version['version']
     container_images = []
-    for old_container_image in mongo_tool_version.image_containers:
+    for old_container_image in mongo_tool_version['image_containers']:
         container_image = ContainerImage()
-        container_image.full_tag = old_container_image.full_tag
-        container_image.downloads = old_container_image.downloads
-        container_image.size = old_container_image.size
-        container_image.container_type = old_container_image.container_type
-        container_image.last_updated = old_container_image.last_updated
+        if 'full_tag' in old_container_image:
+            container_image.full_tag = old_container_image['full_tag']
+        if 'downloads' in old_container_image:
+            container_image.downloads = old_container_image['downloads']
+        if 'size' in old_container_image:
+            container_image.size = old_container_image['size']
+        if 'container_type' in old_container_image:
+            container_image.container_type = old_container_image['container_type']
+        if 'last_updated' in old_container_image:
+            container_image.last_updated = old_container_image['last_updated']
 
         container_images.append(container_image)
     tool_version.container_images = container_images

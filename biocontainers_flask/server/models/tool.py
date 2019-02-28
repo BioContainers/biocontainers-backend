@@ -16,7 +16,7 @@ class Tool(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, url: str=None, id: str=None, aliases: List[str]=None, organization: str=None, toolname: str=None, toolclass: ToolClass=None, description: str=None, author: str=None, meta_version: str=None, contains: List[str]=None, has_checker: bool=None, checker_url: str=None, verified: bool=None, verified_source: str=None, signed: bool=None, versions: List[ToolVersion]=None):  # noqa: E501
+    def __init__(self, url: str=None, id: str=None, aliases: List[str]=None, organization: str=None, toolname: str=None, toolclass: ToolClass=None, description: str=None, author: str=None, meta_version: str=None, contains: List[str]=None, has_checker: bool=None, checker_url: str=None, verified: bool=None, verified_source: str=None, signed: bool=None, versions: List[ToolVersion]=None, license: str=None):  # noqa: E501
         """Tool - a model defined in Swagger
 
         :param url: The url of this Tool.  # noqa: E501
@@ -68,7 +68,8 @@ class Tool(Model):
             'verified': bool,
             'verified_source': str,
             'signed': bool,
-            'versions': List[ToolVersion]
+            'versions': List[ToolVersion],
+            'license' : str
         }
 
         self.attribute_map = {
@@ -87,7 +88,8 @@ class Tool(Model):
             'verified': 'verified',
             'verified_source': 'verified_source',
             'signed': 'signed',
-            'versions': 'versions'
+            'versions': 'versions',
+            'license':'license'
         }
 
         self._url = url
@@ -106,6 +108,7 @@ class Tool(Model):
         self._verified_source = verified_source
         self._signed = signed
         self._versions = versions
+        self._license = license
 
     @classmethod
     def from_dict(cls, dikt) -> 'Tool':
@@ -495,3 +498,18 @@ class Tool(Model):
             raise ValueError("Invalid value for `versions`, must not be `None`")  # noqa: E501
 
         self._versions = versions
+
+    @property
+    def license(self) -> str:
+        """Gets the versions of this Tool.
+
+        A list of versions for this tool  # noqa: E501
+
+        :return: The versions of this Tool.
+        :rtype: List[ToolVersion]
+        """
+        return self._license
+
+    @license.setter
+    def license(self, license: str):
+        self._license = license
