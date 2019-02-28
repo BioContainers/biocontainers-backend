@@ -115,16 +115,16 @@ def transform_tool_version_dict(mongo_tool_version, mongo_tool_id: str) -> ToolV
     tool_version.id = mongo_tool_version["id"]
     # Todo: We should not hard-coded this in the future. This should be dynamically pick
     tool_version.url = _PUBLIC_REGISTRY_URL + "tools/" + mongo_tool_id + "/versions/" + tool_version.id
-    tool_version.name = mongo_tool_version.name
-    tool_version.meta_version = mongo_tool_version.version
+    tool_version.name = mongo_tool_version['name']
+    tool_version.meta_version = mongo_tool_version['version']
     container_images = []
-    for old_container_image in mongo_tool_version.image_containers:
+    for old_container_image in mongo_tool_version['image_containers']:
         container_image = ContainerImage()
-        container_image.full_tag = old_container_image.full_tag
-        container_image.downloads = old_container_image.downloads
-        container_image.size = old_container_image.size
-        container_image.container_type = old_container_image.container_type
-        container_image.last_updated = old_container_image.last_updated
+        container_image.full_tag = old_container_image['full_tag']
+        container_image.downloads = old_container_image['downloads']
+        container_image.size = old_container_image['size']
+        container_image.container_type = old_container_image['container_type']
+        container_image.last_updated = old_container_image['last_updated']
 
         container_images.append(container_image)
     tool_version.container_images = container_images
