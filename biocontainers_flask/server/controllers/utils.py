@@ -132,8 +132,8 @@ def transform_tool_version_dict(mongo_tool_version, mongo_tool_id: str) -> ToolV
             container_image.container_type = old_container_image['container_type']
         if 'last_updated' in old_container_image:
             container_image.last_updated = old_container_image['last_updated']
-
         container_images.append(container_image)
+
     tool_version.container_images = container_images
 
     return tool_version
