@@ -286,8 +286,10 @@ class InsertContainers:
                     and ("{" not in entry['recipe'].get_name()) \
                     and ("|" not in entry['recipe'].get_name()) and ("{" not in entry['recipe'].get_version()) \
                     and ("|" not in entry['recipe'].get_version()):
-                tool_version_id = entry['recipe'].get_name() + "-" + entry['recipe'].get_version()
-                tool_id = entry['recipe'].get_name()
+                tool_version_id = (entry['recipe'].get_name() + "-" + entry['recipe'].get_version()).lower()
+                tool_id = entry['recipe'].get_name().lower()
+                if 'BIOCONDUCTOR-GARS'.lower() in tool_version_id:
+                     logger.info(tool_version_id)
                 tool_version = MongoToolVersion.get_tool_version_by_id(tool_version_id)
                 tool = MongoTool.get_tool_by_id(tool_id)
                 if tool_version is not None:
