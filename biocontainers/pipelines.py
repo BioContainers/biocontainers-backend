@@ -138,8 +138,8 @@ def main(ctx, import_quayio, import_docker, annotate_docker, annotate_quayio, co
     if import_docker is not False:
         import_dockerhub_containers(config, config_profile)
 
-    if annotate_docker is not False:
-        annotate_docker_recipes(config, config_profile)
+    if annotate_quayio is not False:
+        annotate_conda_recipes(config, config_profile)
 
     if annotate_quayio is not False:
         annotate_conda_recipes(config, config_profile)
