@@ -4,7 +4,9 @@ import requests
 import base64
 import json
 
+from jinja2 import Environment
 from ruamel.yaml import YAML
+
 from yaml.constructor import ConstructorError
 from yaml.scanner import ScannerError
 
@@ -12,6 +14,7 @@ from dockerfile_parse import DockerfileParser
 import tempfile
 
 from biocontainers.common.utils import call_api
+from pygit2 import init_repository, clone_repository
 
 logger = logging.getLogger('biocontainers.github.models')
 logging.basicConfig(level=logging.INFO)
@@ -206,9 +209,7 @@ class GitHubCondaReader:
         This static method return a yml reader for jinja2 templates
         :return:
         """
-        yaml = YAML(typ='jinja2')
-        yaml.allow_duplicate_keys = True
-        yaml.explicit_start = True
+        yaml = YAML(typ='safe')
         return yaml
 
     def get_list_recipes(self):
@@ -245,6 +246,7 @@ class GitHubCondaReader:
                         content = base64.b64decode(hash_content).decode("utf-8")
                         try:
                             yaml_content = yaml.load(content)
+
                             recipe = CondaRecipe(yaml_content)
                         except (ScannerError, ConstructorError, TypeError, AttributeError) as error:
                             logger.error("Error reading conda definition of tool -- " + name + " " + error)
@@ -274,6 +276,8 @@ class GitHubCondaReader:
 
         for key in self.conda_github_files:
             logger.info(key['path'])
+            if len(self.conda_recipes) > 50:
+                continue
             if self.github_config.use_api:
                 response = call_api(key['url'])
                 if response.status_code == 200:
@@ -299,7 +303,7 @@ class GitHubCondaReader:
                         json_data = response.content.decode('latin-1')
                         json_data = json_data.decode('utf-8')
                     try:
-                        yaml_content = yaml.load(json_data)
+                        yaml_content = yaml.load(Environment().from_string(json_data).render())
                         recipe = CondaRecipe(yaml_content)
                         entry = {'name': key['path'], 'recipe': recipe}
                         self.conda_recipes.append(entry)
@@ -357,3 +361,20 @@ class GitHubMulledReader:
                 self.mulled_entries.append(MulledEntry(file_name, json_data))
 
         return self.mulled_entries
+
+# class LocalGitReader:
+#
+#     def __init__(self, repo_url, local_folder):
+#         self._repo_url = repo_url
+#         self._local_folder = local_folder
+#
+#     def clone_url(self):
+#         logger.info("Cloning the following repo -- " + self._repo_url)
+#         repo = clone_repository(self._repo_url, self._local_folder)
+#         logger.info("Repo has been clone -- " + self._repo_url)
+#
+#
+#
+# if __name__ == "__main__":
+#     local_git = LocalGitReader("https://github.com/bioconda/bioconda-recipes", "resources-code/")
+#     local_git.clone_url()

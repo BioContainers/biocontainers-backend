@@ -42,6 +42,7 @@ class InsertContainers:
 
         for container in quayio_containers:
             # The version is read from the container tag.
+            version_list = []
             for key, val in container.tags().items():
 
                 # First insert Tool version containers. For that we need to parse first the version of the tool. Version is also handle as defined by
@@ -65,16 +66,29 @@ class InsertContainers:
                 else:
                     mongo_tool_version = tool_versions_dic[tool_version_id]
 
-                ## Get the tag information (Container image) and add to the ToolVersion
+                ## Add only one conda package for each version
+                if key not in version_list:
+                    container_image = ContainerImage()
+                    container_image.tag = "conda:" + key
+                    container_image.full_tag = container.name() + "==" + key
+                    container_image.container_type = 'CONDA'
+                    datetime_object = NOT_AVAILABLE
+                    container_image.last_updated = datetime_object
+                    container_image.size = 0
+                    container_image.downloads = 0
+                    mongo_tool_version.add_image_container(container_image)
+                    version_list.append(key)
+
+                ## Add container
                 container_image = ContainerImage()
                 container_image.tag = key
                 container_image.full_tag = QUAYIO_DOMAIN + container.name() + ":" + key
-
                 container_image.container_type = 'DOCKER'
                 datetime_object = datetime.datetime.strptime(val['last_modified'][0:-15], '%a, %d %b %Y')
                 container_image.last_updated = datetime_object
                 container_image.size = int(int(val['size']) / 1000000)
-                mongo_tool_version.add_image_container(container_image)
+                container_image.downloads = 0
+
                 tool_versions_dic[tool_version_id] = mongo_tool_version
 
                 # Insert the corresponding tool
