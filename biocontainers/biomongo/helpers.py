@@ -252,7 +252,7 @@ class InsertContainers:
             tool = MongoTool.get_tool_by_id(tool_id)
             if tool_version is not None:
                 if entry["recipe"].get_description() is not None:
-                    tool_version.description = entry["recipe"].get_description()
+                    tool_version.description = entry["recipe"].get_description().capitalize()
                 if entry['recipe'].get_home_url() is not None:
                     tool_version.home_url = entry['recipe'].get_home_url()
                 if entry['recipe'].get_license() is not None:
@@ -263,7 +263,7 @@ class InsertContainers:
                 logger.info("Updated tool version description of -- " + tool_version_id)
             if tool is not None:
                 if entry["recipe"].get_description() is not None:
-                    tool.description = entry["recipe"].get_description()
+                    tool.description = entry["recipe"].get_description().capitalize()
                 if entry['recipe'].get_home_url() is not None:
                     tool.home_url = entry['recipe'].get_home_url()
                 if entry['recipe'].get_license() is not None:
@@ -292,10 +292,10 @@ class InsertContainers:
                 tool = MongoTool.get_tool_by_id(tool_id)
                 if tool_version is not None:
                     if entry["recipe"].get_description() is not None:
-                        tool_version.description = entry["recipe"].get_description()
+                        tool_version.description = entry["recipe"].get_description().capitalize()
                     if entry['recipe'].get_home_url() is not None:
                         tool_version.home_url = entry['recipe'].get_home_url()
-                    if entry['recipe'].get_license() is not None:
+                    if entry['recipe'].get_license() is not None and len(entry['recipe'].get_license())>0:
                         tool_version.license = entry['recipe'].get_license()
                     else:
                         tool_version.license = NOT_AVAILABLE
@@ -303,10 +303,10 @@ class InsertContainers:
                     logger.info("Updated tool version description of -- " + tool_version_id)
                 if tool is not None:
                     if entry["recipe"].get_description() is not None:
-                        tool.description = entry["recipe"].get_description()
+                        tool.description = entry["recipe"].get_description().capitalize()
                     if entry['recipe'].get_home_url() is not None:
                         tool.home_url = entry['recipe'].get_home_url()
-                    if entry['recipe'].get_license() is not None:
+                    if entry['recipe'].get_license() is not None and bool(entry['recipe'].get_license()):
                         tool.license = entry['recipe'].get_license()
                     else:
                         tool.license = NOT_AVAILABLE

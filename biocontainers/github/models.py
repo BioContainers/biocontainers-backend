@@ -1,4 +1,9 @@
 import logging
+import os
+import shutil
+import subprocess
+import sys
+
 import requests
 
 import base64
@@ -14,7 +19,6 @@ from dockerfile_parse import DockerfileParser
 import tempfile
 
 from biocontainers.common.utils import call_api
-from pygit2 import init_repository, clone_repository
 
 logger = logging.getLogger('biocontainers.github.models')
 logging.basicConfig(level=logging.INFO)
@@ -28,18 +32,18 @@ class CondaRecipe:
         return self.attributes['about']['summary']
 
     def get_description(self):
-        if 'about' in self.attributes:
+        if 'about' in self.attributes and 'summary' in self.attributes['about']:
             return self.attributes['about']['summary']
         return None
 
     def get_home_url(self):
-        if 'about' in self.attributes:
+        if 'about' in self.attributes and 'home' in self.attributes['about']:
             return self.attributes['about']['home']
         return None
 
     def get_license(self):
-        if 'about' in self.attributes:
-            return self.attributes['about']['license']
+        if 'about' in self.attributes and 'license' in self.attributes['about'] and self.attributes['about']['license'] is not None:
+            return (self.attributes['about']['license']).strip()
         return None
 
     def get_version(self):
@@ -362,19 +366,82 @@ class GitHubMulledReader:
 
         return self.mulled_entries
 
-# class LocalGitReader:
-#
-#     def __init__(self, repo_url, local_folder):
-#         self._repo_url = repo_url
-#         self._local_folder = local_folder
-#
-#     def clone_url(self):
-#         logger.info("Cloning the following repo -- " + self._repo_url)
-#         repo = clone_repository(self._repo_url, self._local_folder)
-#         logger.info("Repo has been clone -- " + self._repo_url)
-#
-#
-#
+
+class LocalGitReader:
+
+    def __init__(self, repo_url, local_folder):
+        self._repo_url = repo_url
+        self._absolute_local_folder = local_folder
+        self._conda_recipes = []
+        self._conda_github_files = []
+
+    def clone_url(self):
+        logger.info("Cloning the following repo -- " + self._repo_url)
+        if os.path.exists(self._absolute_local_folder):
+            shutil.rmtree(self._absolute_local_folder, ignore_errors=True)
+        # repo = clone_repository(self._repo_url, self._local_folder)
+        pr = subprocess.Popen(['git', 'clone', '--depth=1', str(self._repo_url), self._absolute_local_folder],
+                              stdout=subprocess.PIPE)
+        for line in pr.stdout:
+            logger.info(line)
+        logger.info("Repo has been clone -- " + self._repo_url)
+
+    @staticmethod
+    def init_yaml():
+        """
+        This static method return a yml reader for jinja2 templates
+        :return:
+        """
+        yaml = YAML(typ='safe')
+        return yaml
+
+    @staticmethod
+    def get_list_files(dir_name):
+        list_of_files = os.listdir(dir_name)
+        all_files = list()
+        for entry in list_of_files:
+            full_path = os.path.join(dir_name, entry)
+            if os.path.isdir(full_path):
+                all_files = all_files + LocalGitReader.get_list_files(full_path)
+            else:
+                all_files.append(full_path)
+
+        return all_files
+
+    def get_list_recipes(self):
+        self._conda_github_files = []
+        all_files = LocalGitReader.get_list_files(self._absolute_local_folder + "/recipes/")
+        for key in all_files:
+            if key.endswith('meta.yaml'):
+                self._conda_github_files.append(key)
+        return self._conda_github_files
+
+    def read_conda_recipes(self):
+        """
+        This method allow to retrieve the information of each recipe in a list self.conda_recipes
+        :return:
+        """
+        if not self._conda_github_files:
+            self._conda_github_files = self.get_list_recipes()
+
+        yaml = self.init_yaml()
+        self._conda_recipes = []
+
+        for key in self._conda_github_files:
+            logger.info(key)
+            try:
+                with open(key, 'r') as file:
+                    data = file.read()
+                yaml_content = yaml.load(Environment().from_string(data).render())
+                recipe = CondaRecipe(yaml_content)
+                entry = {'name': key, 'recipe': recipe}
+                self._conda_recipes.append(entry)
+            except:
+                logger.error("Error reading conda definition of tool -- " + key)
+
+        return self._conda_recipes
+
 # if __name__ == "__main__":
-#     local_git = LocalGitReader("https://github.com/bioconda/bioconda-recipes", "resources-code/")
+#     local_git = LocalGitReader("git@github.com:bioconda/bioconda-recipes.git", "/tmp/bioconda-recipes/")
 #     local_git.clone_url()
+#     conda_recipes = local_git.read_conda_recipes()
