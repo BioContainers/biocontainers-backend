@@ -15,7 +15,7 @@ info:
     \ in formats such as Docker or Singularity. "
   version: "2.0.0"
   title: "BioContainers Tool Discovery API"
-basePath: "/api/v2/"
+basePath: "/api/ga4gh/v2/"
 tags:
 - name: "BioContainers"
   description: "A set of resources proposed as a common standard for tool repositories"
@@ -177,6 +177,18 @@ paths:
         description: "String to search all fields"
         required: false
         type: "string"
+      - name: "sort_field"
+        in: "query"
+        description: "Field to sortby"
+        required: false
+        type: "string"
+        default: "id"
+      - name: "sort_order"
+        in: "query"
+        description: "sort order: asc or desc"
+        required: false
+        type: "string"
+        default: "asc"
       responses:
         200:
           description: "An array of Tools that match the filter."

@@ -261,7 +261,8 @@ class MongoTool(MongoModel):
 
     @staticmethod
     def get_tools(id=None, alias=None, registry=None, organization=None, name=None, toolname=None, description=None,
-                  author=None, checker=None, offset=None, limit=None, is_all_field_search=False):
+                  author=None, checker=None, offset=None, limit=None, is_all_field_search=False,
+                  sort_field=None, sort_order=None):
 
         filters = []
         if id is not None:
@@ -302,8 +303,19 @@ class MongoTool(MongoModel):
 
         match_condition = {"$match": filters_query}
 
-        sort_order = pymongo.DESCENDING  # get recently saved tool first
-        sort_condition = {'$sort': {'_id': sort_order}}
+        if sort_field == "toolname":
+            sort_field = "name"
+        elif sort_field == "description":
+            sort_field = "description"
+        else:
+            sort_field = "id"
+
+        if sort_order is not None and sort_order.lower().startswith("desc"):
+            sort_order = pymongo.DESCENDING
+        else:
+            sort_order = pymongo.ASCENDING
+
+        sort_condition = {'$sort': {sort_field: sort_order}}
 
         if len(filters) > 0:
             res = MongoTool.manager.exec_aggregate_query(lookup_condition, match_condition, sort_condition)

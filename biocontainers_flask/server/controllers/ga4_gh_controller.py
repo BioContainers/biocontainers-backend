@@ -38,12 +38,12 @@ def tool_classes_get():  # noqa: E501
 
 
 def tools_get(id=None, alias=None, registry=None, organization=None, name=None, toolname=None, description=None,
-              author=None, checker=None, offset=0, limit=1000, all_fields_search=None):  # noqa: E501
+              author=None, checker=None, offset=0, limit=1000, all_fields_search=None,
+              sort_field='id', sort_order='asc'):
     """List all tools
 
     This endpoint returns all tools available or a filtered subset using metadata query parameters.  # noqa: E501
 
-    :param all_fields_search: Search by all fields.
     :param id: A unique identifier of the tool, scoped to this registry, for example &#x60;123456&#x60;
     :type id: str
     :param alias: OPTIONAL for tool registries that support aliases. If provided will only return entries with the given alias.
@@ -63,10 +63,12 @@ def tools_get(id=None, alias=None, registry=None, organization=None, name=None, 
     :param checker: Return only checker workflows
     :type checker: bool
     :param offset: Start index of paging. Pagination results can be based on numbers or other values chosen by the registry implementor (for example, SHA values). If this exceeds the current result set return an empty set.  If not specified in the request, this will start at the beginning of the results.
-    :type offset: str
+    :type offset: int
     :param limit: Amount of records to return in a given page.
     :type limit: int
-
+    :param all_fields_search: Search by all fields.
+    :param sort_field: field to sort the results
+    :param sort_order: sort order, asc or desc
     :rtype: List[Tool]
     """
 
@@ -77,7 +79,7 @@ def tools_get(id=None, alias=None, registry=None, organization=None, name=None, 
         is_all_field_search = True
 
     resp = tools_get_common(id, alias, registry, organization, name, toolname, description, author, checker, offset,
-                            limit, is_all_field_search)
+                            limit, is_all_field_search, sort_field, sort_order)
 
     if resp is None:
         return None
@@ -100,10 +102,11 @@ def tools_get(id=None, alias=None, registry=None, organization=None, name=None, 
 
 
 def tools_get_common(id=None, alias=None, registry=None, organization=None, name=None, toolname=None, description=None,
-                     author=None, checker=None, offset=0, limit=1000, is_all_field_search=False):
+                     author=None, checker=None, offset=0, limit=1000, is_all_field_search=False,
+                     sort_field=None, sort_order=None):
     tools = []
     resp = MongoTool.get_tools(id, alias, registry, organization, name, toolname, description, author, checker, offset,
-                               limit, is_all_field_search)
+                               limit, is_all_field_search, sort_field, sort_order)
     if resp is None:
         return None
 
