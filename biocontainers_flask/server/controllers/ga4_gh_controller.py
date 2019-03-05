@@ -137,7 +137,7 @@ def tools_id_get(id):  # noqa: E501
 
     :rtype: Tool
     """
-    resp = tools_get_common(id=id)
+    resp = tools_get_common(id="^" + id + "$")  # regex to search for exact id
     if resp is not None and resp.tools is not None and len(resp.tools) > 0:
         return resp.tools[0]
 

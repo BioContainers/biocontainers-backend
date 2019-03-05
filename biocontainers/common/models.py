@@ -266,7 +266,7 @@ class MongoTool(MongoModel):
 
         filters = []
         if id is not None:
-            filters.append({"id": id})
+            filters.append({"id": {"$regex": id}})
         if alias is not None:
             filters.append({"aliases": {"$regex": alias}})
         if registry is not None:

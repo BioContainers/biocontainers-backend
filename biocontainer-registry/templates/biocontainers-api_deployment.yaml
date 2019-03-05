@@ -39,7 +39,7 @@ spec:
           livenessProbe:
             failureThreshold: 3
             httpGet:
-              path: /api/v2/ui
+              path: /api/ga4gh/v2/ui
               port: liveness-port
               scheme: HTTP
             periodSeconds: 10
@@ -48,7 +48,7 @@ spec:
           readinessProbe:
             failureThreshold: 3
             httpGet:
-              path: /api/v2/ui
+              path: /api/ga4gh/v2/ui
               port: liveness-port
               scheme: HTTP
             periodSeconds: 10
