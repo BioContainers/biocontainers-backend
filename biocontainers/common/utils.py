@@ -5,7 +5,7 @@ FIFTEEN_MINUTES = 60
 
 
 @sleep_and_retry
-@limits(calls=15, period=FIFTEEN_MINUTES)
+@limits(calls=1000, period=FIFTEEN_MINUTES)
 def call_api(url):
     response = requests.get(url)
 

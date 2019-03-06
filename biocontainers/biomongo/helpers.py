@@ -72,8 +72,6 @@ class InsertContainers:
                     container_image.tag = "conda:" + key
                     container_image.full_tag = container.name() + "==" + key
                     container_image.container_type = 'CONDA'
-                    datetime_object = NOT_AVAILABLE
-                    container_image.last_updated = datetime_object
                     container_image.size = 0
                     container_image.downloads = 0
                     mongo_tool_version.add_image_container(container_image)
@@ -118,7 +116,6 @@ class InsertContainers:
                     logger.error(" A tool with same name is already in the database -- " + tool_id)
 
                 mongo_tool_version.ref_tool = mongo_tool
-                # mongo_versions = mongo_tool.get_tool_versions()
 
                 try:
                     mongo_tool_version.save()

@@ -102,3 +102,7 @@ Remove container:
 kubectl delete deployment biocontainers-pipelines-py
 ```
 
+How to Validate the API
+------------------------------
+
+The API can be validated with the TRS validator tool: http://142.1.177.188:8080/trs/validator/debug?url=http://api.biocontainers.pro
