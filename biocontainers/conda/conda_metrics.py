@@ -68,6 +68,9 @@ class CondaMetrics:
             except:
                 continue
             channel_total_dls = 0
+
+            size = 0
+            last_update = ''
             for version_str in package_obj['versions']:
                 if version_str == version:
                    version = aserver_api.release(conda_channel, package, version_str)
@@ -98,6 +101,12 @@ class CondaMetrics:
                        if distribution_os is None:
                           distribution_os = "None"
 
+                       if 'size' in d:
+                           size = d['size']
+
+                       if 'upload_time' in d:
+                           last_update = d['upload_time']
+
                        logger.info(
                           "Conda Package -- " + package + " version -- " + version_str + " Distributed build -- " + distribution_build + " Distributed OS -- " + distribution_os + " Distributed Arch -- " + distribution_arch + " Distributed Downloads -- " + str(
                             distribution_downloads) + " Py Version -- " + py_version + " NP Version -- " + np_version + "Distribution time -- " + str(
@@ -106,7 +115,7 @@ class CondaMetrics:
                 package_total_dls += channel_total_dls
                 logger.info("Total downloads of package -- " + package + ": " + str(channel_total_dls))
         logger.info("Total downloads of -- " + package + ": " + str(package_total_dls))
-        return package_total_dls
+        return {'version': version_str, 'size': size, 'last_update': last_update, 'downloads':package_total_dls}
 
 if __name__ == "__main__":
     metrics = CondaMetrics()
