@@ -1,11 +1,12 @@
 from flask import request
 from werkzeug.urls import url_encode
 
-from biocontainers.common.models import MongoTool, _CONSTANT_TOOL_CLASSES
+from biocontainers.common.models import MongoTool, _CONSTANT_TOOL_CLASSES, MongoToolVersion
 from biocontainers_flask.server.controllers.utils import transform_mongo_tool, transform_dic_tool_class, \
     transform_tool_version, transform_mongo_tool_dict
 from biocontainers_flask.server.models.file_wrapper import FileWrapper  # noqa: E501
 from biocontainers_flask.server.models.metadata import Metadata  # noqa: E501
+from biocontainers_flask.server.models.stat import Stat
 from biocontainers_flask.server.models.tool import Tool  # noqa: E501
 from biocontainers_flask.server.models.tool_version import ToolVersion  # noqa: E501
 
@@ -273,3 +274,34 @@ def tools_id_versions_version_id_type_tests_get(type, id, version_id):  # noqa: 
     :rtype: List[FileWrapper]
     """
     return 'Not Yet Implemented'
+
+
+def stats():
+    """
+    This method returns a list of stats for the API
+    :return:
+    """
+
+    tools = MongoTool.get_all_tools()
+
+    stats = []
+    stats.append(Stat('num_tools', str(len(tools))))
+
+    tool_versions = MongoToolVersion.get_all_tool_versions()
+    stats.append(Stat('num_versions', str(len(tool_versions))))
+
+    num_containers = 0
+    num_docker = 0
+    num_conda = 0
+    for key in tool_versions:
+        num_containers = num_containers +  len(key.image_containers)
+        for container in key.image_containers:
+            if(container.container_type == 'DOCKER'):
+                num_docker = num_docker + 1
+            elif container.container_type == 'CONDA':
+                num_conda = num_conda + 1
+    stats.append(Stat('num_containers', str(num_containers)))
+    stats.append(Stat('num_conda_containers', str(num_conda)))
+    stats.append(Stat('num_docker_containers', str(num_docker)))
+
+    return stats

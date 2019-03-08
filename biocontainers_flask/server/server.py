@@ -41,7 +41,7 @@ def main(ctx, db_name, db_host, db_auth_database, db_user, db_password, db_port)
     CORS(app.app, expose_headers='next_page, last_page, self_link, current_offset, current_limit')  # adds CORS support
     app.app.json_encoder = encoder.JSONEncoder
     app.add_api('swagger.yaml', arguments={'title': 'GA4GH Tool Discovery API'})
-    app.run(port=8080)
+    app.run(port=8090)
 
 
 if __name__ == '__main__':

@@ -59,8 +59,10 @@ class CondaMetrics:
 
 
     @staticmethod
-    def get_number_downloas_by_version(package, version):
+    def get_number_downloas_by_version(package, query_version):
         package_total_dls = 0
+        size = 0
+        last_update=''
         for conda_channel in conda_channels:
             aserver_api = get_server_api("5b55044589a6f388059dada9", "anaconda.org", 1)
             try:
@@ -72,7 +74,7 @@ class CondaMetrics:
             size = 0
             last_update = ''
             for version_str in package_obj['versions']:
-                if version_str == version:
+                if version_str == query_version:
                    version = aserver_api.release(conda_channel, package, version_str)
                    for d in version['distributions']:
                        distribution_os = d['attrs']['machine']
@@ -115,7 +117,7 @@ class CondaMetrics:
                 package_total_dls += channel_total_dls
                 logger.info("Total downloads of package -- " + package + ": " + str(channel_total_dls))
         logger.info("Total downloads of -- " + package + ": " + str(package_total_dls))
-        return {'version': version_str, 'size': size, 'last_update': last_update, 'downloads':package_total_dls}
+        return {'version': query_version, 'size': size, 'last_update': last_update, 'downloads':package_total_dls}
 
 if __name__ == "__main__":
     metrics = CondaMetrics()

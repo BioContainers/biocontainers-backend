@@ -6,6 +6,7 @@ from pymodm import connect
 from pymongo.errors import DuplicateKeyError
 
 from biocontainers.common.models import MongoToolVersion, ContainerImage, MongoTool, _CONSTANT_TOOL_CLASSES
+from biocontainers.conda.conda_metrics import CondaMetrics
 
 logger = logging.getLogger('biocontainers.quayio.models')
 QUAYIO_DOMAIN = "quay.io/biocontainers/"
@@ -20,6 +21,7 @@ NOT_AVAILABLE = "Not available"
 
 
 class InsertContainers:
+
     def __init__(self, connect_url):
         connection = connect(connect_url)
 
@@ -275,7 +277,7 @@ class InsertContainers:
                 logger.info("Updated tool description of -- " + tool_version_id)
 
     @staticmethod
-    def annotate_conda_containers(conda_recipes):
+    def annotate_quayio_containers(conda_recipes):
         for entry in conda_recipes:
             logger.info("Annotating the recipe -- " + entry['name'])
             tool_version_id = None
@@ -314,6 +316,26 @@ class InsertContainers:
                     logger.info("Updated tool description of -- " + tool_version_id)
 
             logger.info("The following tool has been analyzed -- " + str(tool_version_id))
+
+    @staticmethod
+    def annotate_conda_recipes():
+        conda_helper = CondaMetrics()
+        mongo_versions = MongoToolVersion.get_all_tool_versions()
+        for tool_version in mongo_versions:
+            old_images = []
+            for image in tool_version.image_containers:
+                if image.container_type == 'CONDA':
+                    annotations = conda_helper.get_number_downloas_by_version(tool_version.name, tool_version.version)
+                    image.downloads = annotations['downloads']
+                    image.size = annotations['size']
+                    if annotations['last_update'][0:10] is not None and bool(annotations['last_update'][0:10].strip()):
+                        image.last_updated = annotations['last_update'][0:10]
+                    # else:
+                    #     image.last_updated = None
+                    print(annotations)
+                old_images.append(image)
+            tool_version.image_containers = old_images
+            tool_version.save()
 
 
 

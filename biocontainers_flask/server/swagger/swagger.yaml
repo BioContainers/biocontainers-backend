@@ -458,6 +458,23 @@ paths:
             items:
               $ref: "#/definitions/ToolClass"
       x-swagger-router-controller: "biocontainers_flask.server.controllers.ga4_gh_controller"
+  /stats:
+    get:
+      tags:
+        - BioContainers
+      summary: "Return some metadata that is useful for describing this registry"
+      description: "Return some metadata that is useful for describing this registry"
+      operationId: "stats"
+      parameters: []
+      responses:
+        200:
+          description: "A Metadata object describing this service."
+          schema:
+            type: "array"
+            items:
+                $ref: "#/definitions/Stat"
+      x-swagger-router-controller: "biocontainers_flask.server.controllers.ga4_gh_controller"
+
 definitions:
   ToolFile:
     type: "object"
@@ -746,6 +763,23 @@ definitions:
       friendly_name: "friendly_name"
       api_version: "api_version"
       version: "version"
+  Stat:
+    type: "object"
+    required:
+    - "name"
+    - "value"
+    properties:
+      name:
+        type: "string"
+        description: "name of the stats"
+      value:
+        type: "string"
+        description: "Value of the stats"
+    description: "Provides a set of stats abotu the containers"
+    example:
+      name: "tool_counts"
+      value: "20"
+
   Error:
     type: "object"
     required:
