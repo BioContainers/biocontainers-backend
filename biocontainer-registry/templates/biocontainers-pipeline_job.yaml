@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: biocontainers-pipelines-onetime-run
+spec:
+  template:
+    spec:
+      containers:
+        - name: biocontainers-pipelines
+          image: chakrabandla/biocontainer-pipelines:0.5
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: "MONGO_ROOT_PASS"
+              value: {{ .Values.mongodb.mongodbRootPassword}}
+            - name: "BIOCONT_DB_NAME"
+              value: {{ .Values.biocont_db_name }}
+            - name: "MONGODB_ADMIN_DB"
+              value: {{ .Values.mongodb.mongodbDatabase }}
+            - name: "MONGODB_PASS"
+              value: {{ .Values.mongodb.mongodbPassword }}
+            - name: "MONGODB_USER"
+              value: {{ .Values.mongodb.mongodbUsername }}
+            - name: "MONGODB_HOST"
+              value: {{ template "mongodb.fullname" . }}
+            - name: "MONGODB_PORT"
+              value: {{ .Values.mongodb.port }}
+            - name: PIPELINE_ARGS
+              value: "-k -q -ad -aq -ac"
+            - name: SLACK_REPORT_URL
+              value: {{ .Values.slack.bioctainerPrideWebhoolUrl }}
+          args:
+            - /bin/sh
+            - /biocontainers-backend/run.sh
+      restartPolicy: OnFailure
