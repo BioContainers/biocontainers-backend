@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: biocontainer-api
-          image: chakrabandla/biocontainer-api:0.5
+          image: chakrabandla/biocontainer-api:0.8
           imagePullPolicy: IfNotPresent
           env:
             - name: "MONGO_ROOT_PASS"
@@ -35,7 +35,7 @@ spec:
               value: {{ .Values.mongodb.port }}
           ports:
             - name: liveness-port
-              containerPort: 8080
+              containerPort: 8090
           livenessProbe:
             failureThreshold: 3
             httpGet:
