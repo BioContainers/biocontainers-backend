@@ -86,7 +86,7 @@ class InsertContainers:
                 container_image.container_type = 'DOCKER'
                 datetime_object = datetime.datetime.strptime(val['last_modified'][0:-15], '%a, %d %b %Y')
                 container_image.last_updated = datetime_object
-                container_image.size = int(int(val['size']) / 1000000)
+                container_image.size = int(int(val['size']))
                 container_image.downloads = 0
 
                 tool_versions_dic[tool_version_id] = mongo_tool_version
@@ -173,7 +173,7 @@ class InsertContainers:
                 container_image.container_type = 'DOCKER'
                 datetime_object = datetime.datetime.strptime(key['last_updated'][0:-17], '%Y-%m-%d')
                 container_image.last_updated = datetime_object
-                container_image.size = int(int(key['full_size']) / 1000000)
+                container_image.size = int(int(key['full_size']))
                 mongo_tool_version.add_image_container(container_image)
                 tool_versions_dic[tool_version_id] = mongo_tool_version
 
