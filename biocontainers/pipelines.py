@@ -98,6 +98,17 @@ def annotate_multi_package_containers(config, config_profile):
     mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
     mongo_helper.update_multi_package_containers(mulled_entries)
 
+def annotate_biotools_recipes(config, config_profile):
+    github_url = config[config_profile]['GITHUB_TOOLS_URL']
+    github_local = config[config_profile]['GITHUB_TOOLS_LOCAL_REPO']
+
+    github_reader = LocalGitReader(github_url, github_local)
+    github_reader.clone_url()
+    tools_recipes = github_reader.read_biotools_recipes()
+    mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
+    mongo_helper.annotate_biotools_metadata(tools_recipes)
+
+
 
 def get_database_uri(param):
     uri = 'mongodb://' + param['MONGODB_USER'] + ":" + param['MONGODB_PASS'] + '@' + param['MONGODB_HOST'] + ':' + \

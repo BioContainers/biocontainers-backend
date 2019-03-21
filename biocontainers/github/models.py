@@ -42,7 +42,8 @@ class CondaRecipe:
         return None
 
     def get_license(self):
-        if 'about' in self.attributes and 'license' in self.attributes['about'] and self.attributes['about']['license'] is not None:
+        if 'about' in self.attributes and 'license' in self.attributes['about'] and self.attributes['about'][
+            'license'] is not None:
             return (self.attributes['about']['license']).strip()
         return None
 
@@ -54,6 +55,18 @@ class CondaRecipe:
     def get_name(self):
         if 'package' in self.attributes and 'name' in self.attributes['package']:
             return self.attributes['package']['name']
+        return None
+
+    def get_biotool_ids(self):
+        if 'extra' in self.attributes and 'identifiers' in self.attributes['extra']:
+            id_strings = self.attributes['extra']['identifiers']
+            ids = []
+            for id in id_strings:
+                if 'biotools' in id:
+                    ids.append(id)
+            if len(ids) > 0:
+                return ids;
+
         return None
 
 
@@ -79,7 +92,7 @@ class DockerRecipe:
     def get_additional_ids(self):
         ids = []
         if 'extra.identifiers.biotools' in self.attributes.labels:
-            ids.append("biotools=" + self.attributes.labels['extra.identifiers.biotools'])
+            ids.append("biotools:" + self.attributes.labels['extra.identifiers.biotools'])
             return ids
 
     def get_tags(self):
@@ -98,6 +111,41 @@ class DockerRecipe:
                     final_tags.append(value.lower())
             if len(final_tags) > 0:
                 return final_tags
+        return None
+
+
+class ToolRecipe:
+    def __init__(self, attributes):
+        self.attributes = attributes
+
+    def get_description(self):
+        if 'description' in self.attributes:
+            return self.attributes['description']
+        return None
+
+    def get_home_url(self):
+        if 'homepage' in self.attributes:
+            return self.attributes['homepage']
+        return None
+
+    def get_license(self):
+        if 'license' in self.attributes:
+            return (self.attributes['license']).strip()
+        return None
+
+    def get_id(self):
+        if 'biotoolsID' in self.attributes:
+            return self.attributes['biotoolsID']
+        return None
+
+    def get_publications(self):
+        if 'publication' in self.attributes:
+            return self.attributes['publication']
+        return None
+
+    def get_topics(self):
+        if 'topic' in self.attributes:
+            return self.attributes['topic']
         return None
 
 
@@ -441,7 +489,32 @@ class LocalGitReader:
 
         return self._conda_recipes
 
-# if __name__ == "__main__":
-#     local_git = LocalGitReader("git@github.com:bioconda/bioconda-recipes.git", "/tmp/bioconda-recipes/")
-#     local_git.clone_url()
-#     conda_recipes = local_git.read_conda_recipes()
+    def read_biotools_recipes(self):
+        all_files = LocalGitReader.get_list_files(self._absolute_local_folder + "/")
+        yaml = self.init_yaml()
+        self._biotools_recipes = []
+
+        for key in all_files:
+            if key.endswith('.yaml'):
+                self._conda_github_files.append(key)
+                logger.info(key)
+                try:
+                    with open(key, 'r') as file:
+                        data = file.read()
+                        yaml_content = yaml.load(Environment().from_string(data).render())
+                        recipe = ToolRecipe(yaml_content)
+                        entry = {'name': key, 'recipe': recipe}
+                        logger.info(recipe.get_id() + " , " + recipe.get_description() + " , " + recipe.get_home_url())
+                        self._biotools_recipes(entry)
+                except:
+                    logger.error("Error reading conda definition of tool -- " + key)
+
+
+if __name__ == "__main__":
+    # local_git = LocalGitReader("git@github.com:bioconda/bioconda-recipes.git", "/tmp/bioconda-recipes/")
+    # local_git.clone_url()
+    # conda_recipes = local_git.read_conda_recipes()
+
+    local_git = LocalGitReader("git@github.com:BioContainers/tools-metadata.git", "/tmp/tools-recipes/")
+    local_git.clone_url()
+    conda_recipes = local_git.read_biotools_recipes()

@@ -49,6 +49,13 @@ class ToolClass(EmbeddedMongoModel):
     id = fields.CharField(required=True)
     name = fields.CharField()
 
+class Publication(EmbeddedMongoModel):
+    title = fields.CharField()
+    abstract = fields.CharField()
+    pubmed_id = fields.CharField()
+    doi_id = fields.CharField()
+    authors = fields.ListField(fields.CharField(max_length=200))
+
 
 class ContainerImage(EmbeddedMongoModel):
     """ This class handle how a container is build. Singularity, Docker, Conda, etc. """
@@ -152,6 +159,7 @@ class MongoTool(MongoModel):
     aliases = fields.ListField(fields.CharField())
     checker = fields.BooleanField()
     tool_tags = fields.ListField(fields.CharField())
+    publications = fields.EmbeddedDocumentListField('Publication')
 
     manager = Manager.from_queryset(ToolQuerySet)()
 
@@ -176,6 +184,14 @@ class MongoTool(MongoModel):
         for author in new_authors:
             if author not in self.authors:
                 self.authors.append(author)
+
+    def add_additional_identifiers(self, ids):
+        if self.additional_identifiers is None:
+            self.additional_identifiers = []
+
+        for id in ids:
+            if id not in self.additional_identifiers:
+                self.additional_identifiers.append(id)
 
     def add_registry(self, new_registry):
         """

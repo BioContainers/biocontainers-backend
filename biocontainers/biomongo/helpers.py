@@ -287,8 +287,8 @@ class InsertContainers:
                     and ("|" not in entry['recipe'].get_version()):
                 tool_version_id = (entry['recipe'].get_name() + "-" + entry['recipe'].get_version()).lower()
                 tool_id = entry['recipe'].get_name().lower()
-                if 'BIOCONDUCTOR-GARS'.lower() in tool_version_id:
-                     logger.info(tool_version_id)
+                if(tool_id in "bioconductor-rcytoscape"):
+                    logger.info("found")
                 tool_version = MongoToolVersion.get_tool_version_by_id(tool_version_id)
                 tool = MongoTool.get_tool_by_id(tool_id)
                 if tool_version is not None:
@@ -309,6 +309,8 @@ class InsertContainers:
                         tool.home_url = entry['recipe'].get_home_url()
                     if entry['recipe'].get_license() is not None and bool(entry['recipe'].get_license()):
                         tool.license = entry['recipe'].get_license()
+                    if entry['recipe'].get_biotool_ids() is not None:
+                        tool.add_additional_identifiers(entry['recipe'].get_biotool_ids())
                     else:
                         tool.license = NOT_AVAILABLE
 
@@ -336,6 +338,45 @@ class InsertContainers:
                 old_images.append(image)
             tool_version.image_containers = old_images
             tool_version.save()
+
+    @staticmethod
+    def annotate_biotools_metadata(tools_recipes):
+        for entry in tools_recipes:
+            logger.info("Annotating the recipe -- " + entry['name'])
+            tool_version_id = None
+            if (entry['recipe'].get_name() is not None) and (entry['recipe'].get_version() is not None) \
+                    and ("{" not in entry['recipe'].get_name()) \
+                    and ("|" not in entry['recipe'].get_name()) and ("{" not in entry['recipe'].get_version()) \
+                    and ("|" not in entry['recipe'].get_version()):
+                tool_version_id = (entry['recipe'].get_name() + "-" + entry['recipe'].get_version()).lower()
+                tool_id = entry['recipe'].get_name().lower()
+                tool_version = MongoToolVersion.get_tool_version_by_id(tool_version_id)
+                tool = MongoTool.get_tool_by_id(tool_id)
+                if tool_version is not None:
+                    if entry["recipe"].get_description() is not None:
+                        tool_version.description = entry["recipe"].get_description().capitalize()
+                    if entry['recipe'].get_home_url() is not None:
+                        tool_version.home_url = entry['recipe'].get_home_url()
+                    if entry['recipe'].get_license() is not None and len(entry['recipe'].get_license())>0:
+                        tool_version.license = entry['recipe'].get_license()
+                    else:
+                        tool_version.license = NOT_AVAILABLE
+                    tool_version.save()
+                    logger.info("Updated tool version description of -- " + tool_version_id)
+                if tool is not None:
+                    if entry["recipe"].get_description() is not None:
+                        tool.description = entry["recipe"].get_description().capitalize()
+                    if entry['recipe'].get_home_url() is not None:
+                        tool.home_url = entry['recipe'].get_home_url()
+                    if entry['recipe'].get_license() is not None and bool(entry['recipe'].get_license()):
+                        tool.license = entry['recipe'].get_license()
+                    else:
+                        tool.license = NOT_AVAILABLE
+
+                    tool.save()
+                    logger.info("Updated tool description of -- " + tool_version_id)
+
+            logger.info("The following tool has been analyzed -- " + str(tool_version_id))
 
 
 
