@@ -91,6 +91,11 @@ class ToolQuerySet(QuerySet):
     def get_tool_by_id(self, tool_id):
         return self.raw({'id': tool_id})
 
+    def get_tool_by_additional_id(self, additional_id):
+        query = []
+        query.append({"additional_identifiers": {"$regex": additional_id}})
+        return list(self.raw({"$or": query}))
+
     def get_tools_by_name(self, toolname, alias, name):
         query = []
         if name is not None:
@@ -286,6 +291,11 @@ class MongoTool(MongoModel):
         if tools_list is not None and len(tools_list) > 0:
             return tools_list[0]
         return None
+
+    @staticmethod
+    def get_tool_by_additional_id(id):
+        tools = MongoTool.manager.get_tool_by_additional_id(id)
+        return tools
 
     @staticmethod
     def get_tools(id=None, alias=None, registry=None, organization=None, name=None, toolname=None, description=None,

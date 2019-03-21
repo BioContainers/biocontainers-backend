@@ -129,7 +129,7 @@ class ToolRecipe:
         return None
 
     def get_license(self):
-        if 'license' in self.attributes:
+        if 'license' in self.attributes and self.attributes['license'] is not None:
             return (self.attributes['license']).strip()
         return None
 
@@ -505,9 +505,10 @@ class LocalGitReader:
                         recipe = ToolRecipe(yaml_content)
                         entry = {'name': key, 'recipe': recipe}
                         logger.info(recipe.get_id() + " , " + recipe.get_description() + " , " + recipe.get_home_url())
-                        self._biotools_recipes(entry)
+                        self._biotools_recipes.append(entry)
                 except:
                     logger.error("Error reading conda definition of tool -- " + key)
+        return self._biotools_recipes;
 
 
 if __name__ == "__main__":

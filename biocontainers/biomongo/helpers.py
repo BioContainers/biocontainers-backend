@@ -274,7 +274,7 @@ class InsertContainers:
                 if entry['recipe'].get_tags() is not None:
                     tool.tool_tags = entry['recipe'].get_tags()
                 if entry['recipe'].get_additional_ids() is not None:
-                    tool.additional_identifiers = entry['recipe'].get_additional_ids()
+                    tool.add_additional_identifiers(entry['recipe'].get_additional_ids())
                 tool.save()
                 logger.info("Updated tool description of -- " + tool_version_id)
 
@@ -344,39 +344,30 @@ class InsertContainers:
         for entry in tools_recipes:
             logger.info("Annotating the recipe -- " + entry['name'])
             tool_version_id = None
-            if (entry['recipe'].get_name() is not None) and (entry['recipe'].get_version() is not None) \
-                    and ("{" not in entry['recipe'].get_name()) \
-                    and ("|" not in entry['recipe'].get_name()) and ("{" not in entry['recipe'].get_version()) \
-                    and ("|" not in entry['recipe'].get_version()):
-                tool_version_id = (entry['recipe'].get_name() + "-" + entry['recipe'].get_version()).lower()
-                tool_id = entry['recipe'].get_name().lower()
-                tool_version = MongoToolVersion.get_tool_version_by_id(tool_version_id)
-                tool = MongoTool.get_tool_by_id(tool_id)
-                if tool_version is not None:
-                    if entry["recipe"].get_description() is not None:
-                        tool_version.description = entry["recipe"].get_description().capitalize()
-                    if entry['recipe'].get_home_url() is not None:
-                        tool_version.home_url = entry['recipe'].get_home_url()
-                    if entry['recipe'].get_license() is not None and len(entry['recipe'].get_license())>0:
-                        tool_version.license = entry['recipe'].get_license()
-                    else:
-                        tool_version.license = NOT_AVAILABLE
-                    tool_version.save()
-                    logger.info("Updated tool version description of -- " + tool_version_id)
-                if tool is not None:
-                    if entry["recipe"].get_description() is not None:
-                        tool.description = entry["recipe"].get_description().capitalize()
-                    if entry['recipe'].get_home_url() is not None:
-                        tool.home_url = entry['recipe'].get_home_url()
-                    if entry['recipe'].get_license() is not None and bool(entry['recipe'].get_license()):
-                        tool.license = entry['recipe'].get_license()
-                    else:
-                        tool.license = NOT_AVAILABLE
+            if (entry['recipe'].get_id() is not None):
+                tool_id = entry['recipe'].get_id()
+                tools = MongoTool.get_tool_by_additional_id("biotools:" + tool_id)
+                if len(tools) > 0 and tools[0] is not None:
+                    tool = tools[0]
+                    found = False
+                    for id in tool.additional_identifiers:
+                        if id in ("biotools:" + tool_id):
+                            found = True
 
-                    tool.save()
-                    logger.info("Updated tool description of -- " + tool_version_id)
+                    if found:
+                        if entry["recipe"].get_description() is not None:
+                            tool.description = entry["recipe"].get_description().capitalize()
+                        if entry['recipe'].get_home_url() is not None:
+                            tool.home_url = entry['recipe'].get_home_url()
+                        if entry['recipe'].get_license() is not None and bool(entry['recipe'].get_license()):
+                            if tool.license in NOT_AVAILABLE:
+                                tool.license = entry['recipe'].get_license()
+                        else:
+                            tool.license = NOT_AVAILABLE
+                        tool.save()
+                        logger.info("Updated tool description of -- " + tool_id)
 
-            logger.info("The following tool has been analyzed -- " + str(tool_version_id))
+            logger.info("The following tool has been analyzed -- " + str(tool_id))
 
 
     def annotate_workflows(config, config_profile):
