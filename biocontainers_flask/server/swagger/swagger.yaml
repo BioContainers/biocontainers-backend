@@ -474,7 +474,118 @@ paths:
             items:
                 $ref: "#/definitions/Stat"
       x-swagger-router-controller: "biocontainers_flask.server.controllers.ga4_gh_controller"
-
+  /workflows:
+    get:
+      tags:
+        - "BioContainerWorkflows"
+      summary: "List all BioContainer workflows"
+      description: "This endpoint returns all BioContainer workflows\n"
+      operationId: "wokflows_get"
+      parameters:
+      - name: "name"
+        in: "query"
+        description: "The name of the workflow"
+        required: false
+        type: "string"
+      - name: "description"
+        in: "query"
+        description: "The description of the workflow"
+        required: false
+        type: "string"
+      - name: "author"
+        in: "query"
+        description: "The author of the workflow"
+        required: false
+        type: "string"
+      - name: "license"
+        in: "query"
+        description: "license of the workflow"
+        required: false
+        type: "string"
+      - name: "type"
+        in: "query"
+        description: "type of the workflow"
+        required: false
+        type: "string"
+      - name: "container"
+        in: "query"
+        description: "container used by the workflow"
+        required: false
+        type: "string"
+      - name: "offset"
+        in: "query"
+        description: "Start index of pagination"
+        required: false
+        type: "string"
+      - name: "limit"
+        in: "query"
+        description: "Amount of records to return in a given page."
+        required: false
+        type: "integer"
+        default: 1000
+        format: "int32"
+      - name: "all_fields_search"
+        in: "query"
+        description: "String to search all fields"
+        required: false
+        type: "string"
+      - name: "sort_field"
+        in: "query"
+        description: "Field to sortby"
+        required: false
+        type: "string"
+        default: "name"
+      - name: "sort_order"
+        in: "query"
+        description: "sort order: asc or desc"
+        required: false
+        type: "string"
+        default: "asc"
+      responses:
+        200:
+          description: "A list of BioContainer workflows."
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Workflow"
+          headers:
+            next_page:
+              type: "string"
+              description: "A URL that can be used to reach the next page based on\
+                 \ the current offset and page record limit"
+            last_page:
+              type: "string"
+              description: "A URL that can be used to reach the last page based on\
+                 \ the current page record limit"
+            self_link:
+              type: "string"
+              description: "A URL that can be used to return to the current page later"
+            current_offset:
+              type: "string"
+              description: "The current start index of the paging used for this result"
+            current_limit:
+              type: "integer"
+              description: "The current page record limit used for this result"
+      x-swagger-router-controller: "biocontainers_flask.server.controllers.ga4_gh_controller"
+    post:
+      tags:
+        - "BioContainerWorkflows"
+      summary: "Adds a BioContainer workflow"
+      description: "This endpoint adds a BioContainer workflow\n"
+      operationId: "wokflow_post"
+      consumes:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "workflow"
+          description: "workflow object"
+          required: true
+          schema:
+            $ref: "#/definitions/Workflow"
+      responses:
+        201:
+          description: Created
+      x-swagger-router-controller: "biocontainers_flask.server.controllers.ga4_gh_controller"
 definitions:
   ToolFile:
     type: "object"
@@ -779,6 +890,36 @@ definitions:
     example:
       name: "tool_counts"
       value: "20"
+  Workflow:
+    type: "object"
+    required:
+      - "name"
+      - "git-repo"
+    description: "A BioContainer workflow"
+    properties:
+      name:
+        type: "string"
+        description: "The name of workflow"
+      type:
+        type: "string"
+        description: "The type of workflow"
+      description:
+        type: "string"
+        description: "The description of workflow"
+      git-repo:
+        type: "string"
+        description: "The git-repo of workflow"
+      license:
+        type: "string"
+        description: "The license of workflow"
+      author:
+        type: "string"
+        description: "The author of workflow"
+      containers:
+        type: "array"
+        description: "The containers used by the workflow"
+        items:
+          type: string
 
   Error:
     type: "object"

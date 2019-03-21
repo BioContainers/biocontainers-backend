@@ -133,6 +133,18 @@ class ToolsResponse:
     last_page_offset = None
 
 
+class WokflowQuerySet(QuerySet):
+
+    def all_workflows(self):
+        return list(self.all())
+
+    def exec_query(self, query):
+        return self.raw(query)
+
+    def exec_aggregate_query(self, *query):
+        return self.aggregate(*query)
+
+
 class MongoTool(MongoModel):
     """
     Mongo Tool Class contains the persistence information of a Tool.
@@ -519,3 +531,84 @@ class ToolVersion:
 
     def add_image_container(self, image_container):
         self.image_containers.append(image_container)
+
+
+class MongoWorkflow(MongoModel):
+    """
+    Mongo model class that contains the persistence information of a Workflow.
+    """
+    name = fields.CharField()
+    author = fields.CharField(blank=True)
+    description = fields.CharField(blank=True)
+    git_repo = fields.CharField()
+    license = fields.CharField(blank=True)
+    type = fields.CharField(blank=True)
+    containers = fields.ListField(fields.CharField(blank=True), blank=True)
+
+    manager = Manager.from_queryset(WokflowQuerySet)()
+
+    @staticmethod
+    def get_workflows(name=None, description=None, author=None, license=None, type=None, container=None,
+                      offset=0, limit=None, is_all_field_search=False, sort_field=None, sort_order=None):
+
+        filters = []
+        if name is not None:
+            filters.append({"name": {"$regex": name}})
+        if description is not None:
+            filters.append({"description": {"$regex": description}})
+        if author is not None:
+            filters.append({"author": {"$regex": author}})
+        if license is not None:
+            filters.append({"license": {"$regex": license}})
+        if type is not None:
+            filters.append({"name": {"$regex": type}})
+        if container is not None:
+            filters.append({"containers": {"$regex": container}})
+
+        if is_all_field_search:
+            filters_query = {"$or": filters}
+        else:
+            filters_query = {"$and": filters}
+
+        match_condition = {"$match": filters_query}
+
+        if sort_field == "name":
+            sort_field = "name"
+        elif sort_field == "description":
+            sort_field = "description"
+
+        if sort_order is not None and sort_order.lower().startswith("desc"):
+            sort_order = pymongo.DESCENDING
+        else:
+            sort_order = pymongo.ASCENDING
+
+        sort_condition = {'$sort': {sort_field: sort_order}}
+
+        if len(filters) > 0:
+            res = MongoWorkflow.manager.exec_aggregate_query(match_condition, sort_condition)
+        else:
+            res = MongoWorkflow.manager.exec_aggregate_query(sort_condition)
+
+        tools = list(res)
+        tools_len = len(tools)
+        offset = int(offset)
+        if offset >= tools_len:  # empty list
+            return None
+
+        next_offset = offset + limit
+        tools_paginated = tools[offset:next_offset]
+
+        total_pages = math.ceil(tools_len / limit)
+        last_page_offset = (total_pages - 1) * limit
+
+        resp = ToolsResponse()
+        resp.tools = tools_paginated
+        resp.last_page_offset = last_page_offset
+        if next_offset < tools_len:
+            resp.next_offset = next_offset
+
+        return resp
+
+    @staticmethod
+    def get_all_workflows():
+        return MongoWorkflow.manager.all_workflows()
