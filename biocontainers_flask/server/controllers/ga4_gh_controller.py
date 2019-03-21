@@ -1,7 +1,8 @@
 from flask import request
+from pymongo.errors import DuplicateKeyError
 from werkzeug.urls import url_encode
 
-from biocontainers.common.models import MongoTool, _CONSTANT_TOOL_CLASSES, MongoToolVersion
+from biocontainers.common.models import MongoTool, _CONSTANT_TOOL_CLASSES, MongoToolVersion, MongoWorkflow
 from biocontainers_flask.server.controllers.utils import transform_mongo_tool, transform_dic_tool_class, \
     transform_tool_version, transform_mongo_tool_dict
 from biocontainers_flask.server.models.file_wrapper import FileWrapper  # noqa: E501
@@ -9,6 +10,7 @@ from biocontainers_flask.server.models.metadata import Metadata  # noqa: E501
 from biocontainers_flask.server.models.stat import Stat
 from biocontainers_flask.server.models.tool import Tool  # noqa: E501
 from biocontainers_flask.server.models.tool_version import ToolVersion  # noqa: E501
+from biocontainers_flask.server.models.workflow import Workflow
 
 
 def metadata_get():  # noqa: E501
@@ -294,9 +296,9 @@ def stats():
     num_docker = 0
     num_conda = 0
     for key in tool_versions:
-        num_containers = num_containers +  len(key.image_containers)
+        num_containers = num_containers + len(key.image_containers)
         for container in key.image_containers:
-            if(container.container_type == 'DOCKER'):
+            if (container.container_type == 'DOCKER'):
                 num_docker = num_docker + 1
             elif container.container_type == 'CONDA':
                 num_conda = num_conda + 1
@@ -305,3 +307,86 @@ def stats():
     stats.append(Stat('num_docker_containers', str(num_docker)))
 
     return stats
+
+
+def wokflows_get(name=None, description=None, author=None, license=None, type=None, container=None,
+                 offset=0, limit=1000, all_fields_search=None, sort_field='name', sort_order='asc'):
+    """List all workflows
+
+       This endpoint returns all workflows available or a filtered subset using metadata query parameters.
+
+       :param name: The name of the workflow.
+       :type name: str
+       :param description: The description of the workflow.
+       :type description: str
+       :param author: The author of the workflow
+       :type author: str
+       :param license: license of the workflow
+       :type license: str
+       :param type: type of the workflow
+       :type type: str
+       :param container: container used by the workflow
+       :type container: str
+       :param offset: Start index of paging.
+       :type offset: int
+       :param limit: Amount of records to return in a given page.
+       :type limit: int
+       :param all_fields_search: Search by all fields.
+       :param sort_field: field to sort the results
+       :param sort_order: sort order, asc or desc
+       :rtype: List[Worflow]
+       """
+
+    is_all_field_search = False
+
+    if all_fields_search is not None:
+        name = description = author = license = type = container = all_fields_search
+        is_all_field_search = True
+
+    resp = MongoWorkflow.get_workflows(name, description, author, license, type, container,
+                                       offset, limit, is_all_field_search, sort_field, sort_order)
+
+    if resp is None:
+        return None
+
+    tools = []
+    if tools is not None:
+        for tool in resp.tools:
+            tool = Workflow.from_dict(tool)
+            tools.append(tool)
+
+    next_page = None
+    if resp.next_offset is not None:
+        args_next_page = request.args.copy()
+        args_next_page['offset'] = resp.next_offset
+        args_next_page['limit'] = limit
+        next_page = '{}?{}'.format(request.base_url, url_encode(args_next_page))
+
+    args_last_page = request.args.copy()
+    args_last_page['offset'] = resp.last_page_offset
+    args_last_page['limit'] = limit
+    last_page = '{}?{}'.format(request.base_url, url_encode(args_last_page))
+
+    return tools, 200, {'next_page': next_page, 'last_page': last_page,
+                             'self_link': request.url, 'current_offset': offset,
+                             'current_limit': limit}
+
+def wokflow_post():
+    request_dict = request.get_json()
+    mongo_workflow = MongoWorkflow()
+    mongo_workflow.name = request_dict["name"]
+    mongo_workflow.git_repo = request_dict["git-repo"]
+    mongo_workflow.description = request_dict.get("description")
+    mongo_workflow.author = request_dict.get("author")
+    mongo_workflow.license = request_dict.get("license")
+    mongo_workflow.type = request_dict.get("type")
+    mongo_workflow.containers = request_dict.get("containers")
+
+    try:
+        mongo_workflow.save()
+    except DuplicateKeyError as error:
+        return "Duplicate record: name or git-repo already exists", 409
+    except Exception as e:
+        return str(e), 400
+
+    return "Workflow registered successfully", 201
