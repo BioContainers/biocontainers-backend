@@ -5,8 +5,10 @@ import os
 from pymodm import connect
 from pymongo.errors import DuplicateKeyError
 
-from biocontainers.common.models import MongoToolVersion, ContainerImage, MongoTool, _CONSTANT_TOOL_CLASSES
+from biocontainers.common.models import MongoToolVersion, ContainerImage, MongoTool, _CONSTANT_TOOL_CLASSES, \
+    MongoWorkflow
 from biocontainers.conda.conda_metrics import CondaMetrics
+from biocontainers.github.models import LocalGitReader
 
 logger = logging.getLogger('biocontainers.quayio.models')
 QUAYIO_DOMAIN = "quay.io/biocontainers/"
@@ -288,7 +290,7 @@ class InsertContainers:
                 tool_version_id = (entry['recipe'].get_name() + "-" + entry['recipe'].get_version()).lower()
                 tool_id = entry['recipe'].get_name().lower()
                 if 'BIOCONDUCTOR-GARS'.lower() in tool_version_id:
-                     logger.info(tool_version_id)
+                    logger.info(tool_version_id)
                 tool_version = MongoToolVersion.get_tool_version_by_id(tool_version_id)
                 tool = MongoTool.get_tool_by_id(tool_id)
                 if tool_version is not None:
@@ -296,7 +298,7 @@ class InsertContainers:
                         tool_version.description = entry["recipe"].get_description().capitalize()
                     if entry['recipe'].get_home_url() is not None:
                         tool_version.home_url = entry['recipe'].get_home_url()
-                    if entry['recipe'].get_license() is not None and len(entry['recipe'].get_license())>0:
+                    if entry['recipe'].get_license() is not None and len(entry['recipe'].get_license()) > 0:
                         tool_version.license = entry['recipe'].get_license()
                     else:
                         tool_version.license = NOT_AVAILABLE
@@ -337,6 +339,39 @@ class InsertContainers:
             tool_version.image_containers = old_images
             tool_version.save()
 
+    @staticmethod
+    def annotate_workflows(config, config_profile):
+        github_local = config[config_profile]['GITHUB_LOCAL_REPO']
+        mongo_workflows = MongoWorkflow.get_all_workflows()
+        for workflow in mongo_workflows:
+            git_repo = workflow.git_repo
+            logger.info("Annotating the Workflow : " + git_repo)
+            github_reader = LocalGitReader(git_repo, github_local)
+            github_reader.clone_url()
+            files = github_reader.get_list_files(github_local)
+            containers = []
+            for file in files:
+                if file.endswith(".nf"):
+                    # print(file)
+                    with open(file, "r") as file_contents:
+                        for line in file_contents:
+                            line = line.strip()
+                            container = None
+                            if line.startswith("container "): # container  xyz OR container = xyz
+                                splits = line.split()
+                                if len(splits) == 2: # container  xyz
+                                    container = splits[1]
+                                elif len(splits) == 3 and splits[1] == '=':  # container = xyz
+                                    container = splits[2]
+                            elif line.startswith("container="): # container=xyz
+                                splits = line.split("=")
+                                if len(splits) == 2:
+                                    container = splits[1]
 
+                            if container is not None:
+                                container = container.replace("'", "").replace('"', "")
+                                if container not in containers:
+                                    containers.append(container)
 
-
+            workflow.containers = containers
+            workflow.save()

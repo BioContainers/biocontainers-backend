@@ -125,13 +125,18 @@ class ToolsResponse:
     next_offset = None
     last_page_offset = None
 
+
 class WokflowQuerySet(QuerySet):
+
+    def all_workflows(self):
+        return list(self.all())
 
     def exec_query(self, query):
         return self.raw(query)
 
     def exec_aggregate_query(self, *query):
         return self.aggregate(*query)
+
 
 class MongoTool(MongoModel):
     """
@@ -528,7 +533,7 @@ class MongoWorkflow(MongoModel):
 
     @staticmethod
     def get_workflows(name=None, description=None, author=None, license=None, type=None, container=None,
-                      offset=None, limit=None, is_all_field_search=False, sort_field=None, sort_order=None):
+                      offset=0, limit=None, is_all_field_search=False, sort_field=None, sort_order=None):
 
         filters = []
         if name is not None:
@@ -587,3 +592,7 @@ class MongoWorkflow(MongoModel):
             resp.next_offset = next_offset
 
         return resp
+
+    @staticmethod
+    def get_all_workflows():
+        return MongoWorkflow.manager.all_workflows()
