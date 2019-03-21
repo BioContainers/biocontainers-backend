@@ -341,14 +341,19 @@ class InsertContainers:
 
     @staticmethod
     def annotate_workflows(config, config_profile):
+        logger_local = logging.getLogger('annotate_workflows')
         github_local = config[config_profile]['GITHUB_LOCAL_REPO']
         mongo_workflows = MongoWorkflow.get_all_workflows()
         for workflow in mongo_workflows:
             git_repo = workflow.git_repo
-            logger.info("Annotating the Workflow : " + git_repo)
+            logger_local.info("Annotating the Workflow : " + git_repo)
             github_reader = LocalGitReader(git_repo, github_local)
             github_reader.clone_url()
-            files = github_reader.get_list_files(github_local)
+            try:
+                files = github_reader.get_list_files(github_local)
+            except Exception as e:
+                logger_local.error("Error while cloning repo: " + git_repo)
+                continue
             containers = []
             for file in files:
                 if file.endswith(".nf"):
@@ -357,13 +362,13 @@ class InsertContainers:
                         for line in file_contents:
                             line = line.strip()
                             container = None
-                            if line.startswith("container "): # container  xyz OR container = xyz
+                            if line.startswith("container "):  # container  xyz OR container = xyz
                                 splits = line.split()
-                                if len(splits) == 2: # container  xyz
+                                if len(splits) == 2:  # container  xyz
                                     container = splits[1]
                                 elif len(splits) == 3 and splits[1] == '=':  # container = xyz
                                     container = splits[2]
-                            elif line.startswith("container="): # container=xyz
+                            elif line.startswith("container="):  # container=xyz
                                 splits = line.split("=")
                                 if len(splits) == 2:
                                     container = splits[1]
