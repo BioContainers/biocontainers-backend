@@ -101,6 +101,19 @@ def annotate_multi_package_containers(config, config_profile):
     mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
     mongo_helper.update_multi_package_containers(mulled_entries)
 
+def annotate_biotools_recipes(config, config_profile):
+    mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
+    mongo_helper.compute_similarity()
+    github_url = config[config_profile]['GITHUB_TOOLS_URL']
+    github_local = config[config_profile]['GITHUB_TOOLS_LOCAL_REPO']
+
+    github_reader = LocalGitReader(github_url, github_local)
+    github_reader.clone_url()
+    tools_recipes = github_reader.read_biotools_recipes()
+    mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
+    mongo_helper.annotate_biotools_metadata(tools_recipes)
+
+
 
 def get_database_uri(param):
     uri = 'mongodb://' + param['MONGODB_USER'] + ":" + param['MONGODB_PASS'] + '@' + param['MONGODB_HOST'] + ':' + \
@@ -115,6 +128,7 @@ def get_database_uri(param):
 @click.option('--annotate-quayio', '-aq', help='Annotate Quay.io Recipes', is_flag=True)
 @click.option('--annotate-conda', '-ac', help='Annotate Conda packages', is_flag=True)
 @click.option('--annotate-workflows', '-aw', help='Annotate Workflows', is_flag=True)
+@click.option('--annotate-identifiers', '-ai',  help='Annotate external identifiers (e.g biotools)', is_flag = True)
 @click.option('--config-file', '-c', type=click.Path(), default='configuration.ini')
 @click.option('--config-profile', '-a', help="This option allow to select a config profile", default='PRODUCTION')
 @click.option('-db', '--db-name', help="Name of the database", envvar='BIOCONT_DB_NAME')
@@ -124,7 +138,8 @@ def get_database_uri(param):
 @click.option('-pw', '--db-password', help='Database password', envvar='MONGODB_PASS')
 @click.option('-p', '--db-port', help='Database port', envvar='MONGO_PORT', default='27017')
 @click.pass_context
-def main(ctx, import_quayio, import_docker, annotate_docker, annotate_quayio, annotate_conda, annotate_workflows,
+def main(ctx, import_quayio, import_docker, annotate_docker, annotate_quayio,
+         annotate_conda, annotate_workflows, annotate_identifiers,
          config_file, config_profile, db_name,
          db_host, db_auth_database, db_user,
          db_password, db_port):
@@ -161,6 +176,9 @@ def main(ctx, import_quayio, import_docker, annotate_docker, annotate_quayio, an
 
     if annotate_workflows is not False:
         annotate_workflows_func(config, config_profile)
+
+    if annotate_identifiers is not False:
+        annotate_biotools_recipes(config, config_profile)
 
     annotate_multi_package_containers(config, config_profile)
 

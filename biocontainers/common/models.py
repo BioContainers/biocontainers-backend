@@ -50,6 +50,23 @@ class ToolClass(EmbeddedMongoModel):
     name = fields.CharField()
 
 
+class Publication(EmbeddedMongoModel):
+    title = fields.CharField()
+    citation_count = fields.IntegerField()
+    journal = fields.CharField()
+    abstract = fields.CharField()
+    pubmed_id = fields.CharField()
+    doi_id = fields.CharField()
+    pmc_id = fields.CharField()
+    publication_date = fields.CharField()
+    authors = fields.ListField(fields.CharField(max_length=200))
+
+    def add_author(self, author):
+        if self.authors is None:
+            self.authors = []
+        self.authors.append(author)
+
+
 class ContainerImage(EmbeddedMongoModel):
     """ This class handle how a container is build. Singularity, Docker, Conda, etc. """
     tag = fields.CharField()
@@ -83,6 +100,11 @@ class ToolQuerySet(QuerySet):
 
     def get_tool_by_id(self, tool_id):
         return self.raw({'id': tool_id})
+
+    def get_tool_by_additional_id(self, additional_id):
+        query = []
+        query.append({"additional_identifiers": {"$regex": additional_id}})
+        return list(self.raw({"$or": query}))
 
     def get_tools_by_name(self, toolname, alias, name):
         query = []
@@ -137,6 +159,25 @@ class WokflowQuerySet(QuerySet):
     def exec_aggregate_query(self, *query):
         return self.aggregate(*query)
 
+class Similar(EmbeddedMongoModel):
+    id = fields.CharField()
+    score = fields.FloatField()
+
+class SimilarTool(MongoModel):
+    id = fields.CharField(max_length=200, blank=False, required=True)
+    similars = fields.EmbeddedDocumentListField('Similar')
+
+    def add_similar(self, id, score):
+        not_found = True
+        for a in self.similars:
+            if a.id == id:
+                not_found = False
+                a.score = score
+        if not_found:
+            similar = Similar()
+            similar.id = id
+            similar.score = score
+            self.similars.append(similar)
 
 class MongoTool(MongoModel):
     """
@@ -164,6 +205,7 @@ class MongoTool(MongoModel):
     aliases = fields.ListField(fields.CharField())
     checker = fields.BooleanField()
     tool_tags = fields.ListField(fields.CharField())
+    publications = fields.EmbeddedDocumentListField('Publication')
 
     manager = Manager.from_queryset(ToolQuerySet)()
 
@@ -189,6 +231,14 @@ class MongoTool(MongoModel):
             if author not in self.authors:
                 self.authors.append(author)
 
+    def add_additional_identifiers(self, ids):
+        if self.additional_identifiers is None:
+            self.additional_identifiers = []
+
+        for id in ids:
+            if id not in self.additional_identifiers:
+                self.additional_identifiers.append(id)
+
     def add_registry(self, new_registry):
         """
         This method adds a registry to the current list of registries of the Tool
@@ -213,6 +263,17 @@ class MongoTool(MongoModel):
         if new_alias not in self.aliases:
             self.aliases.append(new_alias)
 
+    def add_publication(self, publication):
+        if self.publications is None:
+            self.publications = []
+        noFound = True
+        for entry in self.publications:
+            if entry.pubmed_id == publication.pubmed_id or entry.doi_id == publication.doi_id or entry.pmc_id == publication.pmc_id:
+                noFound = False
+
+        if noFound:
+            self.publications.append(publication)
+
     def get_main_author(self):
         """
         This method returns first author of the list. The pipeline add the
@@ -232,6 +293,25 @@ class MongoTool(MongoModel):
             return self.tool_classes[0]
 
         return _CONSTANT_TOOL_CLASSES['CommandLineTool']
+
+    def build_complete_metadata(self):
+        fields = [self.name]
+        if self.description is not None:
+            fields.append(self.description)
+        for alias in self.aliases:
+            fields.append(alias)
+        for id in self.additional_identifiers:
+            fields.append(id)
+        for publication in self.publications:
+            if publication.title is not None:
+                fields.append(publication.title)
+            if publication.abstract is not None:
+                fields.append(publication.abstract)
+            if publication.authors is not None:
+                for author in publication.authors:
+                    fields.append(author)
+        self.additional_metadata = "\n".join(fields)
+
 
     @staticmethod
     def get_main_author_dict(authors):
@@ -270,6 +350,11 @@ class MongoTool(MongoModel):
         if tools_list is not None and len(tools_list) > 0:
             return tools_list[0]
         return None
+
+    @staticmethod
+    def get_tool_by_additional_id(id):
+        tools = MongoTool.manager.get_tool_by_additional_id(id)
+        return tools
 
     @staticmethod
     def get_tools(id=None, alias=None, registry=None, organization=None, name=None, toolname=None, description=None,
