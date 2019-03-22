@@ -102,17 +102,16 @@ def annotate_multi_package_containers(config, config_profile):
     mongo_helper.update_multi_package_containers(mulled_entries)
 
 def annotate_biotools_recipes(config, config_profile):
-    mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
-    mongo_helper.compute_similarity()
     github_url = config[config_profile]['GITHUB_TOOLS_URL']
     github_local = config[config_profile]['GITHUB_TOOLS_LOCAL_REPO']
-
     github_reader = LocalGitReader(github_url, github_local)
     github_reader.clone_url()
     tools_recipes = github_reader.read_biotools_recipes()
     mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
     mongo_helper.annotate_biotools_metadata(tools_recipes)
 
+    mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
+    mongo_helper.compute_similarity()
 
 
 def get_database_uri(param):
@@ -181,7 +180,6 @@ def main(ctx, import_quayio, import_docker, annotate_docker, annotate_quayio,
         annotate_biotools_recipes(config, config_profile)
 
     annotate_multi_package_containers(config, config_profile)
-
 
 if __name__ == "__main__":
     main()
