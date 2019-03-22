@@ -92,6 +92,11 @@ class Descriptor(EmbeddedMongoModel):
 # Mongo Classes to persistent the data model.
 class ToolQuerySet(QuerySet):
 
+    def get_all_tools_by_id(self, ids):
+        query = []
+        query.append({"id": {"$in" : ids}})
+        return list(self.raw({"$or": query}))
+
     def mongo_tool_versions_by_tool(self, tool_id):
         return self.raw({'ref_tool': tool_id})
 
@@ -130,6 +135,12 @@ class ToolQuerySet(QuerySet):
         return self.raw(query).only('_id').order_by([('_id', sort_order)])
 
 
+class SimilarQuerySet(QuerySet):
+
+    def get_tool_by_id(self, tool_id):
+        return self.raw({'id': tool_id})
+
+
 class ToolVersionQuerySet(QuerySet):
 
     def mongo_all_tool_versions(self):
@@ -159,13 +170,24 @@ class WokflowQuerySet(QuerySet):
     def exec_aggregate_query(self, *query):
         return self.aggregate(*query)
 
+
 class Similar(EmbeddedMongoModel):
     id = fields.CharField()
     score = fields.FloatField()
 
+
 class SimilarTool(MongoModel):
     id = fields.CharField(max_length=200, blank=False, required=True)
     similars = fields.EmbeddedDocumentListField('Similar')
+
+    manager = Manager.from_queryset(SimilarQuerySet)()
+
+    @staticmethod
+    def get_similars_by_id(id):
+        tools = list(SimilarTool.manager.get_tool_by_id(id))
+        if (len(tools) > 0):
+            return tools[0]
+        return None
 
     def add_similar(self, id, score):
         not_found = True
@@ -178,6 +200,7 @@ class SimilarTool(MongoModel):
             similar.id = id
             similar.score = score
             self.similars.append(similar)
+
 
 class MongoTool(MongoModel):
     """
@@ -312,7 +335,6 @@ class MongoTool(MongoModel):
                     fields.append(author)
         self.additional_metadata = "\n".join(fields)
 
-
     @staticmethod
     def get_main_author_dict(authors):
         """
@@ -355,6 +377,10 @@ class MongoTool(MongoModel):
     def get_tool_by_additional_id(id):
         tools = MongoTool.manager.get_tool_by_additional_id(id)
         return tools
+
+    @staticmethod
+    def get_all_tools_by_id(ids):
+        return MongoTool.manager.get_all_tools_by_id(ids)
 
     @staticmethod
     def get_tools(id=None, alias=None, registry=None, organization=None, name=None, toolname=None, description=None,
@@ -481,6 +507,8 @@ class MongoToolVersion(MongoModel):
     @staticmethod
     def get_all_tool_versions():
         return MongoToolVersion.manager_versions.mongo_all_tool_versions()
+
+
 
     @staticmethod
     def get_tool_version_by_id(tool_version_id):

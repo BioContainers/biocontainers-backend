@@ -78,6 +78,24 @@ def transform_mongo_tool(mongo_tool, mongo_tool_versions):
 
     return tool
 
+def transform_mongo_tool(mongo_tool):
+    tool = Tool()
+    tool.id = mongo_tool.id
+    tool.description = mongo_tool.description
+    # By default all our tools will be declare as verified
+    tool.verified = True
+    tool.author = mongo_tool.get_main_author()
+    tool.license = mongo_tool.license
+    tool.toolname = mongo_tool.name
+    tool.url = _PUBLIC_REGISTRY_URL + "tool/" + tool.id
+
+    # Set the Tool Class
+    mongo_tool_class = mongo_tool.get_main_tool_class()
+    tool.toolclass = transform_mongo_tool_class(mongo_tool_class)
+
+    tool.versions = []
+
+    return tool
 
 def transform_tool_version(mongo_tool_version: MongoToolVersion, mongo_tool_id: str) -> ToolVersion:
     """

@@ -215,6 +215,45 @@ paths:
               type: "integer"
               description: "The current page record limit used for this result"
       x-swagger-router-controller: "biocontainers_flask.server.controllers.ga4_gh_controller"
+  /tools/{id}/similars:
+    get:
+      tags:
+      - "BioContainers"
+      summary: "List all similar tools "
+      description: "This endpoint returns all tools available similar to the tool id. \n"
+      operationId: "tools_get_similars"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "A unique identifier of the tool, scoped to this registry, for example `123456`"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "An array of Tools that match the filter."
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Tool"
+          headers:
+            next_page:
+              type: "string"
+              description: "A URL that can be used to reach the next page based on\
+                  \ the current offset and page record limit"
+            last_page:
+              type: "string"
+              description: "A URL that can be used to reach the last page based on\
+                  \ the current page record limit"
+            self_link:
+              type: "string"
+              description: "A URL that can be used to return to the current page later"
+            current_offset:
+              type: "string"
+              description: "The current start index of the paging used for this result"
+            current_limit:
+              type: "integer"
+              description: "The current page record limit used for this result"
+      x-swagger-router-controller: "biocontainers_flask.server.controllers.ga4_gh_controller"
   /tools/{id}/versions/{version_id}/{type}/descriptor:
     get:
       tags:

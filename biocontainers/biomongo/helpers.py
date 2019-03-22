@@ -30,41 +30,27 @@ class InsertContainers:
 
     @staticmethod
     def compute_similarity():
+        tool_ids = []
         descriptions = []
         tools = list(MongoTool.get_all_tools())
+        count = 0
         for tool in tools:
             tool.build_complete_metadata()
-            descriptions.append({"id":tool.id, "description":tool.additional_metadata})
-
+            tool_ids.append({"index":count, "id":tool.id, "description":tool.additional_metadata})
+            count = count + 1
+            descriptions.append(tool.additional_metadata)
         dic_results = []
-        for i in range(0, len(descriptions)-1):
-
-            for j in range(i + 1, len(descriptions) -1):
-                vect = TfidfVectorizer(min_df=1)
-                compare = []
-                compare.append(descriptions[i]["description"])
-                compare.append(descriptions[j]["description"])
-                tfidf = vect.fit_transform(compare)
-                results = (tfidf * tfidf.T).A
-                if results[0][1] > 0.2:
-                    # print(descriptions[i]["id"] + " : " + descriptions[j]["id"] + " " + str((results[0][1])* 100))
-                    i_not_found = True
-                    j_not_found = True
-                    for a in dic_results:
-                        if a['id'] == descriptions[i]['id']:
-                            a['similars'].append({'id': descriptions[j]['id'], 'score':(results[0][1])* 100})
-                            i_not_found = False
-                        if a['id'] == descriptions[j]['id']:
-                            a['similars'].append({'id': descriptions[i]['id'], 'score': (results[0][1]) * 100})
-                            j_not_found = False
-                    if i_not_found:
-                        similars = [{'id': descriptions[j]['id'], 'score':(results[0][1])* 100}]
-                        dic_results.append({'id': descriptions[i]['id'], 'similars':similars})
-
-                    if j_not_found:
-                        similars = [{'id': descriptions[i]['id'], 'score': (results[0][1]) * 100}]
-                        dic_results.append({'id': descriptions[j]['id'], 'similars': similars})
-
+        vect = TfidfVectorizer(min_df=1)
+        tfidf = vect.fit_transform(descriptions)
+        results = (tfidf * tfidf.T).A
+        print(results)
+        for i in range(0 , len(tool_ids) -1):
+            similars = []
+            for j in range(0, len(tool_ids) -1):
+                if i != j and results[i][j] > 0.2:
+                    similars.append({"id": tool_ids[j]["id"], "score": (results[i][j]) * 100})
+            dic_results.append({"id": tool_ids[i]["id"], "similars": similars})
+            print(i)
         for result in dic_results:
             similar = SimilarTool()
             similar.id = result['id']

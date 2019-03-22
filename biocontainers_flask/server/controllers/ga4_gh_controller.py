@@ -2,9 +2,9 @@ from flask import request
 from pymongo.errors import DuplicateKeyError
 from werkzeug.urls import url_encode
 
-from biocontainers.common.models import MongoTool, _CONSTANT_TOOL_CLASSES, MongoToolVersion, MongoWorkflow
-from biocontainers_flask.server.controllers.utils import transform_mongo_tool, transform_dic_tool_class, \
-    transform_tool_version, transform_mongo_tool_dict
+from biocontainers.common.models import MongoTool, _CONSTANT_TOOL_CLASSES, MongoToolVersion, MongoWorkflow, SimilarTool
+from biocontainers_flask.server.controllers.utils import transform_dic_tool_class, \
+    transform_tool_version, transform_mongo_tool_dict, transform_mongo_tool
 from biocontainers_flask.server.models.file_wrapper import FileWrapper  # noqa: E501
 from biocontainers_flask.server.models.metadata import Metadata  # noqa: E501
 from biocontainers_flask.server.models.stat import Stat
@@ -307,6 +307,28 @@ def stats():
     stats.append(Stat('num_docker_containers', str(num_docker)))
 
     return stats
+
+def tools_get_similars( id = None):
+
+    similar_tool = SimilarTool.get_similars_by_id(id)
+    ids = []
+    for similar in similar_tool.similars:
+        ids.append(similar.id)
+
+    tools = MongoTool.get_all_tools_by_id(ids)
+    result_tools = []
+    if tools is not None:
+        for mongo_tool in tools:
+            score = 0
+            for similar in similar_tool.similars:
+                if similar.id == mongo_tool.id:
+                    score = similar.score
+            tool = transform_mongo_tool(mongo_tool)
+            tool.similar_score = score
+            result_tools.append(tool)
+    # If the checker is provided, we filter for checker tools.
+    return result_tools
+
 
 
 def wokflows_get(name=None, description=None, author=None, license=None, type=None, container=None,
