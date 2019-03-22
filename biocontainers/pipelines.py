@@ -102,6 +102,8 @@ def annotate_multi_package_containers(config, config_profile):
     mongo_helper.update_multi_package_containers(mulled_entries)
 
 def annotate_biotools_recipes(config, config_profile):
+    mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
+    mongo_helper.compute_similarity()
     github_url = config[config_profile]['GITHUB_TOOLS_URL']
     github_local = config[config_profile]['GITHUB_TOOLS_LOCAL_REPO']
 

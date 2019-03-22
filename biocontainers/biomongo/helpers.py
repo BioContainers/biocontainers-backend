@@ -4,9 +4,10 @@ import os
 
 from pymodm import connect
 from pymongo.errors import DuplicateKeyError
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 from biocontainers.common.models import MongoToolVersion, ContainerImage, MongoTool, _CONSTANT_TOOL_CLASSES, \
-    MongoWorkflow
+    MongoWorkflow, Publication, SimilarTool
 from biocontainers.conda.conda_metrics import CondaMetrics
 from biocontainers.github.models import LocalGitReader
 
@@ -26,6 +27,50 @@ class InsertContainers:
 
     def __init__(self, connect_url):
         connection = connect(connect_url)
+
+    @staticmethod
+    def compute_similarity():
+        descriptions = []
+        tools = list(MongoTool.get_all_tools())
+        for tool in tools:
+            tool.build_complete_metadata()
+            descriptions.append({"id":tool.id, "description":tool.additional_metadata})
+
+        dic_results = []
+        for i in range(0, len(descriptions)-1):
+
+            for j in range(i + 1, len(descriptions) -1):
+                vect = TfidfVectorizer(min_df=1)
+                compare = []
+                compare.append(descriptions[i]["description"])
+                compare.append(descriptions[j]["description"])
+                tfidf = vect.fit_transform(compare)
+                results = (tfidf * tfidf.T).A
+                if results[0][1] > 0.2:
+                    # print(descriptions[i]["id"] + " : " + descriptions[j]["id"] + " " + str((results[0][1])* 100))
+                    i_not_found = True
+                    j_not_found = True
+                    for a in dic_results:
+                        if a['id'] == descriptions[i]['id']:
+                            a['similars'].append({'id': descriptions[j]['id'], 'score':(results[0][1])* 100})
+                            i_not_found = False
+                        if a['id'] == descriptions[j]['id']:
+                            a['similars'].append({'id': descriptions[i]['id'], 'score': (results[0][1]) * 100})
+                            j_not_found = False
+                    if i_not_found:
+                        similars = [{'id': descriptions[j]['id'], 'score':(results[0][1])* 100}]
+                        dic_results.append({'id': descriptions[i]['id'], 'similars':similars})
+
+                    if j_not_found:
+                        similars = [{'id': descriptions[i]['id'], 'score': (results[0][1]) * 100}]
+                        dic_results.append({'id': descriptions[j]['id'], 'similars': similars})
+
+        for result in dic_results:
+            similar = SimilarTool()
+            similar.id = result['id']
+            for a in result['similars']:
+                similar.add_similar(a['id'], a['score'])
+            similar.save()
 
     @staticmethod
     def insert_quayio_containers(quayio_containers):
@@ -343,8 +388,7 @@ class InsertContainers:
     def annotate_biotools_metadata(tools_recipes):
         for entry in tools_recipes:
             logger.info("Annotating the recipe -- " + entry['name'])
-            tool_version_id = None
-            if (entry['recipe'].get_id() is not None):
+            if entry['recipe'].get_id() is not None:
                 tool_id = entry['recipe'].get_id()
                 tools = MongoTool.get_tool_by_additional_id("biotools:" + tool_id)
                 if len(tools) > 0 and tools[0] is not None:
@@ -353,17 +397,45 @@ class InsertContainers:
                     for id in tool.additional_identifiers:
                         if id in ("biotools:" + tool_id):
                             found = True
-
                     if found:
                         if entry["recipe"].get_description() is not None:
-                            tool.description = entry["recipe"].get_description().capitalize()
+                            if tool.description is None:
+                                tool.description = entry["recipe"].get_description().capitalize()
                         if entry['recipe'].get_home_url() is not None:
-                            tool.home_url = entry['recipe'].get_home_url()
+                            if tool.home_url is None:
+                                tool.home_url = entry['recipe'].get_home_url()
                         if entry['recipe'].get_license() is not None and bool(entry['recipe'].get_license()):
                             if tool.license in NOT_AVAILABLE:
                                 tool.license = entry['recipe'].get_license()
                         else:
                             tool.license = NOT_AVAILABLE
+                        if entry['recipe'].get_references() is not None:
+                            for reference in entry['recipe'].get_references():
+                                publication = Publication()
+                                if 'pmcid' in reference and reference['pmcid'] is not None:
+                                    publication.pmc_id = reference['pmcid']
+                                if 'pmid' in reference and reference['pmid'] is not None:
+                                    publication.pubmed_id = reference['pmid']
+                                if 'doi' in reference and reference['doi'] is not None:
+                                    publication.doi = reference['doi']
+
+                                if 'metadata' in reference and reference['metadata'] is not None:
+                                    if 'title' in reference['metadata'] and reference['metadata']['title']:
+                                        publication.title = reference['metadata']['title']
+                                    if 'abstract' in reference['metadata'] and reference['metadata']['abstract'] is not None and len((reference['metadata']['abstract']).strip()) > 0:
+                                        publication.abstract = reference['metadata']['abstract']
+                                    if 'citationCount' in reference['metadata'] and reference['metadata']['citationCount'] is not None:
+                                        publication.citation_count = reference['metadata']['citationCount']
+                                    if 'journal' in reference['metadata'] and reference['metadata']['journal'] is not None:
+                                        publication.journal = reference['metadata']['journal']
+                                    if 'date' in reference['metadata'] and reference['metadata']['date']:
+                                        publication.publication_date = reference['metadata']['date']
+                                    if 'authors' in reference['metadata'] and reference['metadata']['authors'] is not None:
+                                        for author in reference['metadata']['authors']:
+                                            publication.add_author(author['name'])
+
+                                tool.add_publication(publication)
+                        tool.build_complete_metadata()
                         tool.save()
                         logger.info("Updated tool description of -- " + tool_id)
 

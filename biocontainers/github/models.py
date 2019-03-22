@@ -148,6 +148,11 @@ class ToolRecipe:
             return self.attributes['topic']
         return None
 
+    def get_references(self):
+        if 'publication' in self.attributes:
+            return self.attributes['publication']
+        return None
+
 
 class GitHubConfiguration:
     """
