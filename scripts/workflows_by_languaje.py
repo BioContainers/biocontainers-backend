@@ -4,7 +4,7 @@ import requests
 def print_repo(data, next, type ):
     for entry in data['items']:
         license = ""
-        if 'license' in entry and entry['license'] != None and 'spdx_id' in entry['license']:
+        if 'license' in entry and entry['license'] is not None and 'spdx_id' in entry['license']:
             license = entry['license']['spdx_id']
 
         if entry['description'] == None:

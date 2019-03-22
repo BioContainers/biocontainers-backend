@@ -47,6 +47,9 @@ class QuayIOContainer:
     def is_starred(self):
         return self.attributes['is_starred']
 
+    def pulls(self):
+        return self.attributes['stats']
+
 
 class QuayIOReader:
     """
@@ -74,8 +77,7 @@ class QuayIOReader:
                 for key in json_data['repositories']:
                     container = QuayIOContainer(key)
                     container_list.append(container)
-                    logger.info(
-                        " A short description has been retrieved from Quay.io for this container -- " + container.name())
+                    logger.info("A short description has been retrieved from Quay.io for this container -- " + container.name())
         except (ConnectionError, NewConnectionError) as error:
             logger.error(" Connection has failed to QuaIO for following url --" + string_url)
 
@@ -107,8 +109,7 @@ class QuayIOReader:
                     json_data = json.loads(response.content.decode('utf-8'))
                     container = QuayIOContainer(json_data)
                     container_details_list.append(container)
-                    logger.info(
-                        " A full description has been retrieved from Quay.io for this container -- " + container.name())
+                    logger.info("A full description has been retrieved from Quay.io for this container -- " + container.name())
             except (ConnectionError, NewConnectionError) as error:
                 logger.error(" Connection has failed to QuaIO for container ID --" + short_container.name())
 

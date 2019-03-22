@@ -94,7 +94,7 @@ class ToolQuerySet(QuerySet):
 
     def get_all_tools_by_id(self, ids):
         query = []
-        query.append({"id": {"$in" : ids}})
+        query.append({"id": {"$in": ids}})
         return list(self.raw({"$or": query}))
 
     def mongo_tool_versions_by_tool(self, tool_id):
@@ -202,6 +202,11 @@ class SimilarTool(MongoModel):
             self.similars.append(similar)
 
 
+class PullProvider(EmbeddedMongoModel):
+    id = fields.CharField()
+    count = fields.IntegerField()
+
+
 class MongoTool(MongoModel):
     """
     Mongo Tool Class contains the persistence information of a Tool.
@@ -229,6 +234,7 @@ class MongoTool(MongoModel):
     checker = fields.BooleanField()
     tool_tags = fields.ListField(fields.CharField())
     publications = fields.EmbeddedDocumentListField('Publication')
+    pulls = fields.EmbeddedDocumentListField('PullProvider')
 
     manager = Manager.from_queryset(ToolQuerySet)()
 
@@ -265,6 +271,7 @@ class MongoTool(MongoModel):
     def add_registry(self, new_registry):
         """
         This method adds a registry to the current list of registries of the Tool
+        :param new_registry:
         :param registry: New registry
         :return:
         """
@@ -334,6 +341,28 @@ class MongoTool(MongoModel):
                 for author in publication.authors:
                     fields.append(author)
         self.additional_metadata = "\n".join(fields)
+
+    def add_pull_provider(self, id, count):
+        if self.pulls is None:
+            self.pulls = []
+
+        pull_not_found = True
+        for pull in self.pulls:
+            if pull.id == id:
+                pull.count = count
+
+        if pull_not_found:
+            pull = PullProvider()
+            pull.id = id
+            pull.count = count
+            self.pulls.append(pull)
+
+    def get_pulls(self):
+        count = 0
+        for provider in self.pulls:
+            count = provider.count + count
+        return count
+
 
     @staticmethod
     def get_main_author_dict(authors):
@@ -507,8 +536,6 @@ class MongoToolVersion(MongoModel):
     @staticmethod
     def get_all_tool_versions():
         return MongoToolVersion.manager_versions.mongo_all_tool_versions()
-
-
 
     @staticmethod
     def get_tool_version_by_id(tool_version_id):

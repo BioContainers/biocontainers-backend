@@ -78,6 +78,7 @@ class InsertContainers:
         for container in quayio_containers:
             # The version is read from the container tag.
             version_list = []
+            current_tool = None
             for key, val in container.tags().items():
 
                 # First insert Tool version containers. For that we need to parse first the version of the tool. Version is also handle as defined by
@@ -147,6 +148,7 @@ class InsertContainers:
 
                 try:
                     mongo_tool.save()
+                    current_tool = mongo_tool
                 except DuplicateKeyError as error:
                     logger.error(" A tool with same name is already in the database -- " + tool_id)
 
@@ -158,6 +160,12 @@ class InsertContainers:
                     logger.error(
                         " A tool version with a same name and version is in the database -- " + tool_version_id)
 
+            if current_tool is not None:
+                count = 0
+                for stat in container.pulls():
+                    count = count + stat['count']
+                current_tool.add_pull_provider("quay.io", count)
+                current_tool.save()
         containers_list = list(tool_versions_dic.values())
 
     @staticmethod
@@ -372,6 +380,7 @@ class InsertContainers:
 
     @staticmethod
     def annotate_biotools_metadata(tools_recipes):
+        global tool_id
         for entry in tools_recipes:
             logger.info("Annotating the recipe -- " + entry['name'])
             if entry['recipe'].get_id() is not None:

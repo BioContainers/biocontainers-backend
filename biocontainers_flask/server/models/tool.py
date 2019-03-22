@@ -17,7 +17,7 @@ class Tool(Model):
     """
 
     def __init__(self, url: str=None, id: str=None, aliases: List[str]=None, organization: str=None, toolname: str=None, toolclass: ToolClass=None, description: str=None, author: str=None, meta_version: str=None, contains: List[str]=None, has_checker: bool=None,
-                 checker_url: str=None, verified: bool=None, verified_source: str=None, signed: bool=None, versions: List[ToolVersion]=None, license: str=None, similar_score: float = None):  # noqa: E501
+                 checker_url: str=None, verified: bool=None, verified_source: str=None, signed: bool=None, versions: List[ToolVersion]=None, license: str=None, similar_score: float = None, pulls : int = None):  # noqa: E501
         """Tool - a model defined in Swagger
 
         :param url: The url of this Tool.  # noqa: E501
@@ -71,7 +71,8 @@ class Tool(Model):
             'signed': bool,
             'versions': List[ToolVersion],
             'license' : str,
-            'similar_score' : float
+            'similar_score' : float,
+            'pulls' : int
         }
 
         self.attribute_map = {
@@ -92,7 +93,8 @@ class Tool(Model):
             'signed': 'signed',
             'versions': 'versions',
             'license':'license',
-            'similar_score': 'similar_score'
+            'similar_score': 'similar_score',
+            'pulls': 'pulls'
         }
 
         self._url = url
@@ -113,6 +115,7 @@ class Tool(Model):
         self._versions = versions
         self._license = license
         self._similar_score = similar_score
+        self._pulls = pulls
 
     @classmethod
     def from_dict(cls, dikt) -> 'Tool':
@@ -525,3 +528,11 @@ class Tool(Model):
     @similar_score.setter
     def similar_score(self, similar_score: float):
         self._similar_score = similar_score
+
+    @property
+    def pulls(self) -> int:
+        return self._pulls
+
+    @pulls.setter
+    def pulls(self, pulls: int):
+        self._pulls = pulls
