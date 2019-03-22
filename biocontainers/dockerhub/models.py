@@ -55,6 +55,9 @@ class DockerHubContainer:
         for key in tags:
             self.tags.append(key)
 
+    def get_pull_count(self):
+        return self.attributes['pull_count']
+
 
 class DockerHubReader:
     """

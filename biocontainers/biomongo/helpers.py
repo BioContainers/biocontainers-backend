@@ -187,6 +187,7 @@ class InsertContainers:
 
         for container in dockerhub_containers:
             # The version is read from the container tag.
+            current_tool = None
             for key in container.tags:
 
                 # First insert Tool version containers. For that we need to parse first the version of the tool. Version is also handle as defined by
@@ -239,6 +240,7 @@ class InsertContainers:
 
                 try:
                     mongo_tool.save()
+                    current_tool = mongo_tool
                 except DuplicateKeyError as error:
                     logger.error(" A tool with same name is already in the database -- " + tool_id)
 
@@ -250,6 +252,10 @@ class InsertContainers:
                 except DuplicateKeyError as error:
                     logger.error(
                         " A tool version with a same name and version is in the database -- " + tool_version_id)
+
+            if current_tool is not None:
+                current_tool.add_pull_provider("dockerhub", container.get_pull_count())
+                current_tool.save()
 
         containers_list = list(tool_versions_dic.values())
 
@@ -362,12 +368,21 @@ class InsertContainers:
     def annotate_conda_recipes():
         conda_helper = CondaMetrics()
         mongo_versions = MongoToolVersion.get_all_tool_versions()
+        tools = []
         for tool_version in mongo_versions:
+            count = 0
+            tool_not_found = True
+            for tool in tools:
+                if tool['id'] == tool_version.name:
+                    count = tool['count']
+                    tool_not_found = False
+
             old_images = []
             for image in tool_version.image_containers:
                 if image.container_type == 'CONDA':
                     annotations = conda_helper.get_number_downloas_by_version(tool_version.name, tool_version.version)
                     image.downloads = annotations['downloads']
+                    count = count + image.downloads
                     image.size = annotations['size']
                     if annotations['last_update'][0:10] is not None and bool(annotations['last_update'][0:10].strip()):
                         image.last_updated = annotations['last_update'][0:10]
@@ -376,7 +391,20 @@ class InsertContainers:
                     print(annotations)
                 old_images.append(image)
             tool_version.image_containers = old_images
+
+            if tool_not_found and count > 0:
+                tools.append({"id": tool_version.name, "count":count})
+            else:
+                for tool in tools:
+                    if tool['id'] == tool_version.name:
+                        tool['count'] = count
             tool_version.save()
+        print(tools)
+        for stat in tools:
+            tool = MongoTool.get_tool_by_id(stat['id'])
+            tool.add_pull_provider("conda", stat['count'])
+            tool.save()
+
 
     @staticmethod
     def annotate_biotools_metadata(tools_recipes):

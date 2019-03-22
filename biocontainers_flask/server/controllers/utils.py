@@ -43,6 +43,10 @@ def transform_mongo_tool_dict(mongo_tool):
     tool.author = MongoTool.get_main_author_dict(mongo_tool["authors"])
     tool.toolname = mongo_tool["name"]
     tool.url = _PUBLIC_REGISTRY_URL + "tools/" + tool.id
+    count = 0
+    for stat in mongo_tool['pulls']:
+       count = count + stat['count']
+    tool.pulls = count
 
     # Set the Tool Class
     mongo_tool_class = MongoTool.get_main_tool_class_dict(mongo_tool["tool_classes"])
@@ -65,6 +69,7 @@ def transform_mongo_tool(mongo_tool, mongo_tool_versions):
     tool.author = mongo_tool.get_main_author()
     tool.license = mongo_tool.license
     tool.toolname = mongo_tool.name
+    tool.pulls = mongo_tool.get_pulls()
     tool.url = _PUBLIC_REGISTRY_URL + "tool/" + tool.id
 
     # Set the Tool Class
