@@ -2,6 +2,7 @@ from flask import request
 from pymongo.errors import DuplicateKeyError
 from werkzeug.urls import url_encode
 
+from biocontainers.biomongo.helpers import InsertContainers
 from biocontainers.common.models import MongoTool, _CONSTANT_TOOL_CLASSES, MongoToolVersion, MongoWorkflow
 from biocontainers_flask.server.controllers.utils import transform_mongo_tool, transform_dic_tool_class, \
     transform_tool_version, transform_mongo_tool_dict
@@ -389,5 +390,11 @@ def wokflow_post():
         return "Duplicate record: name or git-repo already exists", 409
     except Exception as e:
         return str(e), 400
+
+    try:
+        InsertContainers.annotate_workflow(mongo_workflow, "/tmp/bioconda-recipes/")
+    except Exception as e:
+        print("Error in getting containers from : " + mongo_workflow.git_repo)
+        return "Failed to retrieve containers. But, Workflow registered successfully ", 201
 
     return "Workflow registered successfully", 201
