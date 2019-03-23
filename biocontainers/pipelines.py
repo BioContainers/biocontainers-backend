@@ -94,7 +94,7 @@ def annotate_workflows_func(config, config_profile):
     mongo_helper.annotate_workflows(config, config_profile)
 
 
-def annotate_multi_package_containers(config, config_profile):
+def annotate_multi_package_containers_func(config, config_profile):
     github_conf = GitHubConfiguration(config[config_profile]['GITHUB_API_MULLED_FILES'],
                                       config[config_profile]['GITHUB_MULLED_FILE_CONTENTS'])
 
@@ -184,7 +184,7 @@ def main(ctx, import_quayio, import_docker, annotate_docker, annotate_quayio,
         annotate_biotools_recipes(config, config_profile)
 
     if annotate_multi_package_containers is not False:
-        annotate_multi_package_containers(config, config_profile)
+        annotate_multi_package_containers_func(config, config_profile)
 
 
 if __name__ == "__main__":

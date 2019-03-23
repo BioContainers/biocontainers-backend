@@ -380,6 +380,7 @@ class GitHubMulledReader:
     """
     This class contains the methods needed to Read the Mulled files from GitHub
     """
+    local_logger = logging.getLogger('MulledReader')
 
     def __init__(self, github_config):
         self.mulled_files = []
@@ -392,6 +393,7 @@ class GitHubMulledReader:
         :return: list of all mulled file names
         """
         string_url = self.github_config.repository_recursive_url
+        GitHubMulledReader.local_logger.info("Sending request : " + string_url)
         response = requests.get(string_url)
         if response.status_code == 200:
             json_data = json.loads(response.content.decode('utf-8'))
@@ -412,6 +414,7 @@ class GitHubMulledReader:
         for file_name in self.mulled_files:
             string_url = self.github_config.repository_readable_url.replace("%file_name%",
                                                                             file_name)
+            GitHubMulledReader.local_logger.info("Sending request : " + string_url)
             response = requests.get(string_url)
             if response.status_code == 200:
                 json_data = response.content.decode('utf-8')
