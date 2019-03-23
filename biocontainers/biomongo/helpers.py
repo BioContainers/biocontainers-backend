@@ -465,6 +465,7 @@ class InsertContainers:
             logger.info("The following tool has been analyzed -- " + str(tool_id))
 
 
+    @staticmethod
     def annotate_workflows(config, config_profile):
         logger_local = logging.getLogger('annotate_workflows')
         github_local = config[config_profile]['GITHUB_LOCAL_REPO']

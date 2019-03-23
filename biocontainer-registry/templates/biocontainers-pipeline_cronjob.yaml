@@ -10,7 +10,7 @@ spec:
         spec:
           containers:
             - name: biocontainers-pipelines
-              image: chakrabandla/biocontainer-pipelines:0.9
+              image: chakrabandla/biocontainer-pipelines:0.10
               imagePullPolicy: IfNotPresent
               env:
                 - name: "MONGO_ROOT_PASS"
