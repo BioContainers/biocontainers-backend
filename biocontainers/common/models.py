@@ -350,6 +350,7 @@ class MongoTool(MongoModel):
         for pull in self.pulls:
             if pull.id == id:
                 pull.count = count
+                pull_not_found = False
 
         if pull_not_found:
             pull = PullProvider()
