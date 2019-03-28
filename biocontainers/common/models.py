@@ -346,17 +346,34 @@ class MongoTool(MongoModel):
         if self.pulls is None:
             self.pulls = []
 
+        total_count = 0
+        total_key = "total"
+        total_dict = None
+
         pull_not_found = True
         for pull in self.pulls:
             if pull.id == id:
                 pull.count = count
+                total_count += count
                 pull_not_found = False
+            elif pull.id == total_key:
+                total_dict = pull
+            else:
+                total_count += pull.count
 
         if pull_not_found:
             pull = PullProvider()
             pull.id = id
             pull.count = count
             self.pulls.append(pull)
+
+        if total_dict is None:
+            pull = PullProvider()
+            pull.id = total_key
+            pull.count = total_count
+            self.pulls.append(pull)
+        else:
+            total_dict.count = total_count
 
     def get_pulls(self):
         count = 0
