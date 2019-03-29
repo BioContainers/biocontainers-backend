@@ -44,9 +44,8 @@ def transform_mongo_tool_dict(mongo_tool):
     tool.toolname = mongo_tool["name"]
     tool.url = _PUBLIC_REGISTRY_URL + "tools/" + tool.id
     count = 0
-    if 'pulls' in mongo_tool:
-        for stat in mongo_tool['pulls']:
-            count = count + stat['count']
+    if 'total_pulls' in mongo_tool:
+        count = mongo_tool['total_pulls']
     tool.pulls = count
 
     # Set the Tool Class

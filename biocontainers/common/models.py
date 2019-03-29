@@ -366,8 +366,8 @@ class MongoTool(MongoModel):
 
     def get_pulls(self):
         count = 0
-        for provider in self.pulls:
-            count = provider.count + count
+        if self.total_pulls is not None:
+            count = self.total_pulls
         return count
 
 
