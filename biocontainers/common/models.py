@@ -206,7 +206,6 @@ class PullProvider(EmbeddedMongoModel):
     id = fields.CharField()
     count = fields.IntegerField()
 
-
 class MongoTool(MongoModel):
     """
     Mongo Tool Class contains the persistence information of a Tool.
@@ -235,6 +234,7 @@ class MongoTool(MongoModel):
     tool_tags = fields.ListField(fields.CharField())
     publications = fields.EmbeddedDocumentListField('Publication')
     pulls = fields.EmbeddedDocumentListField('PullProvider')
+    total_pulls = fields.IntegerField()
 
     manager = Manager.from_queryset(ToolQuerySet)()
 
@@ -347,19 +347,14 @@ class MongoTool(MongoModel):
             self.pulls = []
 
         total_count = 0
-        total_key = "total"
-        total_dict = None
 
         pull_not_found = True
         for pull in self.pulls:
             if pull.id == id:
                 pull.count = count
-                total_count += count
                 pull_not_found = False
-            elif pull.id == total_key:
-                total_dict = pull
-            else:
-                total_count += pull.count
+
+            total_count += pull.count
 
         if pull_not_found:
             pull = PullProvider()
@@ -367,13 +362,7 @@ class MongoTool(MongoModel):
             pull.count = count
             self.pulls.append(pull)
 
-        if total_dict is None:
-            pull = PullProvider()
-            pull.id = total_key
-            pull.count = total_count
-            self.pulls.append(pull)
-        else:
-            total_dict.count = total_count
+        self.total_pulls = total_count
 
     def get_pulls(self):
         count = 0
@@ -477,6 +466,8 @@ class MongoTool(MongoModel):
             sort_field = "name"
         elif sort_field == "description":
             sort_field = "description"
+        elif sort_field == "pulls":
+            sort_field = "total_pulls"
         else:
             sort_field = "id"
 
