@@ -388,8 +388,11 @@ class MongoTool(MongoModel):
         This method return the specific tool
         :return:
         """
-        if tool_classes is not None and len(tool_classes) > 0:
-            return tool_classes[0]
+        if tool_classes is not None:
+            if isinstance(tool_classes, list) and len(tool_classes) > 0:
+                return tool_classes[0]
+            else:
+                return tool_classes
 
         return _CONSTANT_TOOL_CLASSES['CommandLineTool']
 
@@ -419,30 +422,34 @@ class MongoTool(MongoModel):
         return MongoTool.manager.get_all_tools_by_id(ids)
 
     @staticmethod
-    def get_tools(id=None, alias=None, registry=None, organization=None, name=None, toolname=None, description=None,
-                  author=None, checker=None, offset=None, limit=None, is_all_field_search=False,
+    def get_tools(id=None, alias=None, registry=None, organization=None, name=None, toolname=None, toolclass=None,
+                  description=None, author=None, checker=None, offset=None, limit=None, is_all_field_search=False,
                   sort_field=None, sort_order=None):
 
+        unwind_tool_classes = None
         filters = []
         if id is not None:
-            filters.append({"id": {"$regex": id}})
+            filters.append({"id": {"$regex": id, '$options': 'i'}})
         if alias is not None:
-            filters.append({"aliases": {"$regex": alias}})
+            filters.append({"aliases": {"$regex": alias, '$options': 'i'}})
         if registry is not None:
-            filters.append({"registries": {"$regex": registry}})
+            filters.append({"registries": {"$regex": registry, '$options': 'i'}})
         if organization is not None:
-            filters.append({"organization": {"$regex": organization}})
+            filters.append({"organization": {"$regex": organization, '$options': 'i'}})
         if toolname is not None:
-            filters.append({"name": {"$regex": toolname}})  # toolname : The name of the tool
+            filters.append({"name": {"$regex": toolname, '$options': 'i'}})  # toolname : The name of the tool
+        if toolclass is not None:
+            unwind_tool_classes = {"$unwind": "$tool_classes"}
+            filters.append({"tool_classes.name": {"$regex": toolclass, '$options': 'i'}})  # toolclass : type of the tool
         if description is not None:
-            filters.append({"description": {"$regex": description}})
+            filters.append({"description": {"$regex": description, '$options': 'i'}})
         if author is not None:
-            filters.append({"authors": {"$regex": author}})
+            filters.append({"authors": {"$regex": author, '$options': 'i'}})
         # if checker is not None:  # TODO
 
         versions_string = "tool_versions"
         if name is not None:  # name : The name of the image i.e., tool_version
-            filters.append({("%s.name" % versions_string): {"$regex": name}})
+            filters.append({("%s.name" % versions_string): {"$regex": name, '$options': 'i'}})
 
         # Fetch tools along with the tool_versions in one query (similar to SQL join)
         lookup_condition = \
@@ -478,10 +485,13 @@ class MongoTool(MongoModel):
 
         sort_condition = {'$sort': {sort_field: sort_order}}
 
+        exec_args = [lookup_condition, sort_condition]
         if len(filters) > 0:
-            res = MongoTool.manager.exec_aggregate_query(lookup_condition, match_condition, sort_condition)
-        else:
-            res = MongoTool.manager.exec_aggregate_query(lookup_condition, sort_condition)
+            exec_args.append(match_condition)
+        if unwind_tool_classes is not None:
+            exec_args.append(unwind_tool_classes)
+
+        res = MongoTool.manager.exec_aggregate_query(*exec_args)
 
         tools = list(res)
         tools_len = len(tools)

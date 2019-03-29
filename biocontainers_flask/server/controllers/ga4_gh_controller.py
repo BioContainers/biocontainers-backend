@@ -43,8 +43,8 @@ def tool_classes_get():  # noqa: E501
     return tool_classes
 
 
-def tools_get(id=None, alias=None, registry=None, organization=None, name=None, toolname=None, description=None,
-              author=None, checker=None, offset=0, limit=1000, all_fields_search=None,
+def tools_get(id=None, alias=None, registry=None, organization=None, name=None, toolname=None, toolclass=None,
+              description=None, author=None, checker=None, offset=0, limit=1000, all_fields_search=None,
               sort_field='id', sort_order='asc'):
     """List all tools
 
@@ -84,8 +84,10 @@ def tools_get(id=None, alias=None, registry=None, organization=None, name=None, 
         id = alias = organization = name = toolname = description = author = all_fields_search
         is_all_field_search = True
 
-    resp = tools_get_common(id, alias, registry, organization, name, toolname, description, author, checker, offset,
-                            limit, is_all_field_search, sort_field, sort_order)
+    resp = tools_get_common(id=id, alias=alias, registry=registry, organization=organization, name=name,
+                            toolname=toolname, toolclass=toolclass, description=description, author=author,
+                            checker=checker, offset=offset, limit=limit, is_all_field_search=is_all_field_search,
+                            sort_field=sort_field, sort_order=sort_order)
 
     if resp is None:
         return None
@@ -107,12 +109,15 @@ def tools_get(id=None, alias=None, registry=None, organization=None, name=None, 
                              'current_limit': limit}
 
 
-def tools_get_common(id=None, alias=None, registry=None, organization=None, name=None, toolname=None, description=None,
-                     author=None, checker=None, offset=0, limit=1000, is_all_field_search=False,
+def tools_get_common(id=None, alias=None, registry=None, organization=None, name=None, toolname=None, toolclass=None,
+                     description=None, author=None, checker=None, offset=0, limit=1000, is_all_field_search=False,
                      sort_field=None, sort_order=None):
     tools = []
-    resp = MongoTool.get_tools(id, alias, registry, organization, name, toolname, description, author, checker, offset,
-                               limit, is_all_field_search, sort_field, sort_order)
+    resp = MongoTool.get_tools(id=id, alias=alias, registry=registry, organization=organization, name=name,
+                               toolname=toolname, toolclass=toolclass, description=description, author=author,
+                               checker=checker, offset=offset, limit=limit, is_all_field_search=is_all_field_search,
+                               sort_field=sort_field, sort_order=sort_order)
+
     if resp is None:
         return None
 
@@ -311,8 +316,8 @@ def stats():
 
     return stats
 
-def tools_get_similars( id = None):
 
+def tools_get_similars(id=None):
     similar_tool = SimilarTool.get_similars_by_id(id)
     ids = []
     for similar in similar_tool.similars:
@@ -331,7 +336,6 @@ def tools_get_similars( id = None):
             result_tools.append(tool)
     # If the checker is provided, we filter for checker tools.
     return result_tools
-
 
 
 def wokflows_get(name=None, description=None, author=None, license=None, type=None, container=None,
