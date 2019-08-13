@@ -21,5 +21,5 @@ then
       echo "no slack reporting"
 else
       echo "sending report to slack"
-      curl -X POST --data-urlencode "payload={\"channel\": \"#biocontainer-reports\", \"username\": \"biocontainer-report-bot\", \"text\": \"$MSG\", \"icon_emoji\": \":biocontainer-logo:\"}" $SLACK_REPORT_URL
+      curl -X POST --data-urlencode "payload={\"channel\": \"#$SLACK_CHANNEL\", \"username\": \"biocontainer-report-bot\", \"text\": \"$MSG\", \"icon_emoji\": \":biocontainer-logo:\"}" $SLACK_REPORT_URL
 fi
