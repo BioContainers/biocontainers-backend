@@ -29,7 +29,8 @@ RUN git clone --single-branch -b master https://github.com/BioContainers/biocont
 RUN cd /biocontainers-backend && pip install -r biocontainers/requirements.txt && pip install -r biocontainers_flask/requirements.txt
 ENV PYTHONPATH /biocontainers-backend
 
-RUN echo "deb http://repo.mongodb.org/apt/debian stretch/mongodb-org/4.0 main" | tee /etc/apt/sources.list.d/mongodb-org-4.0.list
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
+RUN echo "deb http://repo.mongodb.org/apt/debian stretch/mongodb-org/4.0 main" | tee /etc/apt/sources.list.d/mongodb.list
 RUN apt-get update && apt-get install -y --allow-unauthenticated mongodb-org-shell
 
 
