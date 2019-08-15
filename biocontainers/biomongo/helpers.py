@@ -122,6 +122,7 @@ class InsertContainers:
                 container_image.last_updated = datetime_object
                 container_image.size = int(int(val['size']))
                 container_image.downloads = 0
+                mongo_tool_version.add_image_container(container_image)
 
                 tool_versions_dic[tool_version_id] = mongo_tool_version
 
