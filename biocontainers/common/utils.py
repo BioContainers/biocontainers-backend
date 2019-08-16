@@ -1,11 +1,11 @@
 import requests
 from ratelimit import limits, sleep_and_retry
 
-FIFTEEN_MINUTES = 60
+ONE_MINUTE = 60
 
 
 @sleep_and_retry
-@limits(calls=1000, period=FIFTEEN_MINUTES)
+@limits(calls=1000, period=ONE_MINUTE)
 def call_api(url):
     response = requests.get(url)
 
