@@ -73,8 +73,6 @@ class CondaMetrics:
                 continue
             channel_total_dls = 0
 
-            size = 0
-            last_update = ''
             for version_str in package_obj['versions']:
                 if version_str == query_version:
                    version = get_aserver_api_release(aserver_api, conda_channel, package, version_str)
