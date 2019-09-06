@@ -214,7 +214,7 @@ class InsertContainers:
                 container_image.full_tag = DOCKER_DOMAIN + container.name() + ":" + key['name']
 
                 container_image.container_type = 'DOCKER'
-                datetime_object = datetime.datetime.strptime(key['last_updated'][0:-17], '%Y-%m-%d')
+                datetime_object = datetime.datetime.strptime(key['last_updated'][0:10], '%Y-%m-%d')
                 container_image.last_updated = datetime_object
                 container_image.size = int(int(key['full_size']))
                 mongo_tool_version.add_image_container(container_image)
