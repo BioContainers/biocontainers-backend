@@ -126,7 +126,7 @@ class ToolQuerySet(QuerySet):
         return self.raw(query)
 
     def exec_aggregate_query(self, *query):
-        return self.aggregate(*query)
+        return self.aggregate(*query, allowDiskUse=True)
 
     def exec_update_query(self, lookup_condition, update, **kwargs):
         return self.raw(lookup_condition).update(update, **kwargs)
@@ -168,7 +168,7 @@ class WokflowQuerySet(QuerySet):
         return self.raw(query)
 
     def exec_aggregate_query(self, *query):
-        return self.aggregate(*query)
+        return self.aggregate(*query, allowDiskUse=True)
 
 
 class Similar(EmbeddedMongoModel):
