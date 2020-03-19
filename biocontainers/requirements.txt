@@ -11,3 +11,4 @@ git+git://github.com/lokoArt/pymodm_rest.git
 click==7.0
 anaconda-client==1.2.2
 scikit-learn
+beautifulsoup4
