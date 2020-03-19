@@ -261,6 +261,32 @@ class InsertContainers:
         containers_list = list(tool_versions_dic.values())
 
     @staticmethod
+    def insert_singularity_containers(singularity_containers):
+        """
+                This method provide the mechanism to insert Singularity containers into the Mongo Database
+                :param singularity_containers: List of Singularity containers
+                :return:
+                """
+        for key in singularity_containers.keys():
+            tool_version = MongoToolVersion.get_tool_version_by_id(key)
+            if tool_version is not None:
+                update = False
+                image_containers = tool_version.image_containers
+                for i in singularity_containers[key]:
+                    found = False
+                    for j in image_containers:
+                        if i.full_tag == j.full_tag:
+                            found = True
+                            break
+                    if not found:
+                        update = True
+                        tool_version.image_containers.append(i)
+                        logger.info("Added singularity image: " + i.tag + "to tool version: " + key)
+
+                if update:
+                    tool_version.save()
+
+    @staticmethod
     def update_multi_package_containers(mulled_entries):
         for entry in mulled_entries:
             mulled_name = os.path.splitext(entry.file_name)[0]

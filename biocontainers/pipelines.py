@@ -4,11 +4,11 @@ import logging
 import click
 
 from biocontainers.biomongo.helpers import InsertContainers
-from biocontainers.conda.conda_metrics import CondaMetrics
 from biocontainers.dockerhub.models import DockerHubReader
-from biocontainers.github.models import GitHubCondaReader, GitHubConfiguration, GitHubDockerReader, GitHubMulledReader, \
+from biocontainers.github.models import GitHubConfiguration, GitHubDockerReader, GitHubMulledReader, \
     LocalGitReader
 from biocontainers.quayio.models import QuayIOReader
+from biocontainers.singularity.models import SingularityReader
 
 logger = logging.getLogger('biocontainers.pipelines')
 
@@ -63,6 +63,20 @@ def import_dockerhub_containers(config, config_profile):
     mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
     mongo_helper.insert_dockerhub_containers(dockerhub_containers)
 
+def import_singularity_containers(config, config_profile):
+    """
+    Import singularity containers into the registry database
+    :param config_profile:
+    :param config:
+    :return:
+    """
+
+    logger.info("Starting importing singularity packages")
+    reader = SingularityReader(config[config_profile]['SINGULARITY_CONTAINERS'])
+    containers = reader.get_containers()
+
+    mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
+    mongo_helper.insert_singularity_containers(containers)
 
 def annotate_quayio_recipes(config, config_profile):
     github_url = config[config_profile]['GITHUB_GIT_URL']
@@ -126,6 +140,7 @@ def get_database_uri(param):
 @click.command()
 @click.option('--import-quayio', '-q', help='Import Quay.io Recipes', is_flag=True)
 @click.option('--import-docker', '-k', help="Import Docker Recipes", is_flag=True)
+@click.option('--import-singularity', '-s', help="Import Singularity Recipes", is_flag=True)
 @click.option('--annotate-docker', '-ad', help='Annotate Docker Recipes', is_flag=True)
 @click.option('--annotate-quayio', '-aq', help='Annotate Quay.io Recipes', is_flag=True)
 @click.option('--annotate-conda', '-ac', help='Annotate Conda packages', is_flag=True)
@@ -141,7 +156,7 @@ def get_database_uri(param):
 @click.option('-pw', '--db-password', help='Database password', envvar='MONGODB_PASS')
 @click.option('-p', '--db-port', help='Database port', envvar='MONGO_PORT', default='27017')
 @click.pass_context
-def main(ctx, import_quayio, import_docker, annotate_docker, annotate_quayio,
+def main(ctx, import_quayio, import_docker, import_singularity, annotate_docker, annotate_quayio,
          annotate_conda, annotate_workflows, annotate_identifiers, annotate_multi_package_containers,
          config_file, config_profile, db_name,
          db_host, db_auth_database, db_user,
@@ -167,6 +182,9 @@ def main(ctx, import_quayio, import_docker, annotate_docker, annotate_quayio,
 
     if import_docker is not False:
         import_dockerhub_containers(config, config_profile)
+
+    if import_singularity is not False:
+        import_singularity_containers(config, config_profile)
 
     if annotate_docker is not False:
         annotate_docker_recipes(config, config_profile)
