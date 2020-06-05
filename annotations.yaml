@@ -1438,6 +1438,7 @@ mummer:
     license: Artistic-2.0
     home_url: http://mummer.sourceforge.net/
     total_pulls: 4912
+    manually_check: True
 plink:
     name: plink
     description: Free, open-source whole genome association analysis toolset, designed
