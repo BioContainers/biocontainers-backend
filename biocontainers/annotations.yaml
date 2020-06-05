@@ -1985,9 +1985,10 @@ mlst:
     name: mlst
     description: Multi locus sequence typing from an assembled genome or from a set
         of reads.
-    license: Other
+    license: Apache 2.0
     home_url: http://cge.cbs.dtu.dk/services/MLST/
     total_pulls: 3476
+    manually_check: True
 hyphy:
     name: hyphy
     description: "HyPhy is an open-source software package for the analysis of genetic sequences using techniques in phylogenetics, molecular evolution, and machine learning."
@@ -2004,22 +2005,24 @@ hicexplorer:
 abricate:
     name: abricate
     description: Mass screening of contigs for antibiotic resistance genes
-    license: Not available
+    license: GPL-2.0
     home_url: https://github.com/tseemann/abricate
     total_pulls: 3446
+    manually_check: True
 pygenometracks:
     name: pygenometracks
     description: Standalone program and library to plot beautiful genome browser tracks.
-    license: Not available
+    license: GPL-3.0
     home_url: https://github.com/deeptools/pyGenomeTracks/
     total_pulls: 3428
+    manually_check: True
 python-bioext:
     name: python-bioext
-    description: "# Python-Bioext\n\n> A few handy bioinformatics tools not already\
-        \ in biopython\n\n> Licence: Gpl-3\n\n"
-    license:
-    home_url:
+    description: "A few handy bioinformatics tools not already in biopython"
+    license: GPL-3.0
+    home_url: https://github.com/veg/BioExt.git
     total_pulls: 3408
+    manually_check: True
 repeatmasker:
     name: repeatmasker
     description: Repeatmasker is a program that screens dna sequences for interspersed
@@ -2074,10 +2077,11 @@ star-fusion:
     total_pulls: 3385
 sickle-trim:
     name: sickle-trim
-    description:
-    license:
-    home_url:
+    description: Windowed Adaptive Trimming for fastq files using quality
+    license: MIT
+    home_url: https://github.com/najoshi/sickle
     total_pulls: 3385
+    manually_check: True
 perl-bioperl:
     name: perl-bioperl
     description: Bioinformatics toolkit
@@ -2110,9 +2114,9 @@ plasflow:
     total_pulls: 3368
 ngsutils:
     name: ngsutils
-    description:
-    license:
-    home_url:
+    description: Tools for next-gen sequencing analysis
+    license: BSD-3-Clause
+    home_url: https://github.com/ngsutils/ngsutils
     total_pulls: 3367
 tetyper:
     name: tetyper
@@ -2122,10 +2126,11 @@ tetyper:
     total_pulls: 3366
 shorah:
     name: shorah
-    description:
-    license:
-    home_url:
+    description: ShoRAH (Short Reads Assembly into Haplotypes)
+    license: GPL-3.0
+    home_url: https://github.com/cbg-ethz/shorah
     total_pulls: 3365
+    manually_check: True
 slamdunk:
     name: slamdunk
     description: Slamdunk is a software tool for slamseq data analysis.
@@ -2140,10 +2145,11 @@ tb_variant_filter:
     total_pulls: 3363
 gvcftools:
     name: gvcftools
-    description:
-    license:
-    home_url:
+    description: Utilities to create and analyze gVCF files
+    license: MIT
+    home_url: https://github.com/sequencing/gvcftools
     total_pulls: 3361
+    manually_check: True
 picrust:
     name: picrust
     description: 'Picrust: phylogenetic investigation of communities by reconstruction of unobserved states'
@@ -2232,9 +2238,10 @@ fraggenescan:
 biotradis:
     name: biotradis
     description: A set of tools to analyse the output from tradis analyses
-    license: Not available
+    license: GPL-3.0
     home_url: https://github.com/sanger-pathogens/Bio-Tradis
     total_pulls: 3350
+    manually_check: True
 fermi2:
     name: fermi2
     description: "Fermi2 focuses on the exploration of fmd-index as a graph."
@@ -2243,10 +2250,11 @@ fermi2:
     total_pulls: 3349
 disco:
     name: disco
-    description:
-    license:
-    home_url:
+    description: Multi-threaded Distributed Memory Overlap-Layout-Consensus (OLC) Metagenome Assembler
+    license: GPL-3.0
+    home_url: http://disco.omicsbio.org/
     total_pulls: 3349
+    manually_check: True
 bctools:
     name: bctools
     description: Tools for handling barcodes in ngs data.
