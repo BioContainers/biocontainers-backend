@@ -2396,38 +2396,37 @@ umi_tools:
 perl-xml-xpath:
     name: perl-xml-xpath
     description: Parse and evaluate xpath statements.
-    license: Not available
-    home_url: http://metacpan.org/pod/XML-XPath
+    license: GPL-3.0
+    home_url: "https://metacpan.org/pod/XML::XPath"
     total_pulls: 3329
+    manually_check: True
 structureharvester:
     name: structureharvester
     description: Structureharvester.py is a python script capable of extracting all
         the relevant data from structure results files
-    license: Not available
-    home_url: http://alumni.soe.ucsc.edu/~dearl/software/structureHarvester/
+    license: Custom License
+    home_url: https://github.com/dentearl/structureHarvester/
     total_pulls: 3326
+    manually_check: True
 valet:
     name: valet
     description: Pipeline for detecting mis-assemblies in metagenomic assemblies
-    license: Not available
+    license: MIT
     home_url: https://github.com/marbl/VALET
     total_pulls: 3325
+    manually_check: True
 ucsc-twobittofa:
     name: ucsc-twobittofa
-    description: "# Ucsc-Twobittofa\n\n> Convert all or part of .2bit file to fasta\n\
-        \n> Licence: Varies; See Http://Genome.Ucsc.Edu/License\n\nHome: http://hgdownload.cse.ucsc.edu/admin/exe/macOSX.x86_64/twoBitToFa\n\
-        \n"
-    license:
-    home_url:
+    description: "Convert all or part of .2bit file to fasta"
+    license: Custom License
+    home_url: http://hgdownload.cse.ucsc.edu/admin/exe/macOSX.x86_64/twoBitToFa
     total_pulls: 3322
+    manually_check: True
 blat:
     name: blat
-    description: "# Blat\n\n> Blat is a bioinformatics software tool which performs\
-        \ rapid mrna/dna and cross-species protein alignments.\n\n> Licence: Free\
-        \ For Academic, Nonprofit And Personal Use\n\nHome: https://users.soe.ucsc.edu/~kent/src/blatSrc35.zip\n\
-        \n"
-    license:
-    home_url:
+    description: "Blat is a bioinformatics software tool which performs rapid mrna/dna and cross-species protein alignments"
+    license: Apache 2.0
+    home_url: https://users.soe.ucsc.edu/~kent/src/
     total_pulls: 3322
 medaka:
     name: medaka
@@ -2553,9 +2552,10 @@ intervene:
     name: intervene
     description: A tool for intersection of multiple gene or genomic region sets and
         visualization as venn diagrams, upset plots or pariwaise heatmaps
-    license: MIT License
+    license: MIT
     home_url: https://github.com/asntech/intervene
     total_pulls: 3214
+    manually_check: True
 mykrobe:
     name: mykrobe
     description: ''
