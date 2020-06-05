@@ -136,6 +136,7 @@ megahit:
     license: GNU
     home_url: https://github.com/voutcn/megahit
     total_pulls: 20014
+    manually_check: True
 spades:
     name: spades
     description: St. petersburg genome assembler – is intended for both standard isolates
@@ -474,6 +475,7 @@ kraken:
     license: GFDL-1.3
     home_url: https://ccb.jhu.edu/software/kraken/
     total_pulls: 9382
+    manually_check: True
 openjdk:
     name: openjdk
     description: "Open-source implementation of the Java Platform, Standard Edition, and related projects."
@@ -640,6 +642,7 @@ obitools:
     license: CeCILL-2.1
     home_url: https://git.metabarcoding.org/obitools/obitools/wikis/home
     total_pulls: 8254
+    manually_check: True
 phyml:
     name: phyml
     description: Phylogenetic estimation software using maximum likelihood
@@ -1447,6 +1450,7 @@ plink:
     license: GPL-2.0
     home_url: http://zzz.bwh.harvard.edu/plink/
     total_pulls: 4902
+    manually_check: True
 pbcommand:
     name: pbcommand
     description: Library for generating the cli of various pacbio tools
@@ -1459,6 +1463,7 @@ pirs:
     license: GPL-2+
     home_url: https://github.com/galaxy001/pirs
     total_pulls: 4889
+    manually_check: True
 pbsim:
     name: pbsim
     description: 'Pacbio sequencers produced two types of characteristic reads: ccs
@@ -1470,22 +1475,25 @@ pbsim:
     total_pulls: 4888
 piler:
     name: piler
-    description: Genomic repeat analysis
-    license: PublicDomain
+    description: PILER is public domain software for analyzing repetitive DNA found in genome sequences.
+    license: Apache 2.0
     home_url: http://www.drive5.com/piler/
     total_pulls: 4888
+    manually_check: True
 mustang:
     name: mustang
     description: Softwear for the alignment of multiple protein structures.
     license: BSD-3-clause
     home_url: http://www.csse.monash.edu.au/~karun/Site/mustang.html
     total_pulls: 4886
+    manually_check: True
 pbdagcon:
     name: pbdagcon
     description: Sequence consensus using directed acyclic graphs
     license: PacBio-BSD-3-Clause
     home_url: https://github.com/PacificBiosciences/pbdagcon
     total_pulls: 4885
+    manually_check: True
 mrbayes:
     name: mrbayes
     description: Bayesian inference of phylogeny
@@ -1505,6 +1513,7 @@ phylip:
     license: BSD-3-Clause
     home_url: http://evolution.genetics.washington.edu/phylip.html
     total_pulls: 4884
+    manually_check: True
 pal2nal:
     name: pal2nal
     description: Pal2nal converts a multiple sequence alignment of proteins and the
@@ -1513,12 +1522,14 @@ pal2nal:
     license: GPLv2.0
     home_url: http://www.bork.embl.de/pal2nal/
     total_pulls: 4882
+    manually_check: True
 parafly:
     name: parafly
     description: Parallel command processing using openmp
     license: BSD-3-clause
     home_url: http://parafly.sourceforge.net
     total_pulls: 4880
+    manually_check: True
 sniffles:
     name: sniffles
     description: An algorithm for structural variation detection from third generation
@@ -1526,45 +1537,49 @@ sniffles:
     license: MIT
     home_url: https://github.com/fritzsedlazeck/Sniffles
     total_pulls: 4878
+    manually_check: True
 racon:
     name: racon
-    description: Consensus module for raw de novo dna assembly of long uncorrected
-        reads
-    license: custom, see /usr/share/doc/racon/copyright
+    description: Consensus module for raw de novo dna assembly of long uncorrected reads
+    license: MIT
     home_url: https://github.com/isovic/racon
     total_pulls: 4877
+    manually_check: True
 parsnp:
     name: parsnp
-    description: Parsnp is a command-line-tool for efficient microbial core genome
-        alignment and snp detection.
+    description: Parsnp is a command-line-tool for efficient microbial core genome alignment and snp detection.
     license: Custom License
     home_url: https://github.com/marbl/parsnp
     total_pulls: 4875
+    manually_check: True
 phipack:
     name: phipack
     description: Phi test and other tests of recombination
     license: LGPL-3+
     home_url: http://www.maths.otago.ac.nz/~dbryant/software/phimanual.pdf
     total_pulls: 4874
+    manually_check: True
 srst2:
     name: srst2
     description: Short read sequence typing for bacterial pathogens
     license: BSD
     home_url: https://github.com/katholt/srst2
     total_pulls: 4869
+    manually_check: True
 poa:
     name: poa
     description: Partial order alignment for multiple sequence alignment
     license: GPL-2+
     home_url: http://poamsa.sourceforge.net/
     total_pulls: 4867
+    manually_check: True
 sga:
     name: sga
-    description: Sga is a de novo assembler designed to assemble large genomes from
-        high coverage short read data.
+    description: Sga is a de novo assembler designed to assemble large genomes from high coverage short read data.
     license: GPL-3.0
     home_url: https://github.com/jts/sga
     total_pulls: 4856
+    manually_check: True
 primer3:
     name: primer3
     description: The open-source software which is a widely used application for pcr
@@ -1573,36 +1588,42 @@ primer3:
     license: GPL-2+
     home_url: http://primer3.ut.ee/
     total_pulls: 4847
+    manually_check: True
 seer:
     name: seer
     description: Genomic sequence element (kmer) enrichment analysis
     license: custom, see /usr/share/doc/seer/copyright
     home_url: https://github.com/johnlees/seer
     total_pulls: 4838
+    manually_check: True
 scrm:
     name: scrm
     description: Simulator of evolution of genetic sequences
     license: GPL-3+
     home_url: https://github.com/scrm/scrm
     total_pulls: 4833
+    manually_check: True
 screed:
     name: screed
     description: Short nucleotide read sequence utils in python 3
     license: BSD-3-Clause
     home_url: https://screed.readthedocs.org
     total_pulls: 4828
+    manually_check: True
 soapdenovo2:
     name: soapdenovo2
     description: Short-read assembly method to build de novo draft assembly
     license: GPL-3+
     home_url: http://soap.genomics.org.cn/soapdenovo.html
     total_pulls: 4826
+    manually_check: True
 sumaclust:
     name: sumaclust
     description: Fast and exact clustering of genomic sequences
     license: CeCILL-2
     home_url: http://metabarcoding.org/sumaclust
     total_pulls: 4824
+    manually_check: True
 smalt:
     name: smalt
     description: Aligns dna sequencing reads with a reference genome. reads from a
@@ -1610,6 +1631,7 @@ smalt:
     license: GPL-3.0
     home_url: http://www.sanger.ac.uk/science/tools/smalt-0
     total_pulls: 4823
+    manually_check: True
 squizz:
     name: squizz
     description: Converter for genetic sequences and alignments
@@ -3909,11 +3931,9 @@ bioconductor-ggbio:
     total_pulls: 39
 perl-sanger-cgp-vcf:
     name: perl-sanger-cgp-vcf
-    description: "# Perl-Sanger-Cgp-Vcf\n\n> A set of common perl utilities for generating\
-        \ consistent vcf headers\n\n> Licence: Gplv3\n\nHome: https://github.com/cancerit/cgpVcf/archive/v1.3.1.tar.gz\n\
-        \n"
-    license:
-    home_url:
+    description: "A set of common perl utilities for generating consistent vcf headers"
+    license: GPL-3.0
+    home_url: https://github.com/cancerit/cgpVcf/
     total_pulls: 39
 crimson:
     name: crimson
@@ -3998,10 +4018,11 @@ bioconductor-cellscore:
     total_pulls: 39
 bioconductor-rhesuscdf:
     name: bioconductor-rhesuscdf
-    description:
-    license:
-    home_url:
+    description: A package containing an environment representing the Rhesus.cdf file.
+    license: LGPL
+    home_url: https://bioconductor.org/packages/release/data/annotation/html/rhesuscdf.html
     total_pulls: 39
+    manually_check: True
 bioconductor-paa:
     name: bioconductor-paa
     description:
@@ -4011,9 +4032,10 @@ bioconductor-paa:
 bioconductor-pd.equgene.1.0.st:
     name: bioconductor-pd.equgene.1.0.st
     description: Platform design info for affymetrix equgene-1_0-st
-    license: Not available
+    license: Artistic-2.0
     home_url: https://bioconductor.org/packages/3.11/data/annotation/html/pd.equgene.1.0.st.html
     total_pulls: 39
+    manually_check: True
 bioconductor-pd.mirna.3.1:
     name: bioconductor-pd.mirna.3.1
     description: Platform design info for affymetrix mirna-3_1
@@ -4023,15 +4045,17 @@ bioconductor-pd.mirna.3.1:
 bioconductor-humanomniexpress12v1bcrlmm:
     name: bioconductor-humanomniexpress12v1bcrlmm
     description: Metadata for fast genotyping with the 'crlmm' package
-    license: Not available
+    license: Artistic-2.0
     home_url: https://bioconductor.org/packages/3.11/data/annotation/html/humanomniexpress12v1bCrlmm.html
     total_pulls: 39
+    manually_check: True
 bioconductor-tximportdata:
     name: bioconductor-tximportdata
-    description:
-    license:
-    home_url:
+    description: "This package provides the output of running various transcript abundance quantifiers on a set of 6 RNA-seq samples from the GEUVADIS project"
+    license: GPL-2.0
+    home_url: http://bioconductor.org/packages/release/data/experiment/html/tximportData.html
     total_pulls: 39
+    manually_check: True
 graphaligner:
     name: graphaligner
     description:
@@ -4053,9 +4077,10 @@ r-xcell:
 bioconductor-past:
     name: bioconductor-past
     description: Pathway association study tool (past)
-    license: Not available
+    license: GPL-3.0
     home_url: https://bioconductor.org/packages/3.11/bioc/html/PAST.html
     total_pulls: 39
+    manually_check: True
 bioconductor-enrichtf:
     name: bioconductor-enrichtf
     description:
@@ -12757,14 +12782,14 @@ marvel:
 contigtax:
     name: contigtax
     description: Assign taxonomy to metagenomic contigs (previously know as tango)
-    license: Not available
+    license: MIT
     home_url: https://github.com/NBISweden/contigtax
     total_pulls: 4
 treerecs:
     name: treerecs
-    description:
-    license:
-    home_url:
+    description: "Treerecs is an open-source (species- and gene-) tree reconciliation"
+    license: AGPL
+    home_url: https://project.inria.fr/treerecs/
     total_pulls: 4
 pblat:
     name: pblat
@@ -12774,19 +12799,15 @@ pblat:
     total_pulls: 4
 locarna:
     name: locarna
-    description: "# Locarna\n\n> Multiple alignment of rnas\n\n> Licence: Gpl\n\n\
-        Home: https://github.com/s-will/LocARNA/releases/download/v1.9.0/locarna-1.9.0.tar.gz\n\
-        \n"
-    license:
-    home_url:
+    description: "Multiple alignment of rnas"
+    license: GPL
+    home_url: https://github.com/s-will/LocARNA/
     total_pulls: 3
 biobambam:
     name: biobambam
-    description: "# Biobambam\n\n> Tools for early stage alignment file processing\n\
-        \n> Licence: Gplv3\n\nHome: https://github.com/gt1/biobambam2/releases/download/2.0.62-release-20161125133740/biobambam2-2.0.62-release-20161125133740-x86_64-etch-linux-gnu.tar.gz\n\
-        \n"
-    license:
-    home_url:
+    description: "Tools for early stage alignment file processing"
+    license: GPL-3.0
+    home_url: https://github.com/gt1/biobambam2/
     total_pulls: 3
 bioconductor-gosemsim:
     name: bioconductor-gosemsim

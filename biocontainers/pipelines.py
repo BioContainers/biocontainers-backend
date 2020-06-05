@@ -9,7 +9,6 @@ from biocontainers.github.models import GitHubConfiguration, GitHubDockerReader,
     LocalGitReader
 from biocontainers.quayio.models import QuayIOReader
 from biocontainers.singularity.models import SingularityReader
-import sys
 from ruamel.yaml import YAML
 
 logger = logging.getLogger('biocontainers.pipelines')
