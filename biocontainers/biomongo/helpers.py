@@ -449,16 +449,11 @@ class InsertContainers:
                             found = True
                     if found:
                         if entry["recipe"].get_description() is not None:
-                            if tool.description is None:
-                                tool.description = entry["recipe"].get_description().capitalize()
+                            tool.description = entry["recipe"].get_description().capitalize()
                         if entry['recipe'].get_home_url() is not None:
-                            if tool.home_url is None:
-                                tool.home_url = entry['recipe'].get_home_url()
+                            tool.home_url = entry['recipe'].get_home_url()
                         if entry['recipe'].get_license() is not None and bool(entry['recipe'].get_license()):
-                            if tool.license in NOT_AVAILABLE:
-                                tool.license = entry['recipe'].get_license()
-                        else:
-                            tool.license = NOT_AVAILABLE
+                            tool.license = entry['recipe'].get_license()
                         if entry['recipe'].get_references() is not None:
                             for reference in entry['recipe'].get_references():
                                 publication = Publication()

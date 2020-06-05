@@ -130,6 +130,18 @@ def annotate_biotools_recipes(config, config_profile):
     mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
     mongo_helper.compute_similarity()
 
+def annotate_biotools_recipes_github(config, config_profile):
+    github_url = config[config_profile]['GITHUB_BIOTOOLS_REPO']
+    github_local = config[config_profile]['GITHUB_BIOTOOLS_LOCAL_REPO']
+    github_reader = LocalGitReader(github_url, github_local)
+    github_reader.clone_url()
+    tools_recipes = github_reader.read_biotools_github_recipes()
+    mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
+    mongo_helper.annotate_biotools_metadata(tools_recipes)
+
+    mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
+    mongo_helper.compute_similarity()
+
 
 def get_database_uri(param):
     uri = 'mongodb://' + param['MONGODB_USER'] + ":" + param['MONGODB_PASS'] + '@' + param['MONGODB_HOST'] + ':' + \
@@ -144,6 +156,7 @@ def get_database_uri(param):
 @click.option('--annotate-docker', '-ad', help='Annotate Docker Recipes', is_flag=True)
 @click.option('--annotate-quayio', '-aq', help='Annotate Quay.io Recipes', is_flag=True)
 @click.option('--annotate-conda', '-ac', help='Annotate Conda packages', is_flag=True)
+@click.option('--annotate-biotools', '-ab', help='Annotate BioTools metadata from Github', is_flag = True)
 @click.option('--annotate-workflows', '-aw', help='Annotate Workflows', is_flag=True)
 @click.option('--annotate-identifiers', '-ai', help='Annotate external identifiers (e.g biotools)', is_flag=True)
 @click.option('--annotate-multi-package-containers', '-am', help='Annotate multi package containers', is_flag=True)
@@ -157,7 +170,7 @@ def get_database_uri(param):
 @click.option('-p', '--db-port', help='Database port', envvar='MONGO_PORT', default='27017')
 @click.pass_context
 def main(ctx, import_quayio, import_docker, import_singularity, annotate_docker, annotate_quayio,
-         annotate_conda, annotate_workflows, annotate_identifiers, annotate_multi_package_containers,
+         annotate_conda, annotate_biotools, annotate_workflows, annotate_identifiers, annotate_multi_package_containers,
          config_file, config_profile, db_name,
          db_host, db_auth_database, db_user,
          db_password, db_port):
@@ -203,6 +216,9 @@ def main(ctx, import_quayio, import_docker, import_singularity, annotate_docker,
 
     if annotate_multi_package_containers is not False:
         annotate_multi_package_containers_func(config, config_profile)
+
+    if annotate_biotools is not False:
+        annotate_biotools_recipes_github(config, config_profile)
 
 
 if __name__ == "__main__":

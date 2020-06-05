@@ -115,7 +115,11 @@ class DockerRecipe:
 
 
 class ToolRecipe:
-    def __init__(self, attributes):
+
+    def __init__(self):
+        self.attributes = {}
+
+    def __init__(self, attributes = {}):
         self.attributes = attributes
 
     def get_description(self):
@@ -152,6 +156,7 @@ class ToolRecipe:
         if 'publication' in self.attributes:
             return self.attributes['publication']
         return None
+
 
 
 class GitHubConfiguration:
@@ -517,6 +522,27 @@ class LocalGitReader:
                 except:
                     logger.error("Error reading conda definition of tool -- " + key)
         return self._biotools_recipes;
+
+    def read_biotools_github_recipes(self):
+        all_files = LocalGitReader.get_list_files(self._absolute_local_folder + "/data/")
+        self._biotools_recipes = []
+
+        for key in all_files:
+            if key.endswith('.biotools.json'):
+                self._conda_github_files.append(key)
+                logger.info(key)
+                try:
+                    with open(key, 'r') as file:
+                        data = file.read()
+                        json_data = json.loads(data)
+                        recipe = ToolRecipe(json_data)
+                        entry = {'name': key, 'recipe': recipe}
+                        logger.info(recipe.get_id() + " , " + recipe.get_description() + " , " + recipe.get_home_url())
+                        self._biotools_recipes.append(entry)
+                except:
+                    logger.error("Error reading conda definition of tool -- " + key)
+        return self._biotools_recipes;
+
 
 
 if __name__ == "__main__":
