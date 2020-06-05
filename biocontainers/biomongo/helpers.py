@@ -546,6 +546,5 @@ class InsertContainers:
                 export = True
             if tool.home_url is None or len(tool.home_url) == 0:
                 export = True
-            if export:
-                to_map.append(tool)
+            to_map.append(tool)
         return to_map

@@ -159,7 +159,7 @@ def report_missing_tools(config, config_profile):
         tools[tool.name] = missing_tool
     yaml = YAML()
     yaml.indent(mapping=4, sequence=6, offset=3)
-    with open('../annotations.yaml', 'w') as outfile:
+    with open('../missing_annotations.yaml', 'w') as outfile:
         yaml.dump(tools, outfile)
 
 def get_database_uri(param):
