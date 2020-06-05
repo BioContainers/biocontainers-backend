@@ -1350,6 +1350,7 @@ jellyfish:
     license: GPL-3.0
     home_url: http://www.genome.umd.edu/jellyfish.html
     total_pulls: 5322
+    manually_check: True
 iva:
     name: iva
     description: Iva is a de novo assembler designed to assemble virus genomes that
@@ -1358,19 +1359,22 @@ iva:
     license: GPL-3.0
     home_url: https://github.com/sanger-pathogens/iva
     total_pulls: 5233
+    manually_check: True
 king:
     name: king
     description: Interactive system for three-dimensional vector graphics
     license: KiNG-License
     home_url: http://kinemage.biochem.duke.edu/software/king.php
     total_pulls: 5231
+    manually_check: True
 kmc:
     name: kmc
     description: Kmc is a utility designed for counting k-mers (sequences of consecutive
         k symbols) in a set of reads from genome sequencing projects.
-    license: Not available
+    license: MIT
     home_url: http://sun.aei.polsl.pl/REFRESH/index.php?page=projects&project=kmc&subpage=about
     total_pulls: 5220
+    manually_check: True
 lefse:
     name: lefse
     description: Lda effect size (lefse) (segata et. al 2010) is an algorithm for
@@ -1380,13 +1384,15 @@ lefse:
     license: MIT
     home_url: https://bitbucket.org/nsegata/lefse
     total_pulls: 5154
+    manually_check: True
 mcl:
     name: mcl
     description: Mcl is a clustering algorithm widely used in bioinformatics and gaining
         traction in other fields.
-    license: GPL-2
+    license: GPL-2.0
     home_url: http://micans.org/mcl/
     total_pulls: 5144
+    manually_check: True
 logol:
     name: logol
     description: Logol is a pattern matching grammar language and a set of tools to
@@ -1394,6 +1400,7 @@ logol:
     license: GPL-3.0
     home_url: https://github.com/genouest/logol
     total_pulls: 5139
+    manually_check: True
 mhap:
     name: mhap
     description: 'Mhap: minhash alignment protocol. a tool for finding overlaps of
@@ -1401,26 +1408,28 @@ mhap:
     license: Apache License 2.0
     home_url: https://github.com/marbl/MHAP
     total_pulls: 5139
+    manually_check: True
 nanopolish:
     name: nanopolish
-    description: A package for detecting cytosine methylations and genetic variations
-        from nanopore minion sequencing data.
+    description: A package for detecting cytosine methylations and genetic variations from nanopore minion sequencing data.
     license: MIT
     home_url: https://github.com/jts/nanopolish
     total_pulls: 4981
+    manually_check: True
 minimap:
     name: minimap
     description: Tool for approximate mapping of long biosequences such as dna reads
     license: MIT
     home_url: https://github.com/lh3/minimap
     total_pulls: 4954
+    manually_check: True
 muscle:
     name: muscle
-    description: This tool performs multiple sequence alignments of nucleotide or
-        amino acid sequences.
+    description: This tool performs multiple sequence alignments of nucleotide or amino acid sequences.
     license: Other
     home_url: https://www.drive5.com/muscle/
     total_pulls: 4918
+    manually_check: True
 mummer:
     name: mummer
     description: Mummer is a modular system for the rapid whole genome alignment of
