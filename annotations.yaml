@@ -5979,9 +5979,9 @@ samsum:
     total_pulls: 16
 abpoa:
     name: abpoa
-    description:
-    license:
-    home_url:
+    description: "an SIMD-based C library for fast partial order alignment using adaptive band"
+    license: MIT
+    home_url: https://github.com/yangao07/abPOA
     total_pulls: 16
 sdrf-pipelines:
     name: sdrf-pipelines
@@ -42973,24 +42973,21 @@ mono:
     total_pulls: 0
 abundancebin:
     name: abundancebin
-    description: ">  'abundance-based tool for binning metagenomic sequences'\n\n\
-        > Licence:  Copyright\n\n"
-    license:
-    home_url:
+    description: "Abundance-based tool for binning metagenomic sequences"
+    license: MIT
+    home_url: https://omics.informatics.indiana.edu/AbundanceBin/
     total_pulls: 0
 r-agricolae:
     name: r-agricolae
-    description: ">  original idea was presented in the thesis \"a statistical analysis\
-        \ tool for agricultural\n\n> Licence:  Gpl3\n\n"
-    license:
-    home_url:
+    description: "Original idea was presented in the thesis a statistical analysis tool for agricultural "
+    license: GPL-3.0
+    home_url: https://cran.r-project.org/web/packages/agricolae/index.html
     total_pulls: 0
 r-algdesign:
     name: r-algdesign
-    description: ">  algorithmic experimental designs. calculates exact and approximate\
-        \ theory experimental\n\n> Licence:  Gpl3\n\n"
-    license:
-    home_url:
+    description: "Algorithmic experimental designs. calculates exact and approximate theory experimental"
+    license: GPL-3.0
+    home_url: https://cran.r-project.org/web/packages/AlgDesign/index.html
     total_pulls: 0
 r-combinat:
     name: r-combinat
@@ -43837,9 +43834,9 @@ ecmwfapi:
     total_pulls: 0
 abyss-k128:
     name: abyss-k128
-    description:
-    license:
-    home_url:
+    description: "Assembly By Short Sequences - a de novo, parallel, paired-end sequence assembler"
+    license: GPL-3.
+    home_url: https://github.com/bcgsc/abyss
     total_pulls: 0
 r-gprofiler:
     name: r-gprofiler
@@ -44900,9 +44897,9 @@ selectsequencesfrommsa:
     total_pulls: 0
 addrg:
     name: addrg
-    description:
-    license:
-    home_url:
+    description: Add read group to BAM file
+    license: MIT
+    home_url: https://github.com/holtgrewe/addrg
     total_pulls: 0
 perl-text-template:
     name: perl-text-template
@@ -56813,9 +56810,9 @@ cryfa:
     total_pulls: 0
 abra2:
     name: abra2
-    description:
-    license:
-    home_url:
+    description: "ABRA is a realigner for next generation sequencing data. It uses localized assembly and global realignment to align reads more accurately, thus improving downstream analysis (detection of indels and complex variants in particular)."
+    license: MIT
+    home_url: https://github.com/mozack/abra2
     total_pulls: 0
 mulled-v2-8a472f506d03068b9f9195f28ba20b1035401a38:
     name: mulled-v2-8a472f506d03068b9f9195f28ba20b1035401a38
@@ -57710,9 +57707,9 @@ phylics:
     total_pulls: 0
 ac:
     name: ac
-    description:
-    license:
-    home_url:
+    description: "A lossless compression tool for Amino Acid sequences"
+    license: GPL-3.
+    home_url: https://github.com/cobilab/ac
     total_pulls: 0
 mulled-v2-3ef739b7817675105a1456a4a3f20a2dda4c0a88:
     name: mulled-v2-3ef739b7817675105a1456a4a3f20a2dda4c0a88
