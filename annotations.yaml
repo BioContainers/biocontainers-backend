@@ -1,32 +1,30 @@
 vcflib:
     name: vcflib
-    description: "# Vcflib\n\n> Command-line tools for manipulating vcf files\n\n\
-        > Licence: Mit\n\n"
+    description: "Command-line tools for manipulating vcf files"
     license: MIT
     home_url: https://github.com/vcflib/vcflib
     total_pulls: 77324
 galaxy_sequence_utils:
     name: galaxy_sequence_utils
-    description: Sequence utilities from the galaxy project
+    description: "Sequence utilities from the galaxy project"
     license: AFL
     home_url: https://github.com/galaxyproject/sequence_utils
     total_pulls: 39447
 gatk4:
     name: gatk4
-    description: Genome analysis toolkit (gatk4)
+    description: "Genome analysis toolkit (gatk4)"
     license: BSD 3-Clause
     home_url: https://www.broadinstitute.org/gatk/
     total_pulls: 33888
 fastx_toolkit:
     name: fastx_toolkit
-    description: "# Fastx_Toolkit\n\n> Licence: Agpl\n\nHome: https://github.com/agordon/fastx_toolkit/releases/download/0.0.14/fastx_toolkit-0.0.14.tar.bz2\n\
-        \n"
+    description: "The FASTX-Toolkit is a collection of command line tools for Short-Reads FASTA/FASTQ files preprocessing."
     license: AGPLv3
     home_url: https://github.com/agordon/fastx_toolkit
     total_pulls: 30058
 mosdepth:
     name: mosdepth
-    description: "fast BAM/CRAM depth calculation for WGS, exome, or targeted sequencing."
+    description: "Fast BAM/CRAM depth calculation for WGS, exome, or targeted sequencing."
     license: MIT
     home_url: https://github.com/brentp/mosdepth/
     total_pulls: 27031
@@ -38,9 +36,7 @@ python:
     total_pulls: 21851
 megahit:
     name: megahit
-    description: "# Megahit\n\n> Megahit: an ultra-fast single-node solution for large\
-        \ and complex metagenomics assembly via succinct de bruijn graph\n\n> Licence:\
-        \ Gpl3\n\nHome: https://github.com/voutcn/megahit/archive/v1.1.1.zip\n\n"
+    description: "An ultra-fast single-node solution for large and complex metagenomics assembly via succinct de bruijn graph"
     license: GNU
     home_url: https://github.com/voutcn/megahit
     total_pulls: 20014
@@ -52,50 +48,45 @@ trim-galore:
     total_pulls: 17666
 csb:
     name: csb
-    description: Computational structural biology toolbox
+    description: "Computational structural biology toolbox"
     license: MIT
     home_url: http://github.com/csb-toolbox
     total_pulls: 17436
 fast5:
     name: fast5
-    description: A c++ header-only library for reading oxford nanopore fast5 files.
+    description: "A c++ header-only library for reading oxford nanopore fast5 files."
     license: Not available
     home_url: https://github.com/mateidavid/fast5
     total_pulls: 17256
 rseqc:
     name: rseqc
-    description: "# Rseqc\n\n> Rna-seq qc package\n\n> Licence: Gnu General Public\
-        \ License V2 (Gplv2)\n\nHome: https://pypi.python.org/packages/61/58/1d9c280d8d852f7c5e873c0635952fc19305b0805e9f0ace50e8ef2f93c3/RSeQC-2.6.4.tar.gz\n\
-        \n"
+    description: "RSeQC package provides a number of useful modules that can comprehensively evaluate high throughput sequence data especially RNA-seq data"
     license: GPLv3
     home_url: http://rseqc.sourceforge.net/
     total_pulls: 15696
 burrito:
     name: burrito
-    description: Framework for wrapping and controlling command-line applications.
+    description: "Framework for wrapping and controlling command-line applications."
     license: BSD 3-Clause
     home_url: https://github.com/biocore/burrito
     total_pulls: 12601
 dendropy:
     name: dendropy
-    description: 'A python library for phylogenetics and phylogenetic computing: reading,
+    description: "A python library for phylogenetics and phylogenetic computing: reading,
         writing, simulation, processing and manipulation of phylogenetic trees (phylogenies)
-        and characters.'
+        and characters."
     license: Attribution-NonCommercial-ShareAlike 4.0
     home_url: https://dendropy.org/
     total_pulls: 11499
 emboss:
     name: emboss
-    description: Diverse suite of tools for sequence analysis; many programs analagous
-        to gcg; context-sensitive help for each tool.
+    description: "Diverse suite of tools for sequence analysis; many programs analagous to gcg; context-sensitive help for each tool."
     license: GPL
     home_url: http://emboss.bioinformatics.nl/
     total_pulls: 10216
 platypus-variant:
     name: platypus-variant
-    description: "# Platypus-Variant\n\n> A haplotype-based variant caller for next\
-        \ generation sequence data\n\n> Licence: Gplv3\n\nHome: https://github.com/andyrimmer/Platypus/raw/master/release/AllReleases/Platypus_0.8.1.tgz\n\
-        \n"
+    description: "A haplotype-based variant caller for next generation sequence data"
     license: MIT
     home_url: https://www.well.ox.ac.uk/research/research-groups/lunter-group/lunter-group/platypus-a-haplotype-based-variant-caller-for-next-generation-sequence-data
     total_pulls: 10152
@@ -107,13 +98,13 @@ matplotlib:
     total_pulls: 10059
 pbalign:
     name: pbalign
-    description: Python wrapper for producing pbbam valid alignments
+    description: "Python wrapper for producing pbbam valid alignments"
     license: MIT
     home_url: https://github.com/PacificBiosciences/pbalign
     total_pulls: 9779
 ruffus:
     name: ruffus
-    description: Light-weight python computational pipeline management
+    description: "Light-weight python computational pipeline management"
     license: MIT
     home_url: http://www.ruffus.org.uk/
     total_pulls: 9621
@@ -125,50 +116,48 @@ openjdk:
     total_pulls: 9353
 graphlan:
     name: graphlan
-    description: Graphlan is a software tool for producing high-quality circular representations
-        of taxonomic and phylogenetic trees.
+    description: "Graphlan is a software tool for producing high-quality circular representations of taxonomic and phylogenetic trees."
     license: MIT
     home_url: https://github.com/biobakery/graphlan
     total_pulls: 8818
 pilon:
     name: pilon
-    description: Read alignment analysis to diagnose, report, and automatically improve
-        de novo genome assemblies.
+    description: "Read alignment analysis to diagnose, report, and automatically improve de novo genome assemblies."
     license: GNU
     home_url: https://github.com/broadinstitute/pilon/
     total_pulls: 8583
 transdecoder:
     name: transdecoder
-    description: Transdecoder identifies candidate coding regions within transcript
+    description: "Transdecoder identifies candidate coding regions within transcript
         sequences, such as those generated by de novo rna-seq transcript assembly
         using trinity, or constructed based on rna-seq alignments to the genome using
-        tophat and cufflinks.
+        tophat and cufflinks."
     license: Apache 2
     home_url: https://transdecoder.github.io/
     total_pulls: 8459
 poretools:
     name: poretools
-    description: Flexible toolkit for exploring datasets generated by nanopore sequencing
-        devices from minion for the purposes of quality control and downstream analysis.
+    description: "Flexible toolkit for exploring datasets generated by nanopore sequencing
+        devices from minion for the purposes of quality control and downstream analysis."
     license: MIT
     home_url: https://github.com/arq5x/poretools
     total_pulls: 8263
 metaphlan2:
     name: metaphlan2
-    description: Metagenomic phylogenetic analysis
+    description: "Metagenomic phylogenetic analysis"
     license: MIT
     home_url: https://github.com/biobakery/metaphlan
     total_pulls: 8182
 progressivemauve:
     name: progressivemauve
-    description: Progressivemauve computes multiple genome alignment with gene gain,
-        loss and rearrangement
+    description: "Progressivemauve computes multiple genome alignment with gene gain,
+        loss and rearrangement"
     license: GNU
     home_url: http://darlinglab.org/mauve/user-guide/progressivemauve.html
     total_pulls: 8161
 salmon:
     name: salmon
-    description: Wicked-fast transcript quantification from rna-seq data
+    description: "Wicked-fast transcript quantification from rna-seq data"
     license: GPL-3.0
     home_url: https://github.com/COMBINE-lab/salmon
     total_pulls: 7296
@@ -180,103 +169,91 @@ cat:
     total_pulls: 6732
 bx-python:
     name: bx-python
-    description: "# Bx-Python\n\n> Toolkit to enable rapid implementation of genome\
-        \ scale analyses.\n\n> Licence: Mit\n\nHome: https://pypi.python.org/packages/source/b/bx-python/bx-python-0.7.2.tar.gz\n\
-        \n"
+    description: "Toolkit to enable rapid implementation of genome scale analyses"
     license: MIT
     home_url: https://github.com/bxlab/bx-python
     total_pulls: 6728
 bcbiogff:
     name: bcbiogff
-    description: Read and write generic feature format (gff) with biopython integration.
+    description: "Read and write generic feature format (gff) with biopython integration."
     license: Biopython License Agreement
     home_url: https://github.com/chapmanb/bcbb/blob/master/gff
     total_pulls: 6721
 autodock-vina:
     name: autodock-vina
-    description: Autodock vina is an open-source program for doing molecular docking
-    license: Not available
+    description: "Autodock vina is an open-source program for doing molecular docking"
+    license: Apache 2.0
     home_url: http://vina.scripps.edu/
     total_pulls: 6630
 assemblytics:
     name: assemblytics
-    description: Analyze a genome assembly by comparing it to a reference genome
+    description: "Analyze a genome assembly by comparing it to a reference genome"
     license: MIT
     home_url: http://assemblytics.com/
     total_pulls: 6617
 coreutils:
     name: coreutils
-    description: "# Coreutils\n\n> The gnu core utilities are the basic file, shell\
-        \ and text manipulation utilities of the gnu operating system. these are the\
-        \ core utilities which are expected to exist on every operating system.\n\n\
-        > Licence: Gpl\n\nHome: https://depot.galaxyproject.org/software/coreutils/coreutils_8.25_src_all.tar.bz2\n\
-        \n"
+    description: "The gnu core utilities are the basic file, shell and text manipulation utilities of the gnu operating system. these are the core utilities which are expected to exist on every operating system."
     license: GNU
     home_url: https://www.gnu.org/software/coreutils/
     total_pulls: 6502
 bwameth:
     name: bwameth
-    description: A fast and accurate aligner of bs-seq reads
+    description: "A fast and accurate aligner of bs-seq reads"
     license: MIT
     home_url: https://github.com/brentp/bwa-meth
     total_pulls: 6401
 qcumber:
     name: qcumber
-    description: Quality control, quality trimming, adapter removal and sequence content
-        check of ngs data.
+    description: "Quality control, quality trimming, adapter removal and sequence content check of ngs data."
     license: GNU
     home_url: https://gitlab.com/RKIBioinformaticsPipelines/QCumber
     total_pulls: 6308
 circlator:
     name: circlator
-    description: 'Circlator: a tool to circularise genome assemblies'
+    description: "Circlator: a tool to circularise genome assemblies"
     license: GPL-3.0
     home_url: https://github.com/sanger-pathogens/circlator
     total_pulls: 5834
 cobra:
     name: cobra
-    description: Cobrapy is a package for constraint-based modeling of biological
-        networks.
+    description: "Cobrapy is a package for constraint-based modeling of biological networks."
     license: GPL-2.0
     home_url: https://github.com/opencobra/cobrapy
     total_pulls: 5830
 cgview:
     name: cgview
-    description: The cgview server generates graphical maps of circular genomes that
+    description: "The cgview server generates graphical maps of circular genomes that
         can be used to visualize sequence conservation in the context of sequence
         features, imported analysis results, open reading frames and base composition
         plots. the server uses blast to compare the primary sequence of up to three
         genomes or sequence sets, aiding in the identification of conserved genome
         segments, instances of horizontal transfer or visualization of genome segments
-        from newly obtained sequence reads.
+        from newly obtained sequence reads."
     license: MIT
     home_url: http://stothard.afns.ualberta.ca/cgview_server/
     total_pulls: 5820
 changeo:
     name: changeo
-    description: 'A bioinformatics toolkit for processing high-throughput lymphocyte
-        receptor sequencing data. citations: gupta, et al (2015) <doi:10.1093/bioinformatics/btv359>.'
+    description: 'A bioinformatics toolkit for processing high-throughput lymphocyte receptor sequencing data.'
     license: AGPL-3
     home_url: http://changeo.readthedocs.io
     total_pulls: 5799
 circos-tools:
     name: circos-tools
-    description: Circos-tools provides several utility add-on scripts, such as for
-        bundling links
+    description: "Circos-tools provides several utility add-on scripts, such as for bundling links"
     license: MIT
     home_url: http://circos.ca
     total_pulls: 5795
 vt:
     name: vt
-    description: A tool set for short variant discovery in genetic sequence data
+    description: "A tool set for short variant discovery in genetic sequence data"
     license: MIT
     home_url: https://github.com/atks/vt
     total_pulls: 5605
 stringtie:
     name: stringtie
-    description: "# Stringtie\n\n> Transcriptome assembly and quantification for rna-seq\n\
-        \n> Licence: Artistic License 2.0\n\nHome: http://ccb.jhu.edu/software/stringtie/dl/stringtie-1.2.4.tar.gz\n\
-        \n"
+    description: "Transcriptome assembly and quantification for rna-seq"
     license: MIT
     home_url: https://ccb.jhu.edu/software/stringtie/
     total_pulls: 5462
