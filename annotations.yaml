@@ -5,6 +5,7 @@ samtools:
     license: MIT
     home_url: http://www.htslib.org/
     total_pulls: 347164
+    manually_check: True
 bcftools:
     name: bcftools
     description: Set of utilities that manipulate variant calls in the variant call
@@ -13,6 +14,7 @@ bcftools:
     license: MIT
     home_url: http://www.htslib.org/
     total_pulls: 196445
+    manually_check: True
 vcftools:
     name: vcftools
     description: Provide easily accessible methods for working with complex genetic
@@ -20,6 +22,7 @@ vcftools:
     license: GPL-3.0
     home_url: https://vcftools.github.io/index.html
     total_pulls: 138465
+    manually_check: True
 bedtools:
     name: bedtools
     description: Bedtools is an extensive suite of utilities for comparing genomic
@@ -27,6 +30,7 @@ bedtools:
     license: GPL-2.0
     home_url: https://github.com/arq5x/bedtools2
     total_pulls: 109138
+    manually_check: True
 fastqc:
     name: fastqc
     description: This tool aims to provide a qc report which can spot problems or
@@ -39,12 +43,14 @@ fastqc:
     license: GPL-3.0
     home_url: http://www.bioinformatics.babraham.ac.uk/projects/fastqc/
     total_pulls: 102256
+    manually_check: True
 vcflib:
     name: vcflib
     description: "Command-line tools for manipulating vcf files"
     license: MIT
     home_url: https://github.com/vcflib/vcflib
     total_pulls: 77324
+    manually_check: True
 blast:
     name: blast
     description: Basic local alignment search tool
@@ -58,6 +64,7 @@ tabix:
     license: MIT
     home_url: http://www.htslib.org/
     total_pulls: 45860
+    manually_check: True
 picard:
     name: picard
     description: A set of command line tools for manipulating high-throughput sequencing
@@ -66,55 +73,63 @@ picard:
     license: MIT
     home_url: https://github.com/broadinstitute/picard
     total_pulls: 43322
+    manually_check: True
 galaxy_sequence_utils:
     name: galaxy_sequence_utils
     description: "Sequence utilities from the galaxy project"
     license: AFL
     home_url: https://github.com/galaxyproject/sequence_utils
     total_pulls: 39447
+    manually_check: True
 prodigal:
     name: prodigal
     description: Microbial (bacterial and archaeal) gene finding program
     license: GPL-3
     home_url: http://prodigal.ornl.gov/
     total_pulls: 36174
+    manually_check: True
 gatk4:
     name: gatk4
     description: "Genome analysis toolkit (gatk4)"
     license: BSD 3-Clause
     home_url: https://www.broadinstitute.org/gatk/
     total_pulls: 33888
+    manually_check: True
 cutadapt:
     name: cutadapt
     description: Clean biological sequences from high-throughput sequencing reads
     license: Expat
     home_url: http://pypi.python.org/pypi/cutadapt
     total_pulls: 31674
+    manually_check: True
 fastx_toolkit:
     name: fastx_toolkit
     description: "The FASTX-Toolkit is a collection of command line tools for Short-Reads FASTA/FASTQ files preprocessing."
     license: AGPLv3
     home_url: https://github.com/agordon/fastx_toolkit
     total_pulls: 30058
+    manually_check: True
 mosdepth:
     name: mosdepth
     description: "Fast BAM/CRAM depth calculation for WGS, exome, or targeted sequencing."
     license: MIT
     home_url: https://github.com/brentp/mosdepth/
     total_pulls: 27031
+    manually_check: True
 bwa:
     name: bwa
-    description: Fast, accurate, memory-efficient aligner for short and long sequencing
-        reads
+    description: Fast, accurate, memory-efficient aligner for short and long sequencing reads
     license: MIT
     home_url: http://bio-bwa.sourceforge.net
     total_pulls: 26055
+    manually_check: True
 python:
     name: python
     description: "Python is a programming language that lets you work quickly and integrate systems more effectively."
     license: PSFL
     home_url: https://www.python.org/
     total_pulls: 21851
+    manually_check: True
 megahit:
     name: megahit
     description: "An ultra-fast single-node solution for large and complex metagenomics assembly via succinct de bruijn graph"
@@ -131,24 +146,28 @@ spades:
     license: GPL-2.0
     home_url: http://cab.spbu.ru/software/spades/
     total_pulls: 18842
+    manually_check: True
 biopython:
     name: biopython
     description: Python library for bioinformatics (implemented in python 3)
-    license: other
+    license: Custom License
     home_url: http://biopython.org
     total_pulls: 18707
+    manually_check: True
 bowtie:
     name: bowtie
     description: An ultrafast memory-efficient short read aligner
     license: GPLv3
     home_url: http://bowtie-bio.sourceforge.net/index.shtml
     total_pulls: 18042
+    manually_check: True
 trim-galore:
     name: trim-galore
     description: "Trim galore! is a wrapper script to automate quality and adapter trimming as well as quality control"
     license: GNU-GPL v3
     home_url: http://www.bioinformatics.babraham.ac.uk/projects/trim_galore/
     total_pulls: 17666
+    manually_check: True
 bowtie2:
     name: bowtie2
     description: 'Bowtie 2 is an ultrafast and memory-efficient tool for aligning
@@ -167,12 +186,14 @@ csb:
     license: MIT
     home_url: http://github.com/csb-toolbox
     total_pulls: 17436
+    manually_check: True
 fast5:
     name: fast5
     description: "A c++ header-only library for reading oxford nanopore fast5 files."
-    license: Not available
+    license: MIT
     home_url: https://github.com/mateidavid/fast5
     total_pulls: 17256
+    manually_check: True
 bedops:
     name: bedops
     description: Bedops is an open-source command-line toolkit that performs efficient
@@ -183,12 +204,14 @@ bedops:
     license: GPL-3.0
     home_url: https://bedops.readthedocs.io/en/latest/
     total_pulls: 17134
+    manually_check: True
 biom-format:
     name: biom-format
     description: Biological observation matrix (biom) format (python 3)
     license: GPL
     home_url: http://biom-format.org/
     total_pulls: 16590
+    manually_check: True
 htseq:
     name: htseq
     description: Python framework to process and analyse high-throughput sequencing
@@ -196,18 +219,21 @@ htseq:
     license: GPL-3.0
     home_url: http://htseq.readthedocs.io/en/release_0.9.1/
     total_pulls: 16506
+    manually_check: True
 rseqc:
     name: rseqc
     description: "RSeQC package provides a number of useful modules that can comprehensively evaluate high throughput sequence data especially RNA-seq data"
     license: GPLv3
     home_url: http://rseqc.sourceforge.net/
     total_pulls: 15696
+    manually_check: True
 pyvcf:
     name: pyvcf
     description: Helper scripts for variant call format (vcf) parser
     license: BSD-3-clause
     home_url: https://pypi.python.org/pypi/PyVCF
     total_pulls: 14417
+    manually_check: True
 bbmap:
     name: bbmap
     description: Bbmap is a fast splice-aware aligner for rna and dna.  it is faster
@@ -216,6 +242,7 @@ bbmap:
     license: BSD-3-Clause
     home_url: https://jgi.doe.gov/data-and-tools/bbtools/
     total_pulls: 14255
+    manually_check: True
 multiqc:
     name: multiqc
     description: Multiqc aggregates results from multiple bioinformatics analyses
@@ -225,6 +252,7 @@ multiqc:
     license: GPL-3.0
     home_url: http://multiqc.info/
     total_pulls: 14173
+    manually_check: True
 seqtk:
     name: seqtk
     description: A tool for processing sequences in the fasta or fastq format. it
@@ -233,30 +261,35 @@ seqtk:
     license: MIT
     home_url: https://github.com/lh3/seqtk
     total_pulls: 13496
+    manually_check: True
 avro:
     name: avro
     description: Apache avro serialization system (python 3 library)
     license: Apache-2.0
     home_url: http://avro.apache.org
     total_pulls: 13254
+    manually_check: True
 star:
     name: star
     description: Ultrafast universal rna-seq aligner
     license: GPL-3.0
     home_url: http://code.google.com/p/rna-star/
     total_pulls: 12965
+    manually_check: True
 burrito:
     name: burrito
     description: "Framework for wrapping and controlling command-line applications."
     license: BSD 3-Clause
     home_url: https://github.com/biocore/burrito
     total_pulls: 12601
+    manually_check: True
 hmmer:
     name: hmmer
     description: Profile hidden markov models for protein sequence analysis
     license: GPL-3
     home_url: http://hmmer.org/
     total_pulls: 12431
+    manually_check: True
 bamtools:
     name: bamtools
     description: Bamtools provides a fast, flexible c++ api & toolkit for reading,
@@ -264,13 +297,14 @@ bamtools:
     license: MIT
     home_url: https://github.com/pezmaster31/bamtools
     total_pulls: 12235
+    manually_check: True
 colormap:
     name: colormap
-    description: Ease manipulation of matplotlib colormaps and color codecs (python
-        3)
+    description: Ease manipulation of matplotlib colormaps and color codecs (python 3)
     license: BSD-3-Clause/colormap
     home_url: https://colormap.readthedocs.io/
     total_pulls: 11602
+    manually_check: True
 cyvcf2:
     name: cyvcf2
     description: Library and software package for fast parsing and querying of vcf
@@ -278,6 +312,7 @@ cyvcf2:
     license: MIT
     home_url: https://github.com/brentp/cyvcf2
     total_pulls: 11500
+    manually_check: True
 dendropy:
     name: dendropy
     description: "A python library for phylogenetics and phylogenetic computing: reading,
@@ -286,6 +321,7 @@ dendropy:
     license: Attribution-NonCommercial-ShareAlike 4.0
     home_url: https://dendropy.org/
     total_pulls: 11499
+    manually_check: True
 easydev:
     name: easydev
     description: Common utilities to ease the development of python packages (python
@@ -293,31 +329,35 @@ easydev:
     license: BSD-3-Clause/SKL
     home_url: https://easydev-python.readthedocs.io/en/latest/
     total_pulls: 11441
+    manually_check: True
 pysam:
     name: pysam
-    description: Interface for the sam/bam sequence alignment and mapping format (python
-        3)
+    description: Interface for the sam/bam sequence alignment and mapping format (python 3)
     license: MIT
     home_url: http://pysam.readthedocs.org/en/latest
     total_pulls: 11268
+    manually_check: True
 genometools:
     name: genometools
     description: Free collection of bioinformatics tools for genome informatics.
     license: BSD-3-Clause
     home_url: http://genometools.org/
     total_pulls: 11173
+    manually_check: True
 emboss:
     name: emboss
     description: "Diverse suite of tools for sequence analysis; many programs analagous to gcg; context-sensitive help for each tool."
     license: GPL
     home_url: http://emboss.bioinformatics.nl/
     total_pulls: 10216
+    manually_check: True
 platypus-variant:
     name: platypus-variant
     description: "A haplotype-based variant caller for next generation sequence data"
     license: MIT
     home_url: https://www.well.ox.ac.uk/research/research-groups/lunter-group/lunter-group/platypus-a-haplotype-based-variant-caller-for-next-generation-sequence-data
     total_pulls: 10152
+    manually_check: True
 barrnap:
     name: barrnap
     description: Predict the location of ribosomal rna genes in genomes. it supports
@@ -326,12 +366,14 @@ barrnap:
     license: GPL-3.0
     home_url: https://github.com/tseemann/barrnap
     total_pulls: 10065
+    manually_check: True
 matplotlib:
     name: matplotlib
     description: "Matplotlib is a comprehensive library for creating static, animated, and interactive visualizations in Python."
     license: BSD
     home_url: https://matplotlib.org/
     total_pulls: 10059
+    manually_check: True
 augustus:
     name: augustus
     description: Augustus is a eukaryotic gene prediction tool. it can integrate evidence,
@@ -343,13 +385,14 @@ augustus:
     license: Artistic-1.0
     home_url: http://bioinf.uni-greifswald.de/augustus
     total_pulls: 10025
+    manually_check: True
 fastp:
     name: fastp
-    description: A tool designed to provide fast all-in-one preprocessing for fastq
-        files
+    description: A tool designed to provide fast all-in-one preprocessing for fastq files
     license: SPDX:GPL-3.0
     home_url: https://github.com/OpenGene/fastp/
     total_pulls: 9887
+    manually_check: True
 bandage:
     name: bandage
     description: Gui program that allows users to interact with the assembly graphs
@@ -13144,17 +13187,6 @@ bioconductor-siggenes:
         \n"
     license:
     home_url:
-    total_pulls: 3
-bioconductor-sradb:
-    name: bioconductor-sradb
-    description: The sequence read archive (sra) is the largest public repository
-        of sequencing data from the next generation of sequencing platforms including
-        roche 454 gs system, illumina genome analyzer, applied biosystems solid system,
-        helicos heliscope, and others. however, finding data of interest can be challenging
-        using current tools. this tool is an attempt to make access to the metadata
-        associated with submission, study, sample, experiment and run much more feasible.
-    license: Artistic-2.0
-    home_url: http://bioconductor.org/packages/release/bioc/html/SRAdb.html
     total_pulls: 3
 bioconductor-sradb:
     name: bioconductor-sradb
