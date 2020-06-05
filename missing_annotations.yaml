@@ -1808,47 +1808,50 @@ repeatmasker:
     total_pulls: 3398
 moabs:
     name: moabs
-    description: "A comprehensive, accurate and efficient solution for analysis of large scale base-resolution DNA methylation data"
-    license: GPL-3.0
-    home_url: https://code.google.com/archive/p/moabs/
+    description:
+    license:
+    home_url:
     total_pulls: 3397
 presto:
     name: presto
     description: A bioinformatics toolkit for processing high-throughput lymphocyte
         receptor sequencing data.
-    license: AGPL-3.0
-    home_url: https://bitbucket.org/kleinstein/presto/src/default/
+    license: Not available
+    home_url: http://presto.readthedocs.io
     total_pulls: 3390
 tb-profiler:
     name: tb-profiler
     description: Profiling tool for mycobacterium tuberculosis to detect drug resistance
         and lineage from wgs data
-    license: GPL-3.0
+    license: Not available
     home_url: https://github.com/jodyphelan/TBProfiler
     total_pulls: 3388
 maxbin2:
     name: maxbin2
-    description: "Software for binning assembled metagenomic sequences based on an expectation-maximization algorithm"
-    license: BSD-3-Clause
-    home_url: https://sourceforgenet/projects/maxbin2/
+    description: ">  \"maxbin is software for binning assembled metagenomic sequences\
+        \ based on an expectation-maximization algorithm.\"\n\n> Licence:  \"Bsd 3-Clause\"\
+        \n\n"
+    license:
+    home_url:
     total_pulls: 3386
 bioconductor-dexseq:
     name: bioconductor-dexseq
-    description: "The package is focused on finding differential\
+    description: "# Bioconductor-Dexseq\n\n> The package is focused on finding differential\
         \ exon usage using rna-seq exon counts between samples with different experimental\
         \ designs. it provides functions that allows the user to make the necessary\
         \ statistical tests based on a model that uses the negative binomial distribution\
         \ to estimate the variance between biological replicates and generalized linear\
         \ models for testing. the package also provides functions for the visualization\
-        \ and exploration of the results."
-    license: GPL-3.0
-    home_url: https://bioconductor.org/packages/release/bioc/html/DEXSeq.html
+        \ and exploration of the results.\n\n> Licence: Gpl (>= 3)\n\nHome: http://bioconductor.org/packages/3.3/bioc/src/contrib/DEXSeq_1.18.4.tar.gz\n\
+        \n"
+    license:
+    home_url:
     total_pulls: 3385
 star-fusion:
     name: star-fusion
     description: Star-fusion fusion variant caller.  all dependencies required to
         run fusioninspector and fusionannotator are included.
-    license: BSD-3-Clause
+    license: Not available
     home_url: https://github.com/STAR-Fusion/STAR-Fusion
     total_pulls: 3385
 sickle-trim:
@@ -1865,26 +1868,27 @@ perl-bioperl:
     total_pulls: 3377
 gemini:
     name: gemini
-    description: "A lightweight db framework for disease and population genetics"
-    license: MIT
-    home_url: https://github.com/arq5x/gemini
+    description: "# Gemini\n\n> A lightweight db framework for disease and population\
+        \ genetics.\n\n> Licence: Mit License\n\n"
+    license:
+    home_url:
     total_pulls: 3377
 shovill:
     name: shovill
     description: Microbial assembly pipeline for illumina paired-end reads
-    license: GPL-3.0
+    license: Not available
     home_url: https://github.com/tseemann/shovill
     total_pulls: 3373
 anise_basil:
     name: anise_basil
-    description: "BASIL is a method to detect breakpoints for structural variants (including insertion breakpoints) from aligned paired HTS reads in BAM format"
-    license: MIT
-    home_url: https://github.com/seqan/anise_basil/
+    description:
+    license:
+    home_url:
     total_pulls: 3369
 plasflow:
     name: plasflow
     description: Plasflow - predicting plasmid sequences in metagenomic data
-    license: GPL-3.0
+    license: Not available
     home_url: https://github.com/smaegol/PlasFlow
     total_pulls: 3368
 ngsutils:
@@ -1895,8 +1899,9 @@ ngsutils:
     total_pulls: 3367
 tetyper:
     name: tetyper
-    description: Typing of a specific transposable element (te) of interest from paired-end sequencing data.
-    license: GPL-3.0
+    description: Typing of a specific transposable element (te) of interest from paired-end
+        sequencing data.
+    license: Not available
     home_url: https://github.com/aesheppard/TETyper
     total_pulls: 3366
 shorah:
@@ -1908,13 +1913,13 @@ shorah:
 slamdunk:
     name: slamdunk
     description: Slamdunk is a software tool for slamseq data analysis.
-    license: AGPL-3.3.0
-    home_url: https://github.com/t-neumann/slamdunk
+    license: Not available
+    home_url: http://t-neumann.github.io/slamdunk
     total_pulls: 3364
 tb_variant_filter:
     name: tb_variant_filter
     description: Vcf variant filter optimised for filter m. tuberculosis h37rv variants
-    license: GPL-3.0
+    license: Not available
     home_url: http://github.com/COMBAT-TB/tb_variant_filter
     total_pulls: 3363
 gvcftools:
@@ -1925,39 +1930,45 @@ gvcftools:
     total_pulls: 3361
 picrust:
     name: picrust
-    description: 'Picrust: phylogenetic investigation of communities by reconstruction of unobserved states'
-    license: GPL
+    description: 'Picrust: phylogenetic investigation of communities by reconstruction
+        of unobserved states'
+    license: Not available
     home_url: http://picrust.github.com
     total_pulls: 3360
 krocus:
     name: krocus
-    description: Krocus performs multi-locus sequence typing from uncorrected long reads.
-    license: GPL-3.0
+    description: Krocus performs multi-locus sequence typing from uncorrected long
+        reads.
+    license: Not available
     home_url: https://github.com/andrewjpage/krocus
     total_pulls: 3360
 ucsc-fasplit:
     name: ucsc-fasplit
-    description: "Split an fa file into several files"
-    license: Custom License
-    home_url: http://hgdownload.cse.ucsc.edu/admin/exe/macOSX.x86_64/faSplit
+    description: "# Ucsc-Fasplit\n\n> Split an fa file into several files.\n\n> Licence:\
+        \ Varies; See Http://Genome.Ucsc.Edu/License\n\nHome: http://hgdownload.cse.ucsc.edu/admin/exe/macOSX.x86_64/faSplit\n\
+        \n"
+    license:
+    home_url:
     total_pulls: 3359
 schicexplorer:
     name: schicexplorer
-    description: Set of programs to process, analyze and visualize single-cell hi-c data.
-    license: MIT
+    description: Set of programs to process, analyze and visualize single-cell hi-c
+        data.
+    license: Not available
     home_url: https://github.com/joachimwolff/scHiCExplorer
     total_pulls: 3359
 goenrichment:
     name: goenrichment
     description: Goenrichment analyses a set of gene products for go term enrichment
-    license: Apache 2.0
+    license: Not available
     home_url: https://github.com/DanFaria/GOEnrichment
     total_pulls: 3358
 nonpareil:
     name: nonpareil
-    description: "Estimate average coverage and create nonpareil curves for metagenomic datasets."
-    license: Artistic License 2.0
-    home_url: http://enve-omics.ce.gatech.edu/nonpareil/
+    description: "# Nonpareil\n\n> Estimate average coverage and create nonpareil\
+        \ curves for metagenomic datasets.\n\n> Licence: Artistic License 2.0\n\n"
+    license:
+    home_url:
     total_pulls: 3356
 varscan:
     name: varscan
@@ -1969,19 +1980,19 @@ varscan:
 graph_embed:
     name: graph_embed
     description: Compute a 2d embedding of a data matrix given supervised class information.
-    license: MIT
+    license: Not available
     home_url: https://github.com/fabriziocosta/GraphEmbed
     total_pulls: 3353
 rust-ncbitaxonomy:
     name: rust-ncbitaxonomy
-    description: "Read NCBI Taxonomy Database from files and work with NCBI Taxonomy DB"
-    license: MIT
-    home_url: https://docs.rs/crate/ncbitaxonomy/1.0.3/source/
+    description:
+    license:
+    home_url:
     total_pulls: 3353
 ncbi-acc-download:
     name: ncbi-acc-download
     description: Download files from ncbi entrez by accession.
-    license: Apache 2.0
+    license: Not available
     home_url: https://github.com/kblin/ncbi-acc-download/
     total_pulls: 3353
 allegro:
