@@ -401,24 +401,28 @@ bandage:
     license: GPL-3.0
     home_url: https://rrwick.github.io/Bandage/
     total_pulls: 9835
+    manually_check: True
 pbalign:
     name: pbalign
     description: "Python wrapper for producing pbbam valid alignments"
     license: MIT
     home_url: https://github.com/PacificBiosciences/pbalign
     total_pulls: 9779
+    manually_check: True
 pbh5tools:
     name: pbh5tools
     description: Tools for manipulating pacific biosciences hdf5 files
     license: PacBio-BSD-3-Clause
     home_url: https://github.com/PacificBiosciences/pbh5tools
     total_pulls: 9771
+    manually_check: True
 openslide:
     name: openslide
     description: Python 3 wrapper for reading whole slide image files
     license: LGPL-2.1
     home_url: http://openslide.org
     total_pulls: 9753
+    manually_check: True
 hisat2:
     name: hisat2
     description: Alignment program for mapping next-generation sequencing reads (both
@@ -427,31 +431,36 @@ hisat2:
     license: GPL-3.0
     home_url: https://ccb.jhu.edu/software/hisat2/index.shtml
     total_pulls: 9648
+    manually_check: True
 rdflib-jsonld:
     name: rdflib-jsonld
     description: Rdflib extension adding json-ld parser and serializer in python 3
     license: BSD-3-clause
-    home_url: https://github.com/RDFLib/rdflib-jsonld
+    home_url: https://Truegithub.com/RDFLib/rdflib-jsonld
     total_pulls: 9624
+    manually_check: True
 xopen:
     name: xopen
     description: Python3 module to open compressed files transparently
     license: MIT
     home_url: https://github.com/marcelm/xopen
     total_pulls: 9624
+    manually_check: True
 ruffus:
     name: ruffus
     description: "Light-weight python computational pipeline management"
     license: MIT
     home_url: http://www.ruffus.org.uk/
     total_pulls: 9621
+    manually_check: True
 pyfaidx:
     name: pyfaidx
     description: This python module implements pure python classes for indexing, retrieval,
         and in-place modification of fasta files using a samtools compatible index.
-    license: Not licensed
-    home_url: https://pythonhosted.org/pyfaidx/
+    license: MIT
+    home_url: https://github.com/mdshw5/pyfaidx
     total_pulls: 9588
+    manually_check: True
 kraken:
     name: kraken
     description: System for assigning taxonomic labels to short dna sequences, usually
@@ -470,6 +479,7 @@ openjdk:
     license: GPLv2
     home_url: https://openjdk.java.net/
     total_pulls: 9353
+    manually_check: True
 bwakit:
     name: bwakit
     description: A self-consistent installation-free package of scripts and precompiled
@@ -477,6 +487,7 @@ bwakit:
     license: SPDX:GPL-3.0
     home_url: http://bio-bwa.sourceforge.net/
     total_pulls: 9351
+    manually_check: True
 rsem:
     name: rsem
     description: We present a generative statistical model and associated inference
@@ -488,12 +499,14 @@ rsem:
     license: GPL-3
     home_url: http://deweylab.github.io/RSEM/
     total_pulls: 9241
+    manually_check: True
 cd-hit:
     name: cd-hit
     description: Cluster a nucleotide dataset into representative sequences.
     license: GPL-2+
     home_url: https://github.com/weizhongli/cdhit
     total_pulls: 9213
+    manually_check: True
 fasttree:
     name: fasttree
     description: Infers approximately-maximum-likelihood phylogenetic trees from alignments
@@ -501,6 +514,7 @@ fasttree:
     license: GPL-2.0+
     home_url: http://www.microbesonline.org/fasttree/
     total_pulls: 9095
+    manually_check: True
 discosnp:
     name: discosnp
     description: This software is designed for discovering single nucleotide polymorphism
@@ -508,30 +522,35 @@ discosnp:
     license: CECILL-2.0
     home_url: https://colibread.inria.fr/software/discosnp/
     total_pulls: 8953
+    manually_check: True
 graphlan:
     name: graphlan
     description: "Graphlan is a software tool for producing high-quality circular representations of taxonomic and phylogenetic trees."
     license: MIT
     home_url: https://github.com/biobakery/graphlan
     total_pulls: 8818
+    manually_check: True
 gubbins:
     name: gubbins
     description: Phylogenetic analysis of genome sequences
     license: GPL-2+
     home_url: https://sanger-pathogens.github.io/gubbins/
     total_pulls: 8805
+    manually_check: True
 pilon:
     name: pilon
     description: "Read alignment analysis to diagnose, report, and automatically improve de novo genome assemblies."
     license: GNU
     home_url: https://github.com/broadinstitute/pilon/
     total_pulls: 8583
+    manually_check: True
 kissplice:
     name: kissplice
     description: Detection of various kinds of polymorphisms in rna-seq data
     license: CeCILL
     home_url: http://kissplice.prabi.fr/
     total_pulls: 8564
+    manually_check: True
 tpp:
     name: tpp
     description: Analyze thermal proteome profiling (tpp) experiments with varying
@@ -539,12 +558,14 @@ tpp:
     license: Artistic-2.0
     home_url: https://bioconductor.org/packages/TPP/
     total_pulls: 8530
+    manually_check: True
 mash:
     name: mash
     description: Fast genome and metagenome distance estimation using minhash.
     license: CC-BY-4.0
     home_url: https://github.com/marbl/mash
     total_pulls: 8522
+    manually_check: True
 khmer:
     name: khmer
     description: Khmer is a set of command-line tools for working with dna shotgun
@@ -554,19 +575,22 @@ khmer:
     license: BSD-3-Clause
     home_url: http://khmer.readthedocs.org/en/v2.0/
     total_pulls: 8509
+    manually_check: True
 idba:
     name: idba
     description: A short read assembler based on iterative de bruijn graph. it is
         developed under 64-bit linux, but should be suitable for all unix-like system.
-    license: Unlicense
-    home_url: http://i.cs.hku.hk/%7Ealse/idba
+    license: GNU
+    home_url: https://github.com/loneknightpy/idba
     total_pulls: 8475
+    manually_check: True
 iqtree:
     name: iqtree
     description: Efficient phylogenetic software by maximum likelihood
     license: GPL-2+
     home_url: http://www.cibiv.at/software/iqtree/
     total_pulls: 8472
+    manually_check: True
 transdecoder:
     name: transdecoder
     description: "Transdecoder identifies candidate coding regions within transcript
@@ -574,20 +598,23 @@ transdecoder:
         using trinity, or constructed based on rna-seq alignments to the genome using
         tophat and cufflinks."
     license: Apache 2
-    home_url: https://transdecoder.github.io/
+    home_url: https://github.com/TransDecoder/TransDecoder
     total_pulls: 8459
+    manually_check: True
 mothur:
     name: mothur
     description: Sequence analysis suite for research on microbiota
     license: GPL-3+
     home_url: http://www.mothur.org
     total_pulls: 8405
+    manually_check: True
 mapsembler2:
     name: mapsembler2
     description: Bioinformatics targeted assembly software
-    license: custom, see /usr/share/doc/mapsembler2/copyright
+    license: AGPL3
     home_url: http://colibread.inria.fr/mapsembler2/
     total_pulls: 8342
+    manually_check: True
 unicycler:
     name: unicycler
     description: A tool for assembling bacterial genomes from a combination of short
@@ -595,6 +622,7 @@ unicycler:
     license: GPL-3.0
     home_url: https://github.com/rrwick/Unicycler
     total_pulls: 8295
+    manually_check: True
 poretools:
     name: poretools
     description: "Flexible toolkit for exploring datasets generated by nanopore sequencing
@@ -602,6 +630,7 @@ poretools:
     license: MIT
     home_url: https://github.com/arq5x/poretools
     total_pulls: 8263
+    manually_check: True
 obitools:
     name: obitools
     description: Set of python programs developed to simplify the manipulation of
@@ -616,12 +645,14 @@ phyml:
     license: GPL-2.0
     home_url: http://www.atgc-montpellier.fr/phyml/
     total_pulls: 8234
+    manually_check: True
 metaphlan2:
     name: metaphlan2
     description: "Metagenomic phylogenetic analysis"
     license: MIT
     home_url: https://github.com/biobakery/metaphlan
     total_pulls: 8182
+    manually_check: True
 stacks:
     name: stacks
     description: Developed to work with restriction enzyme based sequence data, such
@@ -630,27 +661,30 @@ stacks:
     license: GPL-3.0
     home_url: http://catchenlab.life.illinois.edu/stacks/
     total_pulls: 8182
+    manually_check: True
 porechop:
     name: porechop
     description: Adapter trimmer for oxford nanopore reads
     license: GPL-3+
     home_url: https://rrwick.github.io/Porechop
     total_pulls: 8170
+    manually_check: True
 progressivemauve:
     name: progressivemauve
-    description: "Progressivemauve computes multiple genome alignment with gene gain,
-        loss and rearrangement"
+    description: "Progressivemauve computes multiple genome alignment with gene gain, loss and rearrangement"
     license: GNU
     home_url: http://darlinglab.org/mauve/user-guide/progressivemauve.html
     total_pulls: 8161
+    manually_check: True
 roary:
     name: roary
     description: A high speed stand alone pan genome pipeline, which takes annotated
         assemblies in gff3 format (produced by prokka (seemann, 2014)) and calculates
         the pan genome.
     license: GPL-3
-    home_url: http://sanger-pathogens.github.io/Roary/
+    home_url: https://github.com/sanger-pathogens/Roary
     total_pulls: 8160
+    manually_check: True
 paml:
     name: paml
     description: Package of programs for phylogenetic analyses of dna or protein sequences
@@ -658,6 +692,7 @@ paml:
     license: GPL-3
     home_url: http://abacus.gene.ucl.ac.uk/software/paml.html
     total_pulls: 8073
+    manually_check: True
 vsearch:
     name: vsearch
     description: High-throughput search and clustering sequence analysis tool. it
@@ -668,30 +703,35 @@ vsearch:
     license: GPL-3.0
     home_url: https://github.com/torognes/vsearch
     total_pulls: 8059
+    manually_check: True
 snp-sites:
     name: snp-sites
     description: Binary code for the package snp-sites
     license: GPL-3+
     home_url: https://github.com/sanger-pathogens/snp-sites
     total_pulls: 8026
+    manually_check: True
 snap:
     name: snap
     description: The semi-hmm-based nucleic acid parser is a gene prediction tool.
     license: GPL-2.0+
     home_url: http://korflab.ucdavis.edu/software.html
     total_pulls: 7990
+    manually_check: True
 salmon:
     name: salmon
     description: "Wicked-fast transcript quantification from rna-seq data"
     license: GPL-3.0
     home_url: https://github.com/COMBINE-lab/salmon
     total_pulls: 7296
+    manually_check: True
 mafft:
     name: mafft
     description: Multiple alignment program for amino acid or nucleotide sequences
     license: mafft
     home_url: http://mafft.cbrc.jp/alignment/software/
     total_pulls: 7208
+    manually_check: True
 abyss:
     name: abyss
     description: De novo genome sequence assembler.
@@ -47417,10 +47457,11 @@ ig-checkflowtypes:
     total_pulls: 0
 abruijn:
     name: abruijn
-    description:
-    license:
-    home_url:
+    description: Assembly of Long Error-Prone Reads Using De Bruijn Graphs
+    license: BSD
+    home_url: https://github.com/fenderglass/Flye
     total_pulls: 0
+     manually_check: True
 breakseq2:
     name: breakseq2
     description:
@@ -50935,9 +50976,9 @@ phenix:
     total_pulls: 0
 abawaca:
     name: abawaca
-    description:
-    license:
-    home_url:
+    description: "abawaca (A Binning Algorithm Without A Cool Acronym) is a binning program that can take advantage of different types of information such as differential coverage and DNA signature"
+    license: MIT
+    home_url: https://github.com/CK7/abawaca
     total_pulls: 0
 gcs-oauth2-boto-plugin:
     name: gcs-oauth2-boto-plugin
