@@ -2298,9 +2298,10 @@ crispr_studio:
     name: crispr_studio
     description: Crisprstudio is a program developed to facilitate and accelerate
         crispr array visualization
-    license: Not available
+    license: GPL-3.0
     home_url: https://github.com/moineaulab/CRISPRStudio
     total_pulls: 3346
+    manually_check: True
 takeabreak:
     name: takeabreak
     description:
@@ -2311,9 +2312,10 @@ pipelign:
     name: pipelign
     description: A pipeline for automated multiple sequence alignment, particularly
         of viral sequences.
-    license: Not available
+    license: MIT
     home_url: https://github.com/asmmhossain/pipelign/
     total_pulls: 3344
+    manually_check: True
 lordec:
     name: lordec
     description:
@@ -2324,9 +2326,10 @@ lorikeet:
     name: lorikeet
     description: Tool for digital spoligotyping of mtb strains from illumina read
         data
-    license: Not available
+    license: GPL-3.0
     home_url: https://github.com/AbeelLab/lorikeet
     total_pulls: 3341
+    manually_check: True
 barcode_splitter:
     name: barcode_splitter
     description: Split multiple fastq files by matching barcodes in one or more of
@@ -2348,9 +2351,10 @@ nudup:
     name: nudup
     description: Marks/removes duplicate molecules based on the molecular tagging
         technology used in nugen products.
-    license: Not available
-    home_url: http://nugentechnologies.github.io/nudup/
+    license: LGPL-3.0
+    home_url: https://github.com/tecangenomics/nudup
     total_pulls: 3336
+    manually_check : True
 prestor:
     name: prestor
     description:
@@ -2360,9 +2364,10 @@ prestor:
 socru:
     name: socru
     description: Order and orientation of complete bacterial genomes
-    license: Not available
+    license: GPL-3.0
     home_url: https://github.com/quadram-institute-bioscience/socru
     total_pulls: 3336
+    manually_check : True
 qfilt:
     name: qfilt
     description:
@@ -2383,12 +2388,11 @@ spaln:
     total_pulls: 3330
 umi_tools:
     name: umi_tools
-    description: "# Umi_Tools\n\n> Tools for dealing with unique molecular identifiers\n\
-        \n> Licence: Mit License\n\nHome: https://github.com/CGATOxford/UMI-tools/archive/v0.2.3.tar.gz\n\
-        \n"
-    license:
-    home_url:
+    description: "Tools for dealing with unique molecular identifiers"
+    license: MIT
+    home_url: https://github.com/CGATOxford/UMI-tools/
     total_pulls: 3329
+    manually_check: True
 perl-xml-xpath:
     name: perl-xml-xpath
     description: Parse and evaluate xpath statements.
