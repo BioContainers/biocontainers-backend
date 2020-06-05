@@ -548,3 +548,25 @@ class InsertContainers:
                 export = True
             to_map.append(tool)
         return to_map
+
+    def update_from_file(self, file_annotations):
+        for key in file_annotations:
+            tool_file = file_annotations[key]
+            if 'manually_check' in tool_file and tool_file['manually_check']:
+                mongo_tool = MongoTool.get_tool_by_id(key)
+                changed = False
+                if mongo_tool is not None:
+                    if mongo_tool.description != tool_file['description']:
+                        mongo_tool.description = tool_file['description']
+                        changed = True
+                    if mongo_tool.license != tool_file['license']:
+                        mongo_tool.license = tool_file['license']
+                        changed = True
+                    if mongo_tool.home_url != tool_file['home_url']:
+                        mongo_tool.home_url = tool_file['home_url']
+                        changed =True
+                    if changed:
+                        mongo_tool.save()
+                        logger.info("The tool has been updated  " + key)
+
+

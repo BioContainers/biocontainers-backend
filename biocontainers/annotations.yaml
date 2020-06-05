@@ -4759,7 +4759,7 @@ bioconductor-pd.hg.u95d:
     name: bioconductor-pd.hg.u95d
     description: Platform design info for the manufacturer's name hg u95d
     license: Not available
-    home_url: https://bioconductor.org/packages/3.11/data/annotation/html/pd.hg.u95d.html
+    home_url: "https://bioconductor.org/packages/3.11/data/annotation/html/pd.hg.u95d.html"
     total_pulls: 35
 bioconductor-pd.rg.u34c:
     name: bioconductor-pd.rg.u34c
@@ -47559,7 +47559,7 @@ abruijn:
     license: BSD
     home_url: https://github.com/fenderglass/Flye
     total_pulls: 0
-     manually_check: True
+    manually_check: True
 breakseq2:
     name: breakseq2
     description:

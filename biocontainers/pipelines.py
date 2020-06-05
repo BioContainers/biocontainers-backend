@@ -155,17 +155,27 @@ def report_missing_tools(config, config_profile):
         missing_tool['license'] = tool.license
         missing_tool['home_url'] = tool.home_url
         missing_tool['total_pulls'] = tool.total_pulls
-        tools[tool.name] = missing_tool
+        tools[tool.id] = missing_tool
     yaml = YAML()
     yaml.indent(mapping=4, sequence=6, offset=3)
     with open('../missing_annotations.yaml', 'w') as outfile:
         yaml.dump(tools, outfile)
+
 
 def get_database_uri(param):
     uri = 'mongodb://' + param['MONGODB_USER'] + ":" + param['MONGODB_PASS'] + '@' + param['MONGODB_HOST'] + ':' + \
           param['MONGO_PORT'] + '/' + param['BIOCONT_DB_NAME'] + '?ssl=false&authSource=' + param['MONGODB_ADMIN_DB']
     return uri
 
+
+def annotate_from_file_containers(config, config_profile, annotate_from_file):
+    yaml = YAML()
+    with open(annotate_from_file, 'r') as outfile:
+        file_annotations = yaml.load(outfile)
+
+    mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
+    mongo_helper.update_from_file(file_annotations)
+    mongo_helper.compute_similarity()
 
 @click.command()
 @click.option('--import-quayio', '-q', help='Import Quay.io Recipes', is_flag=True)
@@ -179,6 +189,8 @@ def get_database_uri(param):
 @click.option('--annotate-identifiers', '-ai', help='Annotate external identifiers (e.g biotools)', is_flag=True)
 @click.option('--annotate-multi-package-containers', '-am', help='Annotate multi package containers', is_flag=True)
 @click.option('--report-missing-info', '-ri', help = "This pipeline will report the containers without metadata", is_flag =True)
+@click.option('--annotate-from-file', '-af', help = 'Annotate metadata from internal file', is_flag = True)
+@click.option('--annotations-file', '-ann', type=click.Path() ,default = 'annotations.yaml')
 @click.option('--config-file', '-c', type=click.Path(), default='configuration.ini')
 @click.option('--config-profile', '-a', help="This option allow to select a config profile", default='PRODUCTION')
 @click.option('-db', '--db-name', help="Name of the database", envvar='BIOCONT_DB_NAME')
@@ -189,7 +201,8 @@ def get_database_uri(param):
 @click.option('-p', '--db-port', help='Database port', envvar='MONGO_PORT', default='27017')
 @click.pass_context
 def main(ctx, import_quayio, import_docker, import_singularity, annotate_docker, annotate_quayio,
-         annotate_conda, annotate_biotools, annotate_workflows, annotate_identifiers, annotate_multi_package_containers, report_missing_info,
+         annotate_conda, annotate_biotools, annotate_workflows, annotate_identifiers,
+         annotate_multi_package_containers, report_missing_info, annotate_from_file, annotations_file,
          config_file, config_profile, db_name,
          db_host, db_auth_database, db_user,
          db_password, db_port):
@@ -241,6 +254,9 @@ def main(ctx, import_quayio, import_docker, import_singularity, annotate_docker,
 
     if report_missing_info is not False:
         report_missing_tools(config, config_profile)
+
+    if annotate_from_file is not False and annotations_file is not None:
+        annotate_from_file_containers(config, config_profile, annotations_file)
 
 
 if __name__ == "__main__":
