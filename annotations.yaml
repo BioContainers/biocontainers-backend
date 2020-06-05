@@ -180,6 +180,7 @@ bowtie2:
     license: GPL-3.0
     home_url: http://bowtie-bio.sourceforge.net/bowtie2/index.shtml
     total_pulls: 17576
+    manually_check: True
 csb:
     name: csb
     description: "Computational structural biology toolbox"
@@ -738,12 +739,14 @@ abyss:
     license: GPL-3+
     home_url: https://github.com/bcgsc/abyss/
     total_pulls: 7078
+    manually_check: True
 trimmomatic:
     name: trimmomatic
     description: A flexible read trimming tool for illumina ngs data
     license: GPLv3
     home_url: http://www.usadellab.org/cms/index.php?page=trimmomatic
     total_pulls: 6930
+    manually_check: True
 adapterremoval:
     name: adapterremoval
     description: Rapid adapter trimming, identification, and read merging of gene
@@ -751,6 +754,7 @@ adapterremoval:
     license: GPL-3+
     home_url: https://github.com/MikkelSchubert/adapterremoval
     total_pulls: 6769
+    manually_check: True
 krona:
     name: krona
     description: Krona creates interactive html5 charts of hierarchical data (such
@@ -758,30 +762,35 @@ krona:
     license: Proprietary
     home_url: https://github.com/marbl/Krona/wiki
     total_pulls: 6745
+    manually_check: True
 cat:
     name: cat
     description: "Cat/bat: tool for taxonomic classification of contigs and metagenome-assembled genomes (mags)\n"
     license: NIT
     home_url: https://github.com/dutilh/CAT
     total_pulls: 6732
+    manually_check: True
 bx-python:
     name: bx-python
     description: "Toolkit to enable rapid implementation of genome scale analyses"
     license: MIT
     home_url: https://github.com/bxlab/bx-python
     total_pulls: 6728
+    manually_check: True
 bcbiogff:
     name: bcbiogff
     description: "Read and write generic feature format (gff) with biopython integration."
     license: Biopython License Agreement
     home_url: https://github.com/chapmanb/bcbb/blob/master/gff
     total_pulls: 6721
+    manually_check: True
 atac:
     name: atac
     description: Genome assembly-to-assembly comparison
     license: GPL-2+
     home_url: http://kmer.sourceforge.net
     total_pulls: 6651
+    manually_check: True
 artemis:
     name: artemis
     description: Free genome browser and annotation tool that allows visualisation
@@ -790,12 +799,14 @@ artemis:
     license: GPL-3.0
     home_url: http://www.sanger.ac.uk/science/tools/artemis
     total_pulls: 6646
+    manually_check: True
 ariba:
     name: ariba
     description: Antibiotic resistance identification by assembly
     license: GPL-3
     home_url: https://github.com/sanger-pathogens/ariba
     total_pulls: 6641
+    manually_check: True
 andi:
     name: andi
     description: Andi estimates the evolutionary distance between closely related
@@ -805,18 +816,21 @@ andi:
     license: GPL-3.0
     home_url: https://github.com/EvolBioInf/andi
     total_pulls: 6637
+    manually_check: True
 aragorn:
     name: aragorn
     description: Trna and tmrna detection in nucleotide sequences
     license: GPL-2+
     home_url: http://mbio-serv2.mbioekol.lu.se/ARAGORN/
     total_pulls: 6635
+    manually_check: True
 autodock-vina:
     name: autodock-vina
     description: "Autodock vina is an open-source program for doing molecular docking"
     license: Apache 2.0
     home_url: http://vina.scripps.edu/
     total_pulls: 6630
+    manually_check: True
 beagle:
     name: beagle
     description: Beagle is a software package that performs genotype calling, genotype
@@ -825,36 +839,42 @@ beagle:
     license: GPL-3.0
     home_url: https://faculty.washington.edu/browning/beagle/beagle.html
     total_pulls: 6629
+    manually_check: True
 assemblytics:
     name: assemblytics
     description: "Analyze a genome assembly by comparing it to a reference genome"
     license: MIT
     home_url: http://assemblytics.com/
     total_pulls: 6617
+    manually_check: True
 baitfisher:
     name: baitfisher
     description: Software package for designing hybrid enrichment probes
     license: GPL-3+
     home_url: https://github.com/cmayer/BaitFisher-package
     total_pulls: 6611
+    manually_check: True
 minimap2:
     name: minimap2
     description: Pairwise aligner for genomic and spliced nucleotide sequences
     license: MIT
     home_url: https://github.com/lh3/minimap2
     total_pulls: 6579
+    manually_check: True
 coreutils:
     name: coreutils
     description: "The gnu core utilities are the basic file, shell and text manipulation utilities of the gnu operating system. these are the core utilities which are expected to exist on every operating system."
     license: GNU
     home_url: https://www.gnu.org/software/coreutils/
     total_pulls: 6502
+    manually_check: True
 miniasm:
     name: miniasm
     description: Ultrafast de novo assembler for long noisy dna sequencing reads
     license: MIT
     home_url: https://github.com/lh3/miniasm
     total_pulls: 6481
+    manually_check: True
 subread:
     name: subread
     description: Subread is a general-purpose read aligner which can be used to map
@@ -866,12 +886,14 @@ subread:
     license: GPL-3.0
     home_url: http://subread.sourceforge.net/
     total_pulls: 6438
+    manually_check: True
 bwameth:
     name: bwameth
     description: "A fast and accurate aligner of bs-seq reads"
     license: MIT
     home_url: https://github.com/brentp/bwa-meth
     total_pulls: 6401
+    manually_check: True
 centrifuge:
     name: centrifuge
     description: A very rapid and memory-efficient system for the classification of
@@ -883,6 +905,7 @@ centrifuge:
     license: GPL-3.0
     home_url: https://ccb.jhu.edu/software/centrifuge/
     total_pulls: 6337
+    manually_check: True
 cnvkit:
     name: cnvkit
     description: Cnvkit is a software toolkit to infer and visualize copy number from
@@ -890,6 +913,7 @@ cnvkit:
     license: BSD-3-Clause
     home_url: https://github.com/etal/cnvkit
     total_pulls: 6322
+    manually_check: True
 blasr:
     name: blasr
     description: Software for mapping single molecule sequencing (sms) reads that
@@ -898,6 +922,7 @@ blasr:
     license: PacBio-BSD-3-Clause
     home_url: https://github.com/PacificBiosciences/blasr
     total_pulls: 6319
+    manually_check: True
 samblaster:
     name: samblaster
     description: A tool to mark duplicates and extract discordant and split reads
@@ -905,18 +930,21 @@ samblaster:
     license: MIT
     home_url: https://github.com/GregoryFaust/samblaster
     total_pulls: 6312
+    manually_check: True
 qcumber:
     name: qcumber
     description: "Quality control, quality trimming, adapter removal and sequence content check of ngs data."
     license: GNU
     home_url: https://gitlab.com/RKIBioinformaticsPipelines/QCumber
     total_pulls: 6308
+    manually_check: True
 soapaligner:
     name: soapaligner
     description: Aligner of short reads of next generation sequencers
     license: GPL-3.0+
     home_url: http://soap.genomics.org.cn/soapaligner.html
     total_pulls: 6306
+    manually_check: True
 phast:
     name: phast
     description: Phast (phage search tool) is a web server designed to rapidly and
@@ -927,6 +955,7 @@ phast:
     license: BSD-3-clause
     home_url: http://phast.wishartlab.com/
     total_pulls: 6303
+    manually_check: True
 delly:
     name: delly
     description: Structural variant discovery by read analysis
@@ -940,6 +969,7 @@ exonerate:
     license: GPL-3.0
     home_url: http://www.ebi.ac.uk/%7Eguy/exonerate
     total_pulls: 6008
+    manually_check: True
 canu:
     name: canu
     description: De-novo assembly tool for long read chemistry like nanopore data
@@ -954,6 +984,7 @@ clustalo:
     license: GPL-2.0
     home_url: http://www.clustal.org/omega/
     total_pulls: 5871
+    manually_check: True
 minia:
     name: minia
     description: Short-read assembler based on a de bruijn graph, capable of assembling
@@ -961,6 +992,7 @@ minia:
     license: CECILL-2.0
     home_url: http://minia.genouest.org/
     total_pulls: 5855
+    manually_check: True
 clustalw:
     name: clustalw
     description: Multiple sequence alignment software. old deprecated versions. even
@@ -968,6 +1000,7 @@ clustalw:
     license: LGPL-3+
     home_url: http://www.clustal.org/download/1.X/ftp-igbmc.u-strasbg.fr/pub/
     total_pulls: 5853
+    manually_check: True
 circos:
     name: circos
     description: Circos is tool for visualizing data in a circular format. it was
@@ -975,18 +1008,21 @@ circos:
     license: GNU General Public License v2 (GPLv2)
     home_url: http://circos.ca/
     total_pulls: 5851
+    manually_check: True
 circlator:
     name: circlator
     description: "Circlator: a tool to circularise genome assemblies"
     license: GPL-3.0
     home_url: https://github.com/sanger-pathogens/circlator
     total_pulls: 5834
+    manually_check: True
 cobra:
     name: cobra
     description: "Cobrapy is a package for constraint-based modeling of biological networks."
     license: GPL-2.0
     home_url: https://github.com/opencobra/cobrapy
     total_pulls: 5830
+    manually_check: True
 snakemake:
     name: snakemake
     description: Workflow engine and language. it aims to reduce the complexity of
@@ -996,6 +1032,7 @@ snakemake:
     license: MIT
     home_url: https://snakemake.readthedocs.io/en/stable/index.html
     total_pulls: 5823
+    manually_check: True
 freebayes:
     name: freebayes
     description: Bayesian genetic variant detector designed to find small polymorphisms,
@@ -1005,6 +1042,7 @@ freebayes:
     license: MIT
     home_url: https://github.com/ekg/freebayes
     total_pulls: 5822
+    manually_check: True
 cgview:
     name: cgview
     description: "The cgview server generates graphical maps of circular genomes that
@@ -1017,60 +1055,70 @@ cgview:
     license: MIT
     home_url: http://stothard.afns.ualberta.ca/cgview_server/
     total_pulls: 5820
+    manually_check: True
 cwltool:
     name: cwltool
     description: Common workflow language reference implementation
     license: Apache-2.0
     home_url: http://www.commonwl.org
     total_pulls: 5816
+    manually_check: True
 cogent:
     name: cogent
     description: Framework for genomic biology
     license: GPL-2
     home_url: http://pycogent.org/
     total_pulls: 5815
+    manually_check: True
 cassiopee:
     name: cassiopee
     description: Index and search tool in genomic sequences
     license: GPL-3+
     home_url: https://github.com/osallou/cassiopee-c
     total_pulls: 5813
+    manually_check: True
 codonw:
     name: codonw
     description: Correspondence analysis of codon usage
     license: GPL-2
     home_url: http://codonw.sourceforge.net
     total_pulls: 5812
+    manually_check: True
 clonalframeml:
     name: clonalframeml
     description: Efficient inference of recombination in whole bacterial genomes
-    license: GPL-3+
+    license: GPL-3.
     home_url: https://github.com/xavierdidelot/ClonalFrameML
     total_pulls: 5808
+    manually_check: True
 clearcut:
     name: clearcut
     description: Extremely efficient phylogenetic tree reconstruction
-    license: BSDlike
+    license: BSD
     home_url: http://bioinformatics.hungry.com/clearcut/
     total_pulls: 5807
+    manually_check: True
 chromhmm:
     name: chromhmm
     description: Chromhmm is software for learning and characterizing chromatin states.
     license: GPL-3.0
     home_url: http://compbio.mit.edu/ChromHMM
     total_pulls: 5807
+    manually_check: True
 changeo:
     name: changeo
     description: 'A bioinformatics toolkit for processing high-throughput lymphocyte receptor sequencing data.'
     license: AGPL-3
     home_url: http://changeo.readthedocs.io
     total_pulls: 5799
+    manually_check: True
 circos-tools:
     name: circos-tools
     description: "Circos-tools provides several utility add-on scripts, such as for bundling links"
     license: MIT
     home_url: http://circos.ca
     total_pulls: 5795
+    manually_check: True
 flexbar:
     name: flexbar
     description: Flexible barcode and adapter removal. it demultiplexes barcoded runs
@@ -1083,18 +1131,21 @@ flexbar:
     license: BSD-3-Clause
     home_url: https://github.com/seqan/flexbar
     total_pulls: 5790
+    manually_check: True
 ea-utils:
     name: ea-utils
     description: Fastq processing utilities
     license: MIT
     home_url: https://expressionanalysis.github.io/ea-utils/
     total_pulls: 5765
+    manually_check: True
 fsm-lite:
     name: fsm-lite
     description: Frequency-based string mining (lite)
     license: GPL-3
     home_url: https://github.com/nvalimak/fsm-lite
     total_pulls: 5764
+    manually_check: True
 fastml:
     name: fastml
     description: Fastml is a webserver for computing and reconstructing ancestral
@@ -1102,24 +1153,28 @@ fastml:
     license: GPL-2+
     home_url: http://fastml.tau.ac.il/
     total_pulls: 5759
+    manually_check: True
 dialign-tx:
     name: dialign-tx
     description: Segment-based multiple sequence alignment
     license: LGPL-2.1+
     home_url: http://dialign-tx.gobics.de/
     total_pulls: 5756
+    manually_check: True
 fastahack:
     name: fastahack
     description: Utility for indexing and sequence extraction from fasta files
     license: custom, see /usr/share/doc/fastahack/copyright
     home_url: https://github.com/ekg/fastahack
     total_pulls: 5755
+    manually_check: True
 dascrubber:
     name: dascrubber
     description: Alignment-based scrubbing pipeline for dna sequencing reads
     license: BSD-3-Clause-EWM
     home_url: https://dazzlerblog.wordpress.com/
     total_pulls: 5752
+    manually_check: True
 eigensoft:
     name: eigensoft
     description: Combindes functionality from population genetics methods (patterson
@@ -1132,18 +1187,21 @@ eigensoft:
     license: BSD-3-Clause
     home_url: https://www.hsph.harvard.edu/alkes-price/software/
     total_pulls: 5751
+    manually_check: True
 daligner:
     name: daligner
     description: Local alignment discovery between long nucleotide sequencing reads
-    license: BSD-3-Clause~EWM
+    license: BSD-3-Clause
     home_url: https://dazzlerblog.wordpress.com
     total_pulls: 5749
+    manually_check: True
 dawg:
     name: dawg
     description: Simulate the evolution of recombinant dna sequences
     license: GPL-2+
     home_url: https://github.com/reedacartwright/dawg
     total_pulls: 5747
+    manually_check: True
 gemma:
     name: gemma
     description: Gemma is an open source database, analysis software system and web
@@ -1154,12 +1212,14 @@ gemma:
     license: GPL-3.0+
     home_url: http://chibi.ubc.ca/Gemma
     total_pulls: 5746
+    manually_check: True
 dcmtk:
     name: dcmtk
     description: Offis dicom toolkit command line utilities
     license: OFFISeV
     home_url: http://dicom.offis.de/dcmtk
     total_pulls: 5745
+    manually_check: True
 figtree:
     name: figtree
     description: This tool is designed as a graphical viewer of phylogenetic trees
@@ -1167,18 +1227,21 @@ figtree:
     license: GPL
     home_url: http://tree.bio.ed.ac.uk/software/figtree/
     total_pulls: 5745
+    manually_check: True
 dwgsim:
     name: dwgsim
     description: Short sequencing read simulator
     license: GPL-2+
     home_url: https://github.com/nh13/DWGSIM/
     total_pulls: 5744
+    manually_check: True
 ecopcr:
     name: ecopcr
     description: Estimate pcr barcode primers quality
     license: CeCILL_V2
     home_url: https://git.metabarcoding.org/obitools/ecopcr/wikis/home
     total_pulls: 5740
+    manually_check: True
 estscan:
     name: estscan
     description: Estscan can detect coding regions (cds) in dna sequences, even if
@@ -1191,73 +1254,84 @@ estscan:
     license: ESTScan
     home_url: http://myhits.isb-sib.ch/cgi-bin/estscan
     total_pulls: 5738
+    manually_check: True
 edlib:
     name: edlib
     description: Library for sequence alignment using edit distance (python3 module)
     license: custom, see /usr/share/doc/edlib/copyright
     home_url: https://github.com/Martinsos/edlib
     total_pulls: 5726
+    manually_check: True
 vt:
     name: vt
-    description:
-    license:
-    home_url:
+    description: "A tool set for short variant discovery in genetic sequence data"
+    license: MIT
+    home_url: https://github.com/atks/vt
     total_pulls: 5605
+    manually_check: True
 igvtools:
     name: igvtools
     description: Command line tools for igv
-    license: MIT License
+    license: MIT
     home_url: http://www.broadinstitute.org/igv/
     total_pulls: 5482
+    manually_check: True
 infernal:
     name: infernal
     description: Inference of rna secondary structural alignments
-    license: GPL-3
+    license: GPL-3.0
     home_url: http://eddylab.org/infernal/
     total_pulls: 5463
+    manually_check: True
 stringtie:
     name: stringtie
     description: "Transcriptome assembly and quantification for rna-seq"
     license: MIT
     home_url: https://ccb.jhu.edu/software/stringtie/
     total_pulls: 5462
+    manually_check: True
 gffutils:
     name: gffutils
     description: Work with gff and gtf files in a flexible database framework
     license: MIT
     home_url: https://github.com/daler/gffutils
     total_pulls: 5429
+    manually_check: True
 gfapy:
     name: gfapy
-    description: Flexible and extensible software library for handling sequence graphs
-        in python.
+    description: Flexible and extensible software library for handling sequence graphs in python.
     license: BSD
     home_url: https://github.com/ggonnella/gfapy
     total_pulls: 5421
+    manually_check: True
 ghmm:
     name: ghmm
     description: General hidden-markov-model library - tools
     license: GPL-2.0+
     home_url: https://ghmm.org
     total_pulls: 5419
+    manually_check: True
 grabix:
     name: grabix
     description: Wee tool for random access into bgzf files
     license: MIT
     home_url: https://github.com/arq5x/grabix
     total_pulls: 5419
+    manually_check: True
 hhsuite:
     name: hhsuite
     description: Sensitive protein sequence searching based on hmm-hmm alignment
     license: GPL-3.0+
     home_url: https://toolkit.tuebingen.mpg.de/
     total_pulls: 5393
+    manually_check: True
 hmmer2:
     name: hmmer2
     description: Profile hidden markov models for protein sequence analysis
     license: GPL-2+
     home_url: http://hmmer.janelia.org/
     total_pulls: 5392
+    manually_check: True
 gwama:
     name: gwama
     description: Genome-wide association meta analysis software performs meta-analysis
@@ -1269,6 +1343,7 @@ gwama:
     license: BSD-3-Clause
     home_url: https://www.geenivaramu.ee/en/tools/gwama
     total_pulls: 5389
+    manually_check: True
 jellyfish:
     name: jellyfish
     description: A command-line algorithm for counting k-mers in dna sequence.
@@ -4071,10 +4146,11 @@ bioconductor-helloranges:
     total_pulls: 38
 advntr:
     name: advntr
-    description:
-    license:
-    home_url:
+    description: "A tool for genotyping Variable Number Tandem Repeats (VNTR) from sequence data. It works with both NGS short reads (Illumina HiSeq) and SMRT reads (PacBio) and finds diploid repeating counts for VNTRs and identifies possible mutations in the VNTR sequences."
+    license: BSD-3-Clause
+    home_url: https://github.com/mehrdadbakhtiari/adVNTR
     total_pulls: 38
+    manually_check: True
 perl-file-readbackwards:
     name: perl-file-readbackwards
     description: Read a file backwards by lines.
@@ -28845,25 +28921,20 @@ treemix:
     total_pulls: 1
 ucsc-axtchain:
     name: ucsc-axtchain
-    description: "# Ucsc-Axtchain\n\n> Chain together axt alignments.\n\n> Licence:\
-        \ Varies; See Http://Genome.Ucsc.Edu/License\n\nHome: http://hgdownload.cse.ucsc.edu/admin/exe/macOSX.x86_64/axtChain\n\
-        \n"
-    license:
-    home_url:
+    description: "Chain together axt alignments."
+    license: Custom License
+    home_url: http://hgdownload.cse.ucsc.edu/admin/exe/macOSX.x86_64/axtChain
     total_pulls: 1
 ucsc-maskoutfa:
     name: ucsc-maskoutfa
-    description: "# Ucsc-Maskoutfa\n\n> Produce a masked .fa file given an unmasked\
-        \ .fa and\n\n> Licence: Varies; See Http://Genome.Ucsc.Edu/License\n\nHome:\
-        \ http://hgdownload.cse.ucsc.edu/admin/exe/macOSX.x86_64/maskOutFa\n\n"
-    license:
-    home_url:
+    description: "Produce a masked .fa file given an unmasked .fa "
+    license: Custom License
+    home_url: http://hgdownload.cse.ucsc.edu/admin/exe/macOSX.x86_64/maskOutFa
     total_pulls: 1
 cwl2wdl:
     name: cwl2wdl
-    description: Proof of concept converter from common workflow language (cwl) to
-        the broad institute's workflow definition language (wdl).
-    license: Not available
+    description: Proof of concept converter from common workflow language (cwl) to the broad institute's workflow definition language (wdl).
+    license: Apache 2.0
     home_url: https://github.com/adamstruck/cwl2wdl
     total_pulls: 1
 nanonet:
@@ -29086,20 +29157,20 @@ coprarna:
     total_pulls: 1
 funcannot:
     name: funcannot
-    description: ''
-    license:
-    home_url:
+    description: 'Annotates cDNA, protein, mutation type, and other funcational changes to variants in a VCF file with pre-existing gene annotations'
+    license: GPL-3.0
+    home_url: https://github.com/BioTools-Tek/funcannot
     total_pulls: 1
 nanocomp:
     name: nanocomp
     description: Comparing runs of oxford nanopore sequencing data and alignments
-    license: Not available
+    license: GPL-3.0
     home_url: https://github.com/wdecoster/NanoComp
     total_pulls: 1
 panx:
     name: panx
     description: Microbial pan-genome analysis and exploration tool
-    license: Not available
+    license: GPL-3.0
     home_url: http://pangenome.de
     total_pulls: 1
 a5-miseq:
@@ -29107,21 +29178,20 @@ a5-miseq:
     description: A5-miseq is a pipeline for assembling dna sequence data generated
         on the illumina sequencing platform. this readme will take you through the
         steps necessary for running _a5-miseq_
-    license: Not available
-    home_url: https://sourceforge.net/projects/ngop
+    license: GNU
+    home_url: https://sourceforge.net/projects/ngopt/
     total_pulls: 1
 umitools:
     name: umitools
-    description: A toolset for handling sequencing data with unique molecular identifiers
-        (umis)
-    license: Not available
+    description: A toolset for handling sequencing data with unique molecular identifiers (umis)
+    license: MIT
     home_url: https://github.com/weng-lab/umitools
     total_pulls: 1
 octopus:
     name: octopus
-    description:
-    license:
-    home_url:
+    description: Octopus is a mapping-based variant caller that implements several calling models within a unified haplotype-aware framework.
+    license: MIT
+    home_url: https://github.com/luntergroup/octopus
     total_pulls: 1
 nucamino:
     name: nucamino
@@ -31540,9 +31610,9 @@ acedb-other-belvu:
     total_pulls: 0
 adun.app:
     name: adun.app
-    description: Molecular simulator for gnustep (gui)
-    license: Not available
-    home_url: http://diana.imim.es/Adun
+    description: Provide access to easy development of new code in the form of plugins for different purposes, that take profit of the advanced structure of the Adun framework
+    license: MIT
+    home_url: https://simtk.org/projects/adun
     total_pulls: 0
 aeskulap:
     name: aeskulap
@@ -31610,7 +31680,7 @@ alien-hunter:
 aevol:
     name: aevol
     description: Digital genetics model to run evolution experiments in silico
-    license: custom, see /usr/share/doc/aevol/copyright
+    license: Custom License
     home_url: http://www.aevol.fr/
     total_pulls: 0
 amap-align:
