@@ -7792,17 +7792,19 @@ bwread:
     total_pulls: 8
 rapifilt:
     name: rapifilt
-    description:
-    license:
-    home_url:
+    description: "RAPId FILTer is a quality control of DNA sequences"
+    license: GPL-3.0
+    home_url: https://github.com/andvides/RAPIFILT
     total_pulls: 8
+    manually_check: True
 haphpipe:
     name: haphpipe
     description: Haplotype and phylodynamics pipeline for viral assembly, population
         genetics, and phylodynamics.
-    license: Not available
+    license: GPL-3.0
     home_url: https://github.com/gwcbi/haphpipe
     total_pulls: 8
+    manually_check: True
 enano:
     name: enano
     description:
@@ -7812,16 +7814,18 @@ enano:
 cnvpytor:
     name: cnvpytor
     description: Python extension of cnvnator
-    license: Not available
+    license: MIT
     home_url: https://github.com/abyzovlab/CNVpytor
     total_pulls: 8
+    manually_check: True
 nebulizer:
     name: nebulizer
     description: Command-line utilities to help with managing users, data libraries
         and tools in a galaxy instance
-    license: Not available
+    license: Academic Free License
     home_url: https://github.com/pjbriggs/nebulizer
     total_pulls: 8
+    manually_check: True
 hicstuff:
     name: hicstuff
     description: General purpose stuff to generate and handle hi-c data in its simplest
