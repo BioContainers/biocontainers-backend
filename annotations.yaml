@@ -1986,28 +1986,27 @@ ncbi-acc-download:
     total_pulls: 3353
 allegro:
     name: allegro
-    description:
-    license:
-    home_url:
+    description: "A fast linkage and haplotype analysis utility making use of MTBDD to reduce complexity."
+    license: Custom License
+    home_url: https://www.decode.com/software/allegro/
     total_pulls: 3352
 heinz:
     name: heinz
-    description:
-    license:
-    home_url:
+    description: The algorithm for identification of the optimal scoring subnetwork.
+    license: MIT
+    home_url: https://github.com/ls-cwi/heinz
     total_pulls: 3351
 chira:
     name: chira
-    description: An integrated framework for annotation and visualization of chimeric
-        reads.
+    description: An integrated framework for annotation and visualization of chimeric reads.
     license: Not available
     home_url: https://github.com/pavanvidem/chira/
     total_pulls: 3351
 fraggenescan:
     name: fraggenescan
-    description:
-    license:
-    home_url:
+    description: "FragGeneScan is an application for finding (fragmented) genes in short reads. It can also be applied to predict prokaryotic genes in incomplete assemblies or complete genomes."
+    license: MIT
+    home_url: https://sourceforge.net/projects/fraggenescan/
     total_pulls: 3350
 biotradis:
     name: biotradis
@@ -2017,11 +2016,9 @@ biotradis:
     total_pulls: 3350
 fermi2:
     name: fermi2
-    description: "# Fermi2\n\n> Fermi2 focuses on the exploration of fmd-index as\
-        \ a graph.\n\n> Licence: Unknown\n\nHome: https://github.com/lh3/fermi2/archive/580ec8ffd30b73e33c7dda5b13a5bfb4281466ac.tar.gz\n\
-        \n"
-    license:
-    home_url:
+    description: "Fermi2 focuses on the exploration of fmd-index as a graph."
+    license: MIT
+    home_url: https://github.com/lh3/fermi2/
     total_pulls: 3349
 disco:
     name: disco
