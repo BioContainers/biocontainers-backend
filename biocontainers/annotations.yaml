@@ -2917,7 +2917,7 @@ searchgui:
 eggnog-mapper:
     name: eggnog-mapper
     description: Fast genome-wide functional annotation through orthology assignment.
-    license: Not available
+    license: AGPL-3.0
     home_url: https://github.com/jhcepas/eggnog-mapper
     total_pulls: 587
 htslib:
@@ -2926,12 +2926,14 @@ htslib:
     license: SPDX:MIT
     home_url: https://github.com/samtools/htslib
     total_pulls: 570
+    manually_check: True
 chunked-scatter:
     name: chunked-scatter
     description: Chunk and scatter the regions in a bed or sequence dict file
-    license: Not available
+    license: MIT
     home_url: https://github.com/biowdl/chunked-scatter
     total_pulls: 529
+    manually_check: True
 curl:
     name: curl
     description: "# Curl\n\n> Curl is an open source command line tool and library\
