@@ -2258,40 +2258,42 @@ disco:
 bctools:
     name: bctools
     description: Tools for handling barcodes in ngs data.
-    license: Not available
+    license: Apache 2.0
     home_url: https://github.com/dmaticzka/bctools
     total_pulls: 3348
 transit:
     name: transit
     description: Transit
-    license: Not available
+    license: GPL-3.0
     home_url: http://github.com/mad-lab/transit
     total_pulls: 3348
+    manually_check: True
 tbvcfreport:
     name: tbvcfreport
     description: Parses snpeff annotated m.tb vcf(s) and generates an interactive
         html-based report.
-    license: Not available
+    license: GPL-3.0
     home_url: http://github.com/COMBAT-TB/tbvcfreport
     total_pulls: 3347
+    manually_check: True
 bioconductor-dada2:
     name: bioconductor-dada2
-    description: "# Bioconductor-Dada2\n\n> The dada2 package provides \"otu picking\"\
-        \ functionality, but instead of picking otus the dada2 algorithm exactly infers\
+    description: "The dada2 package provides functionality, but instead of picking otus the dada2 algorithm exactly infers\
         \ samples sequences. the dada2 pipeline starts from demultiplexed fastq files,\
         \ and outputs inferred sample sequences and associated abundances after removing\
         \ substitution and chimeric errors. taxonomic classification is also available\
-        \ via a native implementation of the rdp classifier method.\n\n> Licence:\
-        \ Lgpl-3\n\n"
-    license:
-    home_url:
+        \ via a native implementation of the rdp classifier method."
+    license: LGPL-3
+    home_url: https://www.bioconductor.org/packages/release/bioc/html/dada2.html
     total_pulls: 3346
+    manually_check: True
 pizzly:
     name: pizzly
-    description:
-    license:
-    home_url:
+    description: Fast fusion detection using kallisto
+    license: BSD-2
+    home_url: https://github.com/pmelsted/pizzly
     total_pulls: 3346
+    manually_check: True
 crispr_studio:
     name: crispr_studio
     description: Crisprstudio is a program developed to facilitate and accelerate
