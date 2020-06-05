@@ -533,3 +533,19 @@ class InsertContainers:
 
         workflow.containers = containers
         workflow.save()
+
+    def get_missing_info_tools(self):
+        list_tools = list(MongoTool.get_all_tools())
+        to_map = []
+
+        for tool in list_tools:
+            export = False
+            if tool.description is None or len(tool.description) == 0:
+                export = True
+            if tool.license is None or tool.license.upper() == 'NOT AVAILABLE':
+                export = True
+            if tool.home_url is None or len(tool.home_url) == 0:
+                export = True
+            if export:
+                to_map.append(tool)
+        return to_map

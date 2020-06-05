@@ -9,6 +9,8 @@ from biocontainers.github.models import GitHubConfiguration, GitHubDockerReader,
     LocalGitReader
 from biocontainers.quayio.models import QuayIOReader
 from biocontainers.singularity.models import SingularityReader
+import sys
+from ruamel.yaml import YAML
 
 logger = logging.getLogger('biocontainers.pipelines')
 
@@ -142,6 +144,23 @@ def annotate_biotools_recipes_github(config, config_profile):
     mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
     mongo_helper.compute_similarity()
 
+def report_missing_tools(config, config_profile):
+    mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
+    missing_info = mongo_helper.get_missing_info_tools()
+    tools = {}
+    missing_info.sort(key=lambda x: x.total_pulls, reverse=True)
+    for tool in missing_info:
+        missing_tool = {}
+        missing_tool['name'] = tool.name
+        missing_tool['description'] = tool.description
+        missing_tool['license'] = tool.license
+        missing_tool['home_url'] = tool.home_url
+        missing_tool['total_pulls'] = tool.total_pulls
+        tools[tool.name] = missing_tool
+    yaml = YAML()
+    yaml.indent(mapping=4, sequence=6, offset=3)
+    with open('../missing_metadata.yaml', 'w') as outfile:
+        yaml.dump(tools, outfile)
 
 def get_database_uri(param):
     uri = 'mongodb://' + param['MONGODB_USER'] + ":" + param['MONGODB_PASS'] + '@' + param['MONGODB_HOST'] + ':' + \
@@ -160,6 +179,7 @@ def get_database_uri(param):
 @click.option('--annotate-workflows', '-aw', help='Annotate Workflows', is_flag=True)
 @click.option('--annotate-identifiers', '-ai', help='Annotate external identifiers (e.g biotools)', is_flag=True)
 @click.option('--annotate-multi-package-containers', '-am', help='Annotate multi package containers', is_flag=True)
+@click.option('--report-missing-info', '-ri', help = "This pipeline will report the containers without metadata", is_flag =True)
 @click.option('--config-file', '-c', type=click.Path(), default='configuration.ini')
 @click.option('--config-profile', '-a', help="This option allow to select a config profile", default='PRODUCTION')
 @click.option('-db', '--db-name', help="Name of the database", envvar='BIOCONT_DB_NAME')
@@ -170,7 +190,7 @@ def get_database_uri(param):
 @click.option('-p', '--db-port', help='Database port', envvar='MONGO_PORT', default='27017')
 @click.pass_context
 def main(ctx, import_quayio, import_docker, import_singularity, annotate_docker, annotate_quayio,
-         annotate_conda, annotate_biotools, annotate_workflows, annotate_identifiers, annotate_multi_package_containers,
+         annotate_conda, annotate_biotools, annotate_workflows, annotate_identifiers, annotate_multi_package_containers, report_missing_info,
          config_file, config_profile, db_name,
          db_host, db_auth_database, db_user,
          db_password, db_port):
@@ -219,6 +239,9 @@ def main(ctx, import_quayio, import_docker, import_singularity, annotate_docker,
 
     if annotate_biotools is not False:
         annotate_biotools_recipes_github(config, config_profile)
+
+    if report_missing_info is not False:
+        report_missing_tools(config, config_profile)
 
 
 if __name__ == "__main__":
