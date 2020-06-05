@@ -460,9 +460,9 @@ crossmap:
     total_pulls: 3520
 hyphy:
     name: hyphy
-    description:
-    license:
-    home_url:
+    description: "HyPhy is an open-source software package for the analysis of genetic sequences using techniques in phylogenetics, molecular evolution, and machine learning."
+    license: Custom License
+    home_url: https://github.com/veg/hyphy
     total_pulls: 3461
 hicexplorer:
     name: hicexplorer
