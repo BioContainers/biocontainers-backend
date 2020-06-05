@@ -1638,12 +1638,14 @@ squizz:
     license: GPL-2+
     home_url: ftp://ftp.pasteur.fr/pub/gensoft/projects/squizz/
     total_pulls: 4822
+    manually_check: True
 sim4db:
     name: sim4db
     description: Batch spliced alignment of cdna sequences to a target genome
     license: GPL-2+
     home_url: http://kmer.sourceforge.net
     total_pulls: 4819
+    manually_check: True
 sortmerna:
     name: sortmerna
     description: Sequence analysis tool for filtering, mapping and otu-picking ngs
@@ -1651,12 +1653,14 @@ sortmerna:
     license: LGPL
     home_url: http://bioinfo.lifl.fr/RNA/sortmerna/
     total_pulls: 4819
+    manually_check: True
 sprai:
     name: sprai
     description: Single-pass sequencing read accuracy improver
     license: MIT
     home_url: http://zombie.cb.k.u-tokyo.ac.jp/sprai/index.html
     total_pulls: 4818
+    manually_check: True
 sickle:
     name: sickle
     description: A  tool that uses sliding windows along with quality and length thresholds
@@ -1666,24 +1670,28 @@ sickle:
     license: MIT
     home_url: https://github.com/najoshi/sickle
     total_pulls: 4818
+    manually_check: True
 transrate-tools:
     name: transrate-tools
     description: Helper for transrate
     license: MIT
     home_url: http://hibberdlab.com/transrate/
     total_pulls: 4817
+    manually_check: True
 proteinortho:
     name: proteinortho
     description: Detection of (co-)orthologs in large-scale protein analysis
     license: GPL-2+
     home_url: http://www.bioinf.uni-leipzig.de/Software/proteinortho/
     total_pulls: 4817
+    manually_check: True
 pymummer:
     name: pymummer
     description: "Python3 wrapper for running MUMmer and parsing the output. MUMmer is a modular and versatile package that relies on a suffix tree data structure for efficient pattern matching."
     license: GPL-3.0
     home_url: https://github.com/sanger-pathogens/pymummer
     total_pulls: 4815
+    manually_check: True
 yaggo:
     name: yaggo
     description: Yaggo is a tool to generate command line parsers for c++. yaggo stands
@@ -1691,6 +1699,7 @@ yaggo:
     license: GNU
     home_url: https://github.com/gmarcais/yaggo
     total_pulls: 4815
+    manually_check: True
 proda:
     name: proda
     description: Protein multiple aligner that automatically finds domain structures
@@ -1698,6 +1707,7 @@ proda:
     license: PD
     home_url: http://proda.stanford.edu/
     total_pulls: 4814
+    manually_check: True
 rdp-readseq:
     name: rdp-readseq
     description: Java based common sequence file format reader and sequence file manipulation.
@@ -1710,18 +1720,21 @@ snap-aligner:
     license: Apache-2.0
     home_url: http://snap.cs.berkeley.edu/
     total_pulls: 4814
+    manually_check: True
 qcli:
     name: qcli
     description: Qcli commandline tools for python
     license: GNU
     home_url: https://pypi.org/project/qcli/
     total_pulls: 4813
+    manually_check: True
 snpomatic:
     name: snpomatic
     description: Fast, stringent short-read mapping software
     license: GPL-3+
     home_url: https://github.com/magnusmanske/snpomatic
     total_pulls: 4813
+    manually_check: True
 schema-salad:
     name: schema-salad
     description: Schema annotations for linked avro data (salad)
@@ -1736,6 +1749,7 @@ ray:
     license: GPL-3.0
     home_url: http://denovoassembler.sourceforge.net
     total_pulls: 4812
+    manually_check: True
 seqprep:
     name: seqprep
     description: Strips adapters and optionally merges overlapping paired-end (or
@@ -1743,12 +1757,14 @@ seqprep:
     license: MIT
     home_url: https://github.com/jstjohn/SeqPrep
     total_pulls: 4809
+    manually_check: True
 raxml:
     name: raxml
     description: A tool for phylogenetic analysis and post-analysis of large phylogenies.
     license: GPL
     home_url: http://sco.h-its.org/exelixis/web/software/raxml/
     total_pulls: 4807
+    manually_check: True
 pybedtools:
     name: pybedtools
     description: Python 3 wrapper around bedtools for bioinformatics work
@@ -1763,6 +1779,7 @@ ssake:
     license: GPL-2.0
     home_url: http://www.bcgsc.ca/platform/bioinfo/software/ssake
     total_pulls: 4806
+    manually_check: True
 readseq:
     name: readseq
     description: Convert biosequences between a selection of common biological sequence
@@ -1770,6 +1787,7 @@ readseq:
     license: Apache 2.0
     home_url: http://www.ebi.ac.uk/Tools/sfc/readseq/
     total_pulls: 4805
+    manually_check: True
 prank:
     name: prank
     description: Probabilistic multiple alignment program for dna, codon and amino-acid
@@ -1777,18 +1795,21 @@ prank:
     license: GPL-2+
     home_url: http://wasabiapp.org/software/prank/
     total_pulls: 4804
+    manually_check: True
 swarm:
     name: swarm
     description: Robust and fast clustering method for amplicon-based studies
     license: Affero-GPL-3
     home_url: https://github.com/torognes/swarm
     total_pulls: 4804
+    manually_check: True
 probcons:
     name: probcons
     description: Probabilistic consistency-based multiple sequence alignment
     license: PD
     home_url: http://probcons.stanford.edu/
     total_pulls: 4803
+    manually_check: True
 pynast:
     name: pynast
     description: The python nearest alignment space termination tool
@@ -1802,18 +1823,21 @@ treetime:
     license: MIT
     home_url: https://github.com/neherlab/treetime
     total_pulls: 4803
+    manually_check: True
 t-coffee:
     name: t-coffee
     description: Multiple sequence alignment
     license: GPL-2+
     home_url: http://www.tcoffee.org/Projects_home_page/t_coffee_home_page.html
     total_pulls: 4802
+    manually_check: True
 transtermhp:
     name: transtermhp
     description: Find rho-independent transcription terminators in bacterial genomes
     license: GPL-2.0+
     home_url: http://transterm.cbcb.umd.edu/
     total_pulls: 4802
+    manually_check: True
 salmid:
     name: salmid
     description: Rapid tool to check taxonomic id of single isolate samples. currently
@@ -1822,6 +1846,7 @@ salmid:
     license: MIT
     home_url: https://github.com/hcdenbakker/SalmID
     total_pulls: 4802
+    manually_check: True
 segemehl:
     name: segemehl
     description: A software to map short sequencer reads to reference genomes. unlike
@@ -1831,18 +1856,21 @@ segemehl:
     license: GPL-3+
     home_url: http://hoffmann.bioinf.uni-leipzig.de/LIFE/segemehl.html
     total_pulls: 4800
+    manually_check: True
 pyqi:
     name: pyqi
     description: Python framework for wrapping general commands in multiple interfaces
     license: BSDlike
     home_url: https://pypi.python.org/pypi/pyqi/
     total_pulls: 4798
+    manually_check: True
 rapmap:
     name: rapmap
     description: Rapid sensitive and accurate dna read mapping via quasi-mapping
     license: GPL-3+
     home_url: https://github.com/COMBINE-lab/RapMap
     total_pulls: 4796
+    manually_check: True
 scoary:
     name: scoary
     description: Pan-genome wide association studies and  is designed to take the
@@ -1853,6 +1881,7 @@ scoary:
     license: GPL-3.0
     home_url: https://github.com/AdmiralenOla/Scoary
     total_pulls: 4796
+    manually_check: True
 seqmagick:
     name: seqmagick
     description: Tools for converting and modifying sequence files from the command-line
@@ -1865,12 +1894,14 @@ quorum:
     license: GPL-3+
     home_url: https://github.com/gmarcais/Quorum
     total_pulls: 4795
+    manually_check: True
 sqt:
     name: sqt
     description: Sequencing tools for biological dna/rna high-throughput data
     license: MIT
     home_url: https://bitbucket.org/marcelm/sqt
     total_pulls: 4793
+    manually_check: True
 rambo-k:
     name: rambo-k
     description: Reference-based tool for rapid and sensitive extraction of one organisms
@@ -1967,7 +1998,7 @@ hicexplorer:
     name: hicexplorer
     description: Set of programs to process, analyze and visualize hi-c and capture
         hi-c data
-    license: Not available
+    license: GPL-3.0
     home_url: https://github.com/deeptools/HiCExplorer
     total_pulls: 3460
 abricate:
