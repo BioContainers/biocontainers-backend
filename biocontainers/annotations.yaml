@@ -3455,7 +3455,7 @@ danpos:
     license: MIT
     home_url: https://sites.google.com/site/danposdoc/
     total_pulls: 54
-    danpos
+    manually_check: True
 illumina-interop:
     name: illumina-interop
     description:
