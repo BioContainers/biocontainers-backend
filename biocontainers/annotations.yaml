@@ -3039,9 +3039,10 @@ kaiju:
 kcalign:
     name: kcalign
     description: Kalgin-based codon-aware aligner for multiple sequences
-    license: Not available
+    license: AFL-3.0
     home_url: https://github.com/davebx/kc-align
     total_pulls: 323
+    manually_check: True
 percolator:
     name: percolator
     description: Semi-supervised learning for peptide identification from ms/ms data.
@@ -3051,24 +3052,25 @@ percolator:
     manually_check: True
 survivor:
     name: survivor
-    description:
-    license:
-    home_url:
+    description: Toolset for SV simulation, comparison and filtering
+    license: MIT
+    home_url: https://github.com/fritzsedlazeck/SURVIVOR
     total_pulls: 295
+    manually_check: True
 deeplc:
     name: deeplc
-    description: 'Deeplc: retention time prediction for (modified) peptides using
-        deep learning.'
-    license: Not available
-    home_url: http://compomics.github.io/projects/DeepLC
+    description: 'Deeplc: retention time prediction for (modified) peptides using deep learning.'
+    license: Apache-2.0
+    home_url: https://github.com/compomics/DeepLC
     total_pulls: 263
+    manually_check: True
 rtg-tools:
     name: rtg-tools
-    description: Realtimegenomics tools -- utilities for accurate vcf comparison and
-        manipulation
-    license: Not available
+    description: "Realtimegenomics tools -- utilities for accurate vcf comparison and manipulation"
+    license: BSD-2-Clause
     home_url: https://github.com/RealTimeGenomics/rtg-tools
     total_pulls: 236
+    manually_check: True
 imctools:
     name: imctools
     description: An image mass cytometry (imc) file conversion tool that aims to convert
@@ -3076,17 +3078,17 @@ imctools:
         relevant metadata. further it contains tools to generate simpler tiff files
         that can be directly be used as input files for e.g. cellprofiller, ilastik,
         fiji etc
-    license: Not available
+    license: Custom License
     home_url: https://github.com/BodenmillerGroup/imctools
     total_pulls: 207
+    manually_check: True
 r-rmarkdown:
     name: r-rmarkdown
-    description: "# R-Rmarkdown\n\n> Convert r markdown documents into a variety of\
-        \ formats.\n\n> Licence: Gpl-3\n\nHome: https://cran.r-project.org/src/contrib/Archive/rmarkdown/rmarkdown_0.9.5.tar.gz\n\
-        \n"
-    license:
-    home_url:
+    description: "Convert r markdown documents into a variety of formats"
+    license: GPL-3.0
+    home_url: https://cran.r-project.org/web/packages/rmarkdown/index.html
     total_pulls: 205
+    manually_check: True
 vtools:
     name: vtools
     description:
