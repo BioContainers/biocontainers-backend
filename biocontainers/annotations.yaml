@@ -2487,12 +2487,11 @@ trinity:
     total_pulls: 3241
 jq:
     name: jq
-    description: "# Jq\n\n> Jq is a lightweight and flexible command-line json processor.\n\
-        \n> Licence: Mit (Code), Cc-By-3.0 (Docs)\n\nHome: https://github.com/stedolan/jq/releases/download/jq-1.5/jq-1.5.tar.gz\n\
-        \n"
-    license:
-    home_url:
+    description: "Jq is a lightweight and flexible command-line json processor."
+    license: MIT
+    home_url: https://github.com/stedolan/jq/
     total_pulls: 3239
+    manually_check: True
 humann2:
     name: humann2
     description: 'Humann2: the hmp unified metabolic analysis network 2'
@@ -2502,10 +2501,11 @@ humann2:
     manually_check: True
 sina:
     name: sina
-    description:
-    license:
-    home_url:
+    description: Reference based multiple sequence alignment
+    license: GPL-3.0
+    home_url: https://github.com/epruesse/SINA
     total_pulls: 3234
+    manually_check: True
 mummer4:
     name: mummer4
     description: ''
@@ -2514,10 +2514,11 @@ mummer4:
     total_pulls: 3228
 perl:
     name: perl
-    description: "# Perl\n\n> Perl Language \n\nHome: https://www.perl.org/"
-    license:
-    home_url:
+    description: "Perl Language"
+    license: GNU
+    home_url: https://www.perl.org/
     total_pulls: 3224
+    manually_check: True
 bioconductor-iwtomics:
     name: bioconductor-iwtomics
     description:
@@ -2526,33 +2527,33 @@ bioconductor-iwtomics:
     total_pulls: 3222
 art:
     name: art
-    description: "# Art\n\n> Illumina, 454 and solid read simulator\n\n> Licence:\
-        \ Gplv2\n\nHome: http://www.niehs.nih.gov/research/resources/assets/docs/artsrcvanillaicecream031114linuxtgz.tgz\n\
-        \n"
-    license:
-    home_url:
+    description: "Illumina, 454 and solid read simulator"
+    license: GPL-2.0
+    home_url: https://www.niehs.nih.gov/research/resources/software/biostatistics/art/index.cfm
     total_pulls: 3218
+    manually_check: True
 migmap:
     name: migmap
     description: A wrapper for igblast v-(d)-j mapping tool designed to facilitate
         analysis immune receptor libraries profiled using high-throughput sequencing.
-    license: Not available
+    license: Apache-2.0
     home_url: https://github.com/mikessh/migmap
     total_pulls: 3215
+    manually_check: True
 ococo:
     name: ococo
-    description: "# Ococo\n\n> Ococo, the first online consensus caller.\n\n> Licence:\
-        \ Mit\n\nHome: https://github.com/karel-brinda/ococo/archive/0.1.2.4.tar.gz\n\
-        \n"
-    license:
-    home_url:
+    description: "Ococo, the first online consensus caller"
+    license: MIT
+    home_url: https://github.com/karel-brinda/ococo/
     total_pulls: 3215
+    manually_check: True
 enasearch:
     name: enasearch
     description: A python library for interacting with ena's api
-    license: Not available
-    home_url: http://bebatut.fr/enasearch/
+    license: MIT
+    home_url: https://github.com/bebatut/enasearch
     total_pulls: 3215
+    manually_check: True
 intervene:
     name: intervene
     description: A tool for intersection of multiple gene or genomic region sets and
@@ -2583,22 +2584,24 @@ pureclip:
     name: pureclip
     description: Pureclip is a tool to detect protein-rna interaction footprints from
         single-nucleotide clip-seq data, such as iclip and eclip.
-    license: Not available
+    license: GPL-3.0
     home_url: https://github.com/skrakau/PureCLIP
     total_pulls: 3207
+    manually_check: True
 msaboot:
     name: msaboot
-    description: Generate bootstrapping replicates for multiple sequence alignment
-        data.
-    license: Not available
+    description: Generate bootstrapping replicates for multiple sequence alignment data.
+    license: Apache-2.0
     home_url: https://github.com/phac-nml/msaboot
     total_pulls: 3206
+    manually_check: True
 feelnc:
     name: feelnc
     description: Flexible extraction of lncrna
-    license: Not available
+    license: GPL-3.0
     home_url: https://github.com/tderrien/FEELnc
     total_pulls: 3206
+    manually_check: True
 bioconductor-rdavidwebservice:
     name: bioconductor-rdavidwebservice
     description:
@@ -2607,23 +2610,25 @@ bioconductor-rdavidwebservice:
     total_pulls: 3205
 prinseq:
     name: prinseq
-    description: Prinseq can be used to filter, reformat, or trim your genomic and
-        metagenomic sequence data
-    license: Not available
+    description: Prinseq can be used to filter, reformat, or trim your genomic and metagenomic sequence data
+    license: GPL-3.0
     home_url: http://prinseq.sourceforge.net/
     total_pulls: 3205
+    manually_check: True
 goslimmer:
     name: goslimmer
     description: Goslimmer transforms go annotations to a slimmed version of go
-    license: Not available
+    license: Apache-2.0
     home_url: https://github.com/DanFaria/GOSlimmer
     total_pulls: 3204
+    manually_check: True
 python-hivclustering:
     name: python-hivclustering
     description: A python 3 library that makes inferences on hiv-1 transmission networks.
-    license: Not available
+    license: Apache-2.0
     home_url: https://github.com/veg/hivclustering
     total_pulls: 3203
+    manually_check: True
 zerone:
     name: zerone
     description:
@@ -2634,15 +2639,17 @@ perl-onto-perl:
     name: perl-onto-perl
     description: Perl modules for manipulating obo-formatted ontologies, such as the
         gene ontology (go)
-    license: Not available
+    license: Custom License
     home_url: http://metacpan.org/pod/ONTO-PERL
     total_pulls: 3200
+    manually_check: True
 commet:
     name: commet
-    description:
-    license:
-    home_url:
+    description: Comparing and combining multiple metagenomic datasets
+    license: GNU
+    home_url: https://github.com/pierrepeterlongo/commet
     total_pulls: 3200
+    manually_check: True
 pear:
     name: pear
     description:
@@ -2651,39 +2658,32 @@ pear:
     total_pulls: 3200
 r-data.table:
     name: r-data.table
-    description: ">  fast aggregation of large data (e.g. 100gb in ram), fast ordered\
-        \ joins, fast add/modify/delete\n\n> Licence:  Gpl3\n\nHome:  bit64, knitr,\
-        \ chron, ggplot2 (>= 0.9.0), plyr, reshape, reshape2, testthat (>= 0.4), hexbin,\
-        \ fastmatch, nlme, xts, gdata, GenomicRanges, caret, curl, zoo, plm, rmarkdown,\
-        \ parallel\n\n"
-    license:
-    home_url:
+    description: "Fast aggregation of large data (e.g. 100gb in ram), fast ordered joins, fast add/modify/delete"
+    license: GPL-3.0
+    home_url: https://cran.r-project.org/web/packages/data.table/
     total_pulls: 3199
+    manually_check: True
 bayescan:
     name: bayescan
-    description: "# Bayescan\n\n> Phylogenetics - randomized axelerated maximum likelihood.\n\
-        \n> Licence: Gpl\n\nHome: http://cmpg.unibe.ch/software/BayeScan/files/BayeScan2.01.zip\n\
-        \n"
-    license:
-    home_url:
+    description: "Phylogenetics - randomized axelerated maximum likelihood."
+    license: GPL
+    home_url: http://cmpg.unibe.ch/software/BayeScan/
     total_pulls: 3198
+    manually_check: True
 spotyping:
     name: spotyping
-    description: 'Spotyping: fast and accurate in silico mycobacterium spoligotyping
-        from sequence reads'
-    license: Not available
+    description: 'Spotyping: fast and accurate in silico mycobacterium spoligotyping from sequence reads'
+    license: Apache-2.0
     home_url: https://github.com/xiaeryu/SpoTyping
     total_pulls: 3193
+    manually_check: True
 idr:
     name: idr
-    description: "# Idr\n\n> The idr (irreproducible discovery rate) framework is\
-        \ a uni?ed approach to measure the reproducibility of ?ndings identi?ed from\
-        \ replicate experiments and provide highly stable thresholds based on reproducibility.\n\
-        \n> Licence: Gplv2\n\nHome: https://github.com/nboley/idr/archive/2.0.3.tar.gz\n\
-        \n"
-    license:
-    home_url:
+    description: "The IDR (Irreproducible Discovery Rate) framework is a uniﬁed approach to measure the reproducibility of ﬁndings identiﬁed from replicate experiments and provide highly stable thresholds based on reproducibility."
+    license: GPL-2.0
+    home_url: https://github.com/nboley/idr/
     total_pulls: 3192
+    manually_check: True
 r-reshape2:
     name: r-reshape2
     description: ">  'flexibly restructure and aggregate data using just two functions:\
