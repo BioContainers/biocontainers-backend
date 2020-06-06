@@ -3133,25 +3133,27 @@ bioconductor-bsgenome.vvinifera.urgi.iggp8x:
     manually_check: True
 fqtools:
     name: fqtools
-    description: "# Fqtools\n\n> An efficient fastq manipulation suite.\n\n> Licence:\
-        \ Gplv3\n\n"
-    license:
-    home_url:
+    description: "An efficient fastq manipulation suite."
+    license: GPL-3.0
+    home_url: https://github.com/alastair-droop/fqtools
     total_pulls: 153
+    manually_check: True
 telescope:
     name: telescope
-    description:
-    license:
-    home_url:
+    description: Quantification of transposable element expression using RNA-seq
+    license: MIT
+    home_url: https://github.com/mlbendall/telescope
     total_pulls: 148
+    manually_check: True
 tophat:
     name: tophat
     description: Program that aligns rna-seq reads to a genome in order to identify
         exon-exon splice junctions. it is built on the ultrafast short read mapping
         program bowtie. a stable samtools version is now packaged with the program.
-    license: Not available
-    home_url: http://ccb.jhu.edu/software/tophat/index.shtml
+    license: BSL-1.0
+    home_url: https://github.com/DaehwanKimLab/tophat
     total_pulls: 145
+    manually_check: True
 bioconductor-chipseeker:
     name: bioconductor-chipseeker
     description: This package implements functions to retrieve the nearest genes around
@@ -3163,14 +3165,16 @@ bioconductor-chipseeker:
     license: Artistic-2.0
     home_url: http://bioconductor.org/packages/release/bioc/html/ChIPseeker.html
     total_pulls: 144
+    manually_check: True
 busco:
     name: busco
     description: Provides measures for quantitative assessment of genome assembly,
         gene set, and transcriptome completeness based on evolutionarily informed
         expectations of gene content from near-universal single-copy orthologs.
     license: GPL
-    home_url: http://busco.ezlab.org/
+    home_url: https://gitlab.com/ezlab/busco/
     total_pulls: 143
+    manually_check: True
 cgpbigwig:
     name: cgpbigwig
     description:
