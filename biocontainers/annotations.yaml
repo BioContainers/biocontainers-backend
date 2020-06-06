@@ -3010,30 +3010,32 @@ gatk:
         \ for analyzing high-throughput sequencing (hts) and variant call format (vcf)\
         \ data. the toolkit is well established for germline short variant discovery\
         \ from whole genome and exome sequencing data. gatk4 expands functionality\
-        \ into copy number and somatic analyses and offers pipeline scripts for workflows.\
-        \  \n\nversion 4 (gatk4) is open-source at https://github.com/broadinstitute/gatk."
-    license: https://software.broadinstitute.org/gatk/download/licensing
+        \ into copy number and somatic analyses and offers pipeline scripts for workflows."
+    license: Custom License
     home_url: https://software.broadinstitute.org/gatk/
     total_pulls: 347
+    manually_check: True
 flye:
     name: flye
-    description: ''
-    license:
-    home_url:
+    description: "Flye is a de novo assembler for single molecule sequencing reads, such as those produced by PacBio and Oxford Nanopore Technologies. It is designed for a wide range of datasets, from small bacterial projects to large mammalian-scale assemblies."
+    license: BSD-3-Clause
+    home_url: https://github.com/fenderglass/Flye
     total_pulls: 346
+    manually_check: True
 ensembl-vep:
     name: ensembl-vep
-    description: Ensembl variant effect predictor
-    license: Not available
-    home_url: http://www.ensembl.org/info/docs/tools/vep/index.html
+    description: The Ensembl Variant Effect Predictor predicts the functional effects of genomic variants
+    license: Apache-2.0
+    home_url: https://github.com/Ensembl/ensembl-vep
     total_pulls: 330
+    manually_check: True
 kaiju:
     name: kaiju
-    description: "# Kaiju\n\n> Fast and sensitive taxonomic classification for metagenomics\n\
-        \n> Licence: Gnu Gpl V3\n\n"
-    license:
-    home_url:
+    description: "Fast and sensitive taxonomic classification for metagenomics"
+    license: GPL-3.0
+    home_url: https://github.com/bioinformatics-centre/kaiju
     total_pulls: 326
+    manually_check: True
 kcalign:
     name: kcalign
     description: Kalgin-based codon-aware aligner for multiple sequences
@@ -3044,8 +3046,9 @@ percolator:
     name: percolator
     description: Semi-supervised learning for peptide identification from ms/ms data.
     license: SPDX:Apache-2.0
-    home_url: http://noble.gs.washington.edu/proj/percolator/
+    home_url: https://github.com/percolator/percolator
     total_pulls: 304
+    manually_check: True
 survivor:
     name: survivor
     description:
