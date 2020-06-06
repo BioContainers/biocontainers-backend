@@ -3429,29 +3429,33 @@ diamond:
 circexplorer2:
     name: circexplorer2
     description: Circular rna analysis toolkits
-    license: Not available
+    license: Custom License
     home_url: https://github.com/YangLab/CIRCexplorer2
     total_pulls: 56
+    manually_check: True
 pepnovo:
     name: pepnovo
     description: '"de novo" sequencing using probabilistic network modeling.'
     license: SPDX:CC-BY-NC-4.0
-    home_url: http://proteomics.ucsd.edu/ProteoSAFe/
+    home_url: http://proteomics.ucsd.edu/Software/PepNovo/
     total_pulls: 55
+    manually_check: True
 artic:
     name: artic
     description: Artic pipeline - a bioinformatics pipeline for working with virus
         sequencing data sequenced with nanopore
-    license: Not available
+    license: MIT
     home_url: https://github.com/artic-network/fieldbioinformatics
     total_pulls: 55
+    manually_check: True
 danpos:
     name: danpos
     description: A toolkit for dynamic analysis of nucleosome and protein occupancy
         by sequencing, version 2
-    license: Not available
+    license: MIT
     home_url: https://sites.google.com/site/danposdoc/
     total_pulls: 54
+    danpos
 illumina-interop:
     name: illumina-interop
     description:
@@ -3462,9 +3466,10 @@ thermorawfileparser:
     name: thermorawfileparser
     description: Wrapper around the .net (c#) thermofisher thermorawfilereader library
         for running on linux with mono
-    license: Not available
+    license: Custom License
     home_url: https://github.com/compomics/ThermoRawFileParser
     total_pulls: 54
+    manually_check: True
 bioconductor-graph:
     name: bioconductor-graph
     description: Handle graph data structures for bioconductor
