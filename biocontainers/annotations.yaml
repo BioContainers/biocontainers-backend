@@ -3091,42 +3091,46 @@ r-rmarkdown:
     manually_check: True
 vtools:
     name: vtools
-    description:
-    license:
-    home_url:
+    description: Various tools operating over VCF files. Uses cyvcf2 and cython under the hood for speed
+    license: MIT
+    home_url: https://github.com/LUMC/vtools
     total_pulls: 204
+    manually_check: True
 singularity:
     name: singularity
-    description:
-    license:
-    home_url:
+    description: Singularity - Enabling users to have full control of their environment
+    license: Apache-2.0
+    home_url: https://github.com/hpcng/singularity
     total_pulls: 197
+    manually_check: True
 velvet:
     name: velvet
     description: Short read de novo assembler using de bruijn graphs
     license: SPDX:GPL-2.0-only
-    home_url: http://www.ebi.ac.uk/~zerbino/velvet/ | https://github.com/dzerbino/velvet
+    home_url: https://github.com/dzerbino/velvet
     total_pulls: 186
+    manually_check: True
 hardklor:
     name: hardklor
-    description: ">  analyze mass spectra\n\n> Licence:  Apache License, Version 2.0\n\
-        \n"
-    license:
-    home_url:
+    description: "Open-source application for identification of features from mass spectra."
+    license: Apache-2.0
+    home_url: https://github.com/mhoopmann/hardklor
     total_pulls: 186
+    manually_check: True
 rna-seqc:
     name: rna-seqc
-    description:
-    license:
-    home_url:
+    description: Fast, efficient RNA-Seq metrics for quality control and process optimization
+    license: BSD-3-Clause
+    home_url: https://github.com/getzlab/rnaseqc
     total_pulls: 181
+    manually_check: True
 bioconductor-bsgenome.vvinifera.urgi.iggp8x:
     name: bioconductor-bsgenome.vvinifera.urgi.iggp8x
-    description: Full reference nuclear genome sequences for vitis vinifera subsp.
-        vinifera pn40024 (iggp version 8x)
-    license: Not available
+    description: Full reference nuclear genome sequences for vitis vinifera subsp. vinifera pn40024 (iggp version 8x)
+    license: CC0
     home_url: https://bioconductor.org/packages/3.11/data/annotation/html/BSgenome.Vvinifera.URGI.IGGP8X.html
     total_pulls: 168
+    manually_check: True
 fqtools:
     name: fqtools
     description: "# Fqtools\n\n> An efficient fastq manipulation suite.\n\n> Licence:\
