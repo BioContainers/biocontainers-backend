@@ -3230,185 +3230,202 @@ scanpy-scripts:
     manually_check: True
 ucsc-genepredtogtf:
     name: ucsc-genepredtogtf
-    description: "# Ucsc-Genepredtogtf\n\n> Convert genepred table or file to gtf.\n\
-        \n> Licence: Varies; See Http://Genome.Ucsc.Edu/License\n\nHome: http://hgdownload.cse.ucsc.edu/admin/exe/macOSX.x86_64/genePredToGtf\n\
-        \n"
-    license:
-    home_url:
+    description: "Convert genepred table or file to gtf"
+    license: Custom Licesne
+    home_url: http://hgdownload.cse.ucsc.edu/admin/exe/macOSX.x86_64/genePredToGtf
     total_pulls: 102
+    manually_check: True
 kronik:
     name: kronik
-    description:
-    license:
-    home_url:
+    description: Utility for processing Hardklor features to find candidate peptides by chromatographic profiling
+    license: Apache-2.0
+    home_url: https://github.com/mhoopmann/kronik
     total_pulls: 101
+    manually_check: True
 bioconductor-edger:
     name: bioconductor-edger
     description: Empirical analysis of digital gene expression data in r
     license: GPL-2+
     home_url: http://www.bioconductor.org/packages/release/bioc/html/edgeR.html
     total_pulls: 100
+    manually_check: True
 snpsift:
     name: snpsift
     description: Toolbox that allows you to filter and manipulate annotated files
-    license: LGPLv3
+    license: LGPL-3.0
     home_url: http://snpeff.sourceforge.net/SnpSift.html
     total_pulls: 85
+    manually_check: True
 agat:
     name: agat
     description: Another gff analysis toolkit (agat). suite of tools to handle gene
         annotations in any gtf/gff format.
-    license: Not available
+    license: GPL-3.0
     home_url: https://github.com/NBISweden/AGAT
     total_pulls: 80
+    manually_check: True
 gmap:
     name: gmap
     description: Genomic mapping and alignment program for mrna and est sequences.
-    license: Non-commercial
+    license: Apache-2.0
     home_url: http://research-pub.gene.com/gmap/
     total_pulls: 79
+    manually_check: True
 nanovar:
     name: nanovar
-    description:
-    license:
-    home_url:
+    description: Structural variant caller using low-depth long reads
+    license: GPL-3.0
+    home_url: https://github.com/cytham/nanovar
     total_pulls: 78
+    manually_check: True
 mzml2isa:
     name: mzml2isa
     description: Mzml2isa - mzml to isa-tab parsing tool
-    license: Not available
+    license: GPL-3.0
     home_url: https://github.com/ISA-tools/mzml2isa
     total_pulls: 75
+    manually_check: True
 sourmash:
     name: sourmash
     description: Compute and compare minhash signatures for dna data sets.
     license: BSD-3-Clause
-    home_url: https://sourmash.readthedocs.io/en/latest/
+    home_url: https://github.com/dib-lab/sourmash
     total_pulls: 74
+    manually_check: True
 smoove:
     name: smoove
-    description: Structural variant calling and genotyping with existing tools, but,
-        smoothly
-    license: Not available
+    description: Structural variant calling and genotyping with existing tools, but, smoothly
+    license: Apache-2.0
     home_url: https://github.com/brentp/smoove
     total_pulls: 71
+    manually_check: True
 nmrglue:
     name: nmrglue
-    description: "nmrglue: a module for working with NMR data in Python.\n\n"
-    license:
-    home_url:
+    description: "nmrglue: a module for working with NMR data in Python."
+    license: BSD
+    home_url: https://github.com/jjhelmus/nmrglue
     total_pulls: 70
+    manually_check: True
 galaxy-util:
     name: galaxy-util
     description: Galaxy generic utilities
     license: AFL-3.0
     home_url: https://galaxyproject.org
     total_pulls: 70
+    manually_check: True
 nmrpro:
     name: nmrpro
     description: Nmrpro reads and processes different types of nmr spectra.
-    license: Not available
+    license: Apache-2.0
     home_url: https://github.com/ahmohamed/nmrpro
     total_pulls: 69
+    manually_check: True
 pyani:
     name: pyani
-    description: Pyani provides a package and script for calculation of genome-scale
-        average nucleotide identity.
-    license: Not available
-    home_url: http://widdowquinn.github.io/pyani/
+    description: Pyani provides a package and script for calculation of genome-scale average nucleotide identity.
+    license: MIT
+    home_url: https://github.com/widdowquinn/pyani
     total_pulls: 69
+    manually_check: True
 tobias:
     name: tobias
-    description:
-    license:
-    home_url:
+    description: Transcription factor Occupancy prediction By Investigation of ATAC-seq Signal
+    license: MIT
+    home_url: https://github.com/loosolab/TOBIAS/
     total_pulls: 69
+    manually_check: True
 chromosight:
     name: chromosight
     description: Detect loops (and other patterns) in hi-c contact maps.
-    license: Not available
+    license: GPL-3.0
     home_url: https://github.com/koszullab/chromosight
     total_pulls: 69
+    manually_check: True
 scelvis:
     name: scelvis
     description: Scelvis - web-based visualization of single-cell data
-    license: Not available
+    license: MIT
     home_url: https://github.com/bihealth/scelvis
     total_pulls: 68
+    manually_check: True
 rdock:
     name: rdock
-    description:
-    license:
-    home_url:
+    description: "rDock is a fast and versatile Open Source docking program that can be used to dock small molecules against proteins and nucleic acids. It is designed for High Throughput Virtual Screening (HTVS) campaigns and Binding Mode prediction studies."
+    license: LGPL-3.0
+    home_url: http://rdock.sourceforge.net/
     total_pulls: 65
+    manually_check: True
 snakemake-minimal:
     name: snakemake-minimal
-    description:
-    license:
-    home_url:
+    description: "Snakemake is a workflow management system that aims to reduce the complexity of creating workflows by providing a fast and comfortable execution environment,
+     together with a clean and modern specification language in python style."
+    license: MIT
+    home_url: https://github.com/snakemake/snakemake/
     total_pulls: 65
+    manually_check: True
 phylocsf:
     name: phylocsf
-    description: Phylocsf is a method to determine whether a multi-species nucleotide
-        sequence alignment is likely to represent a protein-coding region.
-    license: SPDX:AGPL-3.0-only
+    description: Phylocsf is a method to determine whether a multi-species nucleotide sequence alignment is likely to represent a protein-coding region.
+    license: SPDX:AGPL-3.0
     home_url: https://github.com/mlin/PhyloCSF/wiki
     total_pulls: 63
+    manually_check: True
 ucsc-gtftogenepred:
     name: ucsc-gtftogenepred
-    description: "# Ucsc-Gtftogenepred\n\n> Convert a gtf file to a genepred\n\n>\
-        \ Licence: Varies; See Http://Genome.Ucsc.Edu/License\n\nHome: http://hgdownload.cse.ucsc.edu/admin/exe/macOSX.x86_64/gtfToGenePred\n\
-        \n"
-    license:
-    home_url:
+    description: "Convert a gtf file to a genepred"
+    license: Custom License
+    home_url: http://hgdownload.cse.ucsc.edu/admin/exe/macOSX.x86_64/gtfToGenePred
     total_pulls: 63
+    manually_check: True
 tpmcalculator:
     name: tpmcalculator
-    description: This program calculates the tpm (transcript per millions) values
-        for the exons and introns from ngs rna-seq aligned reads (bam files)
-    license: Not available
+    description: This program calculates the tpm (transcript per millions) values for the exons and introns from ngs rna-seq aligned reads (bam files)
+    license: Custom License
     home_url: https://github.com/ncbi/TPMCalculator
     total_pulls: 62
+    manually_check: True
 tidehunter:
     name: tidehunter
-    description:
-    license:
-    home_url:
+    description: Efficient and sensitive tandem repeat detection from noisy long reads using seed-and-chain
+    license: MIT
+    home_url: https://github.com/yangao07/TideHunter
     total_pulls: 61
+    manually_check: True
 soapec:
     name: soapec
     description: A correction tool for soapdenovo
     license: SPDX:GPL-2.0-only
     home_url: http://soap.genomics.org.cn/soapdenovo.html
     total_pulls: 60
+    manually_check: True
 metilene:
     name: metilene
-    description: "# Metilene\n\n> Fast and sensitive detection of differential dna\
-        \ methylation\n\n> Licence: Gplv2\n\nHome: http://www.bioinf.uni-leipzig.de/Software/metilene/metilene_v02-6.tar.gz\n\
-        \n"
-    license:
-    home_url:
+    description: "Fast and sensitive detection of differential dna methylation"
+    license: GPL-2.0
+    home_url: http://www.bioinf.uni-leipzig.de/Software/metilene/
     total_pulls: 58
+    manually_check: True
 metaphlan:
     name: metaphlan
-    description: Metagenomic phylogenetic analysis
-    license: Not available
+    description: MetaPhlAn is a computational tool for profiling the composition of microbial communities from metagenomic shotgun sequencing data
+    license: MIT
     home_url: https://github.com/biobakery/metaphlan
     total_pulls: 58
+    manually_check: True
 bioconductor-ensembldb:
     name: bioconductor-ensembldb
     description: Gnu r utilities to create and use an ensembl based annotation database
     license: LGPL-2.1+
     home_url: https://bioconductor.org/packages/ensembldb/
     total_pulls: 57
+    manually_check: True
 diamond:
     name: diamond
-    description: "# Diamond\n\n> Accelerated blast compatible local sequence aligner\n\
-        \n> Licence: Bsd\n\nHome: https://github.com/bbuchfink/diamond/archive/v0.8.24.tar.gz\n\
-        \n"
-    license:
-    home_url:
+    description: "Accelerated blast compatible local sequence aligner"
+    license: GPL-3.0
+    home_url: https://github.com/bbuchfink/diamond/
     total_pulls: 57
+    manually_check: True
 circexplorer2:
     name: circexplorer2
     description: Circular rna analysis toolkits
