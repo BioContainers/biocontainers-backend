@@ -2873,53 +2873,55 @@ seqwish:
     total_pulls: 857
 bioconductor-dupradar:
     name: bioconductor-dupradar
-    description: "# Bioconductor-Dupradar\n\n> Duplication rate quality control for\
-        \ rna-seq datasets.\n\n> Licence: Gpl-3\n\nHome: http://bioconductor.org/packages/release/bioc/src/contrib/dupRadar_1.2.2.tar.gz\n\
-        \n"
-    license:
-    home_url:
+    description: "Duplication rate quality control for rna-seq datasets."
+    license: GPL-3.0
+    home_url: http://bioconductor.org/packages/release/bioc/html/dupRadar.html
     total_pulls: 793
+    manually_check: True
 kallisto:
     name: kallisto
-    description: "# Kallisto\n\n> Quantifying abundances of transcripts from rna-seq\
-        \ data, or more generally of target sequences using high-throughput sequencing\
-        \ reads.\n\n> Licence: Custom\n\nHome: https://github.com/pachterlab/kallisto/archive/v0.43.0.tar.gz\n\
-        \n"
-    license:
-    home_url:
+    description: "Quantifying abundances of transcripts from rna-seq data, or more generally of target sequences using high-throughput sequencing reads"
+    license: BSD-2-Clause
+    home_url: https://github.com/pachterlab/kallisto/
     total_pulls: 708
+    manually_check: True
 sambamba:
     name: sambamba
     description: Tools for working with sam/bam data
-    license: Not available
+    license: GPL-2.0
     home_url: https://github.com/lomereiter/sambamba
     total_pulls: 696
+    manually_check: True
 fastq-screen:
     name: fastq-screen
     description: Fastq screen allows you to screen a library of sequences in fastq
         format against a set of sequence databases so you can see if the composition
         of the library matches with what you expect
-    license: Not available
-    home_url: http://www.bioinformatics.babraham.ac.uk/projects/fastq_screen/
+    license: GPL-3.0
+    home_url: https://github.com/StevenWingett/FastQ-Screen
     total_pulls: 639
+    manually_check: True
 pbccs:
     name: pbccs
     description: Pbccs - generate accurate consensus sequences from a single smrtbell
-    license: Not available
+    license: BSD-3-Clause-Clear
     home_url: https://github.com/PacificBiosciences/pbbioconda
-    total_pulls: 636
+    total_pulls:
+    manually_check: True
 searchgui:
     name: searchgui
     description: Graphical user interface for proteomics identification search engines
     license: SPDX:Apache-2.0
-    home_url: http://compomics.github.io/projects/searchgui.html
+    home_url: https://github.com/compomics/searchgui
     total_pulls: 630
+    manually_check: True
 eggnog-mapper:
     name: eggnog-mapper
     description: Fast genome-wide functional annotation through orthology assignment.
     license: AGPL-3.0
     home_url: https://github.com/jhcepas/eggnog-mapper
     total_pulls: 587
+    manually_check: True
 htslib:
     name: htslib
     description: C library for high-throughput sequencing data formats
@@ -2943,10 +2945,11 @@ curl:
     manually_check: True
 bioconductor-mageckflute:
     name: bioconductor-mageckflute
-    description:
-    license:
-    home_url:
+    description: Integrative Analysis Pipeline for Pooled CRISPR Functional Genetic Screens
+    license: GPL-3.0
+    home_url: https://bioconductor.org/packages/3.11/bioc/html/MAGeCKFlute.html
     total_pulls: 505
+    manually_check: True
 lima:
     name: lima
     description: Lima - the pacbio barcode demultiplexer
@@ -3195,34 +3198,36 @@ bioconductor-trackviewer:
     total_pulls: 131
 2pg_cartesian:
     name: 2pg_cartesian
-    description: "# 2Pg_Cartesian\n\n> 2pg cartesian is a framework of optimization\
-        \ algorithms for protein structure prediction.\n\nHome: https://github.com/rodrigofaccioli/2pg_cartesian/archive/v1.0.1.tar.gz\n\
-        \n"
-    license:
-    home_url:
+    description: "2pg cartesian is a framework of optimization algorithms for protein structure prediction"
+    license: Apache-2.0
+    home_url: https://github.com/rodrigofaccioli/2pg_cartesian/
     total_pulls: 124
+    manually_check: True
 entrez-direct:
     name: entrez-direct
-    description: Ncbi information retrieval system, including genbank, mmdb (structures),
-        genomes, population sets, omim, taxonomy and pubmed.
-    license: Not available
-    home_url: https://www.ncbi.nlm.nih.gov/Entrez/
+    description: "Entrez Direct (EDirect) is an advanced method for accessing the NCBI’s set of interconnected databases (publication, sequence, structure, gene, variation, expression, etc.)
+    from a UNIX terminal window."
+    license: Custom License
+    home_url: ftp://ftp.ncbi.nlm.nih.gov/entrez/entrezdirect/
     total_pulls: 122
+    manually_check: True
 snippy:
     name: snippy
     description: Rapid haploid variant calling and core snp phylogeny generation.
     license: GPL-3.0
     home_url: https://github.com/tseemann/snippy
     total_pulls: 113
+    manually_check: True
 scanpy-scripts:
     name: scanpy-scripts
     description: A set of wrappers for individual components of the scanpy package.
         functions in python packages are hard to call when building workflows outside
         of python, so this package adds a set of simple wrappers with robust argument
         parsing.
-    license: Not available
+    license: Apache-2.0
     home_url: https://github.com/ebi-gene-expression-group/scanpy-scripts
     total_pulls: 104
+    manually_check: True
 ucsc-genepredtogtf:
     name: ucsc-genepredtogtf
     description: "# Ucsc-Genepredtogtf\n\n> Convert genepred table or file to gtf.\n\
