@@ -2936,12 +2936,11 @@ chunked-scatter:
     manually_check: True
 curl:
     name: curl
-    description: "# Curl\n\n> Curl is an open source command line tool and library\
-        \ for transferring data with url syntax\n\n> Licence: Mit\n\nHome: http://curl.haxx.se/download/curl-7.45.0.tar.gz\n\
-        \n"
-    license:
-    home_url:
+    description: "Curl is an open source command line tool and library for transferring data with url syntax."
+    license: MIT
+    home_url: http://curl.haxx.se/
     total_pulls: 505
+    manually_check: True
 bioconductor-mageckflute:
     name: bioconductor-mageckflute
     description:
@@ -2951,9 +2950,10 @@ bioconductor-mageckflute:
 lima:
     name: lima
     description: Lima - the pacbio barcode demultiplexer
-    license: Not available
+    license: BSD-3-Clause-Clear
     home_url: https://github.com/PacificBiosciences/pbbioconda
     total_pulls: 490
+    manually_check: True
 proteowizard:
     name: proteowizard
     description: The proteowizard library and tools are a set of modular and extensible
@@ -2962,44 +2962,48 @@ proteowizard:
     license: SPDX:Apache-2.0
     home_url: http://proteowizard.sourceforge.net/
     total_pulls: 484
+    manually_check: True
 spectra-cluster-cli:
     name: spectra-cluster-cli
     description: This is a stand-alone implementation of the new updated pride cluster
         algorithm. it is based on the spectra-cluster api and uses a highly similar
         logic as the hadoop implementation spectra-cluster-hadoop used to build the
         pride cluster resource.
-    license: Not available
+    license: SPDX:Apache-2.0
     home_url: https://github.com/spectra-cluster/spectra-cluster-cli
     total_pulls: 474
+    manually_check: True
 clever-toolkit:
     name: clever-toolkit
-    description: "# Clever-Toolkit\n\n> The clever toolkit (ctk) is a suite of tools\
+    description: "The clever toolkit (ctk) is a suite of tools\
         \ to analyze next-generation sequencing data and, in particular, to discover\
-        \ and genotype insertions and deletions from paired-end reads.\n\n> Licence:\
-        \ Gplv3\n\nHome: https://bitbucket.org/tobiasmarschall/clever-toolkit/downloads/clever-toolkit-v2.0rc3.tar.gz\n\
-        \n"
-    license:
-    home_url:
+        \ and genotype insertions and deletions from paired-end reads."
+    license: GPL-3.0
+    home_url: https://bitbucket.org/tobiasmarschall/clever-toolkit/
     total_pulls: 452
+    manually_check: True
 deeptools:
     name: deeptools
     description: User-friendly tools for the normalization and visualization of deep-sequencing
         data.
     license: GPL-3.0
-    home_url: https://deeptools.readthedocs.io/en/latest/
+    home_url: https://github.com/deeptools/deepTools
     total_pulls: 405
+    manually_check: True
 rxdock:
     name: rxdock
-    description:
-    license:
-    home_url:
+    description: A fast, versatile, and open-source program for docking ligands to proteins and nucleic acids
+    license: LGPL-3.0
+    home_url: https://github.com/rxdock/rxdock
     total_pulls: 374
+    manually_check: True
 xtandem:
     name: xtandem
     description: software that can match tandem mass spectra with peptide sequences
-    license:
-    home_url:
+    license: Artistic License
+    home_url: https://www.thegpm.org/TANDEM/index.html
     total_pulls: 352
+    manually_check: True
 gatk:
     name: gatk
     description: "The genome analysis toolkit (gatk) is a set of bioinformatic tools\
