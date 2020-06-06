@@ -1,5 +1,6 @@
 import configparser
 import logging
+import urllib
 
 import click
 
@@ -168,10 +169,11 @@ def get_database_uri(param):
     return uri
 
 
-def annotate_from_file_containers(config, config_profile, annotate_from_file):
+def annotate_from_file_containers(config, config_profile):
     yaml = YAML()
-    with open(annotate_from_file, 'r') as outfile:
-        file_annotations = yaml.load(outfile)
+    url = config[config_profile]['ANNOTATED_FILE']
+    outfile = urllib.request.urlopen(url)
+    file_annotations = yaml.load(outfile)
 
     mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
     mongo_helper.update_from_file(file_annotations)
@@ -190,7 +192,6 @@ def annotate_from_file_containers(config, config_profile, annotate_from_file):
 @click.option('--annotate-multi-package-containers', '-am', help='Annotate multi package containers', is_flag=True)
 @click.option('--report-missing-info', '-ri', help = "This pipeline will report the containers without metadata", is_flag =True)
 @click.option('--annotate-from-file', '-af', help = 'Annotate metadata from internal file', is_flag = True)
-@click.option('--annotations-file', '-ann', type=click.Path() ,default = 'annotations.yaml')
 @click.option('--config-file', '-c', type=click.Path(), default='configuration.ini')
 @click.option('--config-profile', '-a', help="This option allow to select a config profile", default='PRODUCTION')
 @click.option('-db', '--db-name', help="Name of the database", envvar='BIOCONT_DB_NAME')
@@ -202,7 +203,7 @@ def annotate_from_file_containers(config, config_profile, annotate_from_file):
 @click.pass_context
 def main(ctx, import_quayio, import_docker, import_singularity, annotate_docker, annotate_quayio,
          annotate_conda, annotate_biotools, annotate_workflows, annotate_identifiers,
-         annotate_multi_package_containers, report_missing_info, annotate_from_file, annotations_file,
+         annotate_multi_package_containers, report_missing_info, annotate_from_file,
          config_file, config_profile, db_name,
          db_host, db_auth_database, db_user,
          db_password, db_port):
@@ -255,8 +256,8 @@ def main(ctx, import_quayio, import_docker, import_singularity, annotate_docker,
     if report_missing_info is not False:
         report_missing_tools(config, config_profile)
 
-    if annotate_from_file is not False and annotations_file is not None:
-        annotate_from_file_containers(config, config_profile, annotations_file)
+    if annotate_from_file:
+        annotate_from_file_containers(config, config_profile)
 
 
 if __name__ == "__main__":
