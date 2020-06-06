@@ -2226,15 +2226,17 @@ heinz:
 chira:
     name: chira
     description: An integrated framework for annotation and visualization of chimeric reads.
-    license: Not available
+    license: GPL-3.0
     home_url: https://github.com/pavanvidem/chira/
     total_pulls: 3351
+    manually_check: True
 fraggenescan:
     name: fraggenescan
     description: "FragGeneScan is an application for finding (fragmented) genes in short reads. It can also be applied to predict prokaryotic genes in incomplete assemblies or complete genomes."
     license: MIT
     home_url: https://sourceforge.net/projects/fraggenescan/
     total_pulls: 3350
+    manually_check: True
 biotradis:
     name: biotradis
     description: A set of tools to analyse the output from tradis analyses
@@ -2248,6 +2250,7 @@ fermi2:
     license: MIT
     home_url: https://github.com/lh3/fermi2/
     total_pulls: 3349
+    manually_check: True
 disco:
     name: disco
     description: Multi-threaded Distributed Memory Overlap-Layout-Consensus (OLC) Metagenome Assembler
@@ -2338,9 +2341,10 @@ barcode_splitter:
         barcodes must match exactly, but --mistmatches can be set higher if desired.
         compressed input is read (from all files) if the first input file name ends
         in .gz. reading of compressed input can be forced with the gzipin option.
-    license: Not available
+    license: Custom License
     home_url: https://bitbucket.org/princeton_genomics/barcode_splitter
     total_pulls: 3340
+    manually_check: True
 snp-dists:
     name: snp-dists
     description: ''
@@ -2492,9 +2496,10 @@ jq:
 humann2:
     name: humann2
     description: 'Humann2: the hmp unified metabolic analysis network 2'
-    license: Not available
-    home_url: http://huttenhower.sph.harvard.edu/humann2
+    license: MIT
+    home_url: https://github.com/biobakery/humann
     total_pulls: 3235
+    manually_check: True
 sina:
     name: sina
     description:
