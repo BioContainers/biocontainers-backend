@@ -10,7 +10,7 @@ spec:
         spec:
           containers:
             - name: biocontainers-pipelines
-              image: chakrabandla/biocontainer-pipelines:0.18
+              image: chakrabandla/biocontainer-pipelines:e66fb8aaf361a62befc52ba47d75701b91689cf9
               imagePullPolicy: IfNotPresent
               env:
                 - name: "MONGO_ROOT_PASS"
@@ -28,7 +28,7 @@ spec:
                 - name: "MONGODB_PORT"
                   value: {{ .Values.mongodb.port }}
                 - name: PIPELINE_ARGS
-                  value: "-k -q -s -ad -aq -ac -aw -ai -am"
+                  value: "-k -q -s -ad -aq -ac -aw -ai -am -af"
                 - name: SLACK_CHANNEL
                   value: {{ .Values.slack.bioctainerPrideSlackChannel }}
                 - name: SLACK_REPORT_URL
