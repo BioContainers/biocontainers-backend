@@ -15,6 +15,7 @@ else
      MSG='ERROR: biocontainer-pipelines FAILED with return code: '$CODE
 fi
 
+MSG="$MSG (args: $PIPELINE_ARGS)"
 echo $MSG
 
 if [ -z "$SLACK_REPORT_URL" ]
