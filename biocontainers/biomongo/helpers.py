@@ -552,7 +552,7 @@ class InsertContainers:
     def update_from_file(self, file_annotations):
         for key in file_annotations:
             tool_file = file_annotations[key]
-            if 'manually_check' in tool_file and tool_file['manually_check']:
+            if 'manually_check' in tool_file and tool_file['manually_check'] and tool_file['manually_check'] == True:
                 mongo_tool = MongoTool.get_tool_by_id(key)
                 changed = False
                 if mongo_tool is not None:
