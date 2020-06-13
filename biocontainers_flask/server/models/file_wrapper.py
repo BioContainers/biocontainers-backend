@@ -1,9 +1,13 @@
 # coding: utf-8
 
 from __future__ import absolute_import
+from datetime import date, datetime  # noqa: F401
 
-from biocontainers_flask.server import util
+from typing import List, Dict  # noqa: F401
+
 from biocontainers_flask.server.models.base_model_ import Model
+from biocontainers_flask.server.models.checksum import Checksum  # noqa: F401,E501
+from biocontainers_flask.server import util
 
 
 class FileWrapper(Model):
@@ -11,26 +15,29 @@ class FileWrapper(Model):
 
     Do not edit the class manually.
     """
-
-    def __init__(self, content: str=None, url: str=None):  # noqa: E501
+    def __init__(self, content: str=None, checksum: List[Checksum]=None, url: str=None):  # noqa: E501
         """FileWrapper - a model defined in Swagger
 
         :param content: The content of this FileWrapper.  # noqa: E501
         :type content: str
+        :param checksum: The checksum of this FileWrapper.  # noqa: E501
+        :type checksum: List[Checksum]
         :param url: The url of this FileWrapper.  # noqa: E501
         :type url: str
         """
         self.swagger_types = {
             'content': str,
+            'checksum': List[Checksum],
             'url': str
         }
 
         self.attribute_map = {
             'content': 'content',
+            'checksum': 'checksum',
             'url': 'url'
         }
-
         self._content = content
+        self._checksum = checksum
         self._url = url
 
     @classmethod
@@ -66,6 +73,29 @@ class FileWrapper(Model):
         """
 
         self._content = content
+
+    @property
+    def checksum(self) -> List[Checksum]:
+        """Gets the checksum of this FileWrapper.
+
+        A production (immutable) tool version is required to have a hashcode. Not required otherwise, but might be useful to detect changes.   # noqa: E501
+
+        :return: The checksum of this FileWrapper.
+        :rtype: List[Checksum]
+        """
+        return self._checksum
+
+    @checksum.setter
+    def checksum(self, checksum: List[Checksum]):
+        """Sets the checksum of this FileWrapper.
+
+        A production (immutable) tool version is required to have a hashcode. Not required otherwise, but might be useful to detect changes.   # noqa: E501
+
+        :param checksum: The checksum of this FileWrapper.
+        :type checksum: List[Checksum]
+        """
+
+        self._checksum = checksum
 
     @property
     def url(self) -> str:

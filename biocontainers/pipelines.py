@@ -177,6 +177,7 @@ def annotate_from_file_containers(config, config_profile):
 
     mongo_helper = InsertContainers(config[config_profile]['DATABASE_URI'])
     mongo_helper.update_from_file(file_annotations)
+    mongo_helper.compute_facets()
     mongo_helper.compute_similarity()
 
 @click.command()
@@ -207,6 +208,9 @@ def main(ctx, import_quayio, import_docker, import_singularity, annotate_docker,
          config_file, config_profile, db_name,
          db_host, db_auth_database, db_user,
          db_password, db_port):
+    """
+    The annotations from biotools would be depracted for now. Option '--annotate-biotools', '-ab'.
+    """
     config = get_config(config_file)
     if config[config_profile]['VERBOSE'] == "True":
         for key in config[config_profile]:

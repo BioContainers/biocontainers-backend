@@ -1,13 +1,14 @@
 # coding: utf-8
 
 from __future__ import absolute_import
+from datetime import date, datetime  # noqa: F401
 
-from typing import List  # noqa: F401
+from typing import List, Dict  # noqa: F401
 
-from biocontainers_flask.server import util
 from biocontainers_flask.server.models.base_model_ import Model
-from biocontainers_flask.server.models.container_image import ContainerImage
 from biocontainers_flask.server.models.descriptor_type import DescriptorType  # noqa: F401,E501
+from biocontainers_flask.server.models.image_data import ImageData  # noqa: F401,E501
+from biocontainers_flask.server import util
 
 
 class ToolVersion(Model):
@@ -15,22 +16,21 @@ class ToolVersion(Model):
 
     Do not edit the class manually.
     """
-
-    def __init__(self, name: str=None, url: str=None, id: str=None, image: str=None, registry_url: str=None, image_name: str=None, descriptor_type: List[DescriptorType]=None, containerfile: bool=None, meta_version: str=None, verified: bool=None, verified_source: str=None, container_images: List[ContainerImage]=None):  # noqa: E501
+    def __init__(self, author: List[str]=None, name: str=None, url: str=None, id: str=None, is_production: bool=None, images: List[ImageData]=None, descriptor_type: List[DescriptorType]=None, containerfile: bool=None, meta_version: str=None, verified: bool=None, verified_source: List[str]=None, signed: bool=None, included_apps: List[str]=None):  # noqa: E501
         """ToolVersion - a model defined in Swagger
 
+        :param author: The author of this ToolVersion.  # noqa: E501
+        :type author: List[str]
         :param name: The name of this ToolVersion.  # noqa: E501
         :type name: str
         :param url: The url of this ToolVersion.  # noqa: E501
         :type url: str
         :param id: The id of this ToolVersion.  # noqa: E501
         :type id: str
-        :param image: The image of this ToolVersion.  # noqa: E501
-        :type image: str
-        :param registry_url: The registry_url of this ToolVersion.  # noqa: E501
-        :type registry_url: str
-        :param image_name: The image_name of this ToolVersion.  # noqa: E501
-        :type image_name: str
+        :param is_production: The is_production of this ToolVersion.  # noqa: E501
+        :type is_production: bool
+        :param images: The images of this ToolVersion.  # noqa: E501
+        :type images: List[ImageData]
         :param descriptor_type: The descriptor_type of this ToolVersion.  # noqa: E501
         :type descriptor_type: List[DescriptorType]
         :param containerfile: The containerfile of this ToolVersion.  # noqa: E501
@@ -40,50 +40,56 @@ class ToolVersion(Model):
         :param verified: The verified of this ToolVersion.  # noqa: E501
         :type verified: bool
         :param verified_source: The verified_source of this ToolVersion.  # noqa: E501
-        :type verified_source: str
+        :type verified_source: List[str]
+        :param signed: The signed of this ToolVersion.  # noqa: E501
+        :type signed: bool
+        :param included_apps: The included_apps of this ToolVersion.  # noqa: E501
+        :type included_apps: List[str]
         """
         self.swagger_types = {
+            'author': List[str],
             'name': str,
             'url': str,
             'id': str,
-            'image': str,
-            'registry_url': str,
-            'image_name': str,
+            'is_production': bool,
+            'images': List[ImageData],
             'descriptor_type': List[DescriptorType],
             'containerfile': bool,
             'meta_version': str,
             'verified': bool,
-            'verified_source': str,
-            'container_images': List[ContainerImage]
+            'verified_source': List[str],
+            'signed': bool,
+            'included_apps': List[str]
         }
 
         self.attribute_map = {
+            'author': 'author',
             'name': 'name',
             'url': 'url',
             'id': 'id',
-            'image': 'image',
-            'registry_url': 'registry_url',
-            'image_name': 'image_name',
+            'is_production': 'is_production',
+            'images': 'images',
             'descriptor_type': 'descriptor_type',
             'containerfile': 'containerfile',
             'meta_version': 'meta_version',
             'verified': 'verified',
             'verified_source': 'verified_source',
-            'container_images':'container_images'
+            'signed': 'signed',
+            'included_apps': 'included_apps'
         }
-
+        self._author = author
         self._name = name
         self._url = url
         self._id = id
-        self._image = image
-        self._registry_url = registry_url
-        self._image_name = image_name
+        self._is_production = is_production
+        self._images = images
         self._descriptor_type = descriptor_type
         self._containerfile = containerfile
         self._meta_version = meta_version
         self._verified = verified
         self._verified_source = verified_source
-        self._container_images = container_images
+        self._signed = signed
+        self._included_apps = included_apps
 
     @classmethod
     def from_dict(cls, dikt) -> 'ToolVersion':
@@ -95,6 +101,29 @@ class ToolVersion(Model):
         :rtype: ToolVersion
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def author(self) -> List[str]:
+        """Gets the author of this ToolVersion.
+
+        Contact information for the author of this version of the tool in the registry. (More complex authorship information is handled by the descriptor).  # noqa: E501
+
+        :return: The author of this ToolVersion.
+        :rtype: List[str]
+        """
+        return self._author
+
+    @author.setter
+    def author(self, author: List[str]):
+        """Sets the author of this ToolVersion.
+
+        Contact information for the author of this version of the tool in the registry. (More complex authorship information is handled by the descriptor).  # noqa: E501
+
+        :param author: The author of this ToolVersion.
+        :type author: List[str]
+        """
+
+        self._author = author
 
     @property
     def name(self) -> str:
@@ -123,7 +152,7 @@ class ToolVersion(Model):
     def url(self) -> str:
         """Gets the url of this ToolVersion.
 
-        The URL for this tool in this registry  # noqa: E501
+        The URL for this tool version in this registry.  # noqa: E501
 
         :return: The url of this ToolVersion.
         :rtype: str
@@ -134,7 +163,7 @@ class ToolVersion(Model):
     def url(self, url: str):
         """Sets the url of this ToolVersion.
 
-        The URL for this tool in this registry  # noqa: E501
+        The URL for this tool version in this registry.  # noqa: E501
 
         :param url: The url of this ToolVersion.
         :type url: str
@@ -148,7 +177,7 @@ class ToolVersion(Model):
     def id(self) -> str:
         """Gets the id of this ToolVersion.
 
-        An identifier of the version of this tool for this particular tool registry  # noqa: E501
+        An identifier of the version of this tool for this particular tool registry.  # noqa: E501
 
         :return: The id of this ToolVersion.
         :rtype: str
@@ -159,7 +188,7 @@ class ToolVersion(Model):
     def id(self, id: str):
         """Sets the id of this ToolVersion.
 
-        An identifier of the version of this tool for this particular tool registry  # noqa: E501
+        An identifier of the version of this tool for this particular tool registry.  # noqa: E501
 
         :param id: The id of this ToolVersion.
         :type id: str
@@ -170,73 +199,50 @@ class ToolVersion(Model):
         self._id = id
 
     @property
-    def image(self) -> str:
-        """Gets the image of this ToolVersion.
+    def is_production(self) -> bool:
+        """Gets the is_production of this ToolVersion.
 
-        The docker path to the image (and version) for this tool  # noqa: E501
+        This version of a tool is guaranteed to not change over time (for example, a  tool built from a tag in git as opposed to a branch). A production quality tool  is required to have a checksum  # noqa: E501
 
-        :return: The image of this ToolVersion.
-        :rtype: str
+        :return: The is_production of this ToolVersion.
+        :rtype: bool
         """
-        return self._image
+        return self._is_production
 
-    @image.setter
-    def image(self, image: str):
-        """Sets the image of this ToolVersion.
+    @is_production.setter
+    def is_production(self, is_production: bool):
+        """Sets the is_production of this ToolVersion.
 
-        The docker path to the image (and version) for this tool  # noqa: E501
+        This version of a tool is guaranteed to not change over time (for example, a  tool built from a tag in git as opposed to a branch). A production quality tool  is required to have a checksum  # noqa: E501
 
-        :param image: The image of this ToolVersion.
-        :type image: str
+        :param is_production: The is_production of this ToolVersion.
+        :type is_production: bool
         """
 
-        self._image = image
+        self._is_production = is_production
 
     @property
-    def registry_url(self) -> str:
-        """Gets the registry_url of this ToolVersion.
+    def images(self) -> List[ImageData]:
+        """Gets the images of this ToolVersion.
 
-        A URL to a Singularity registry is provided when a specific type of image does not use ids in the Docker format. Used along with image_name to locate a specific image.  # noqa: E501
+        All known docker images (and versions/hashes) used by this tool. If the tool has to evaluate any of the docker images strings at runtime, those ones cannot be reported here.  # noqa: E501
 
-        :return: The registry_url of this ToolVersion.
-        :rtype: str
+        :return: The images of this ToolVersion.
+        :rtype: List[ImageData]
         """
-        return self._registry_url
+        return self._images
 
-    @registry_url.setter
-    def registry_url(self, registry_url: str):
-        """Sets the registry_url of this ToolVersion.
+    @images.setter
+    def images(self, images: List[ImageData]):
+        """Sets the images of this ToolVersion.
 
-        A URL to a Singularity registry is provided when a specific type of image does not use ids in the Docker format. Used along with image_name to locate a specific image.  # noqa: E501
+        All known docker images (and versions/hashes) used by this tool. If the tool has to evaluate any of the docker images strings at runtime, those ones cannot be reported here.  # noqa: E501
 
-        :param registry_url: The registry_url of this ToolVersion.
-        :type registry_url: str
-        """
-
-        self._registry_url = registry_url
-
-    @property
-    def image_name(self) -> str:
-        """Gets the image_name of this ToolVersion.
-
-        Used in conjunction with a registry_url if provided to locate images  # noqa: E501
-
-        :return: The image_name of this ToolVersion.
-        :rtype: str
-        """
-        return self._image_name
-
-    @image_name.setter
-    def image_name(self, image_name: str):
-        """Sets the image_name of this ToolVersion.
-
-        Used in conjunction with a registry_url if provided to locate images  # noqa: E501
-
-        :param image_name: The image_name of this ToolVersion.
-        :type image_name: str
+        :param images: The images of this ToolVersion.
+        :type images: List[ImageData]
         """
 
-        self._image_name = image_name
+        self._images = images
 
     @property
     def descriptor_type(self) -> List[DescriptorType]:
@@ -265,7 +271,7 @@ class ToolVersion(Model):
     def containerfile(self) -> bool:
         """Gets the containerfile of this ToolVersion.
 
-        Reports if this tool has a containerfile available.  # noqa: E501
+        Reports if this tool has a containerfile available. (For Docker-based tools, this would indicate the presence of a Dockerfile)  # noqa: E501
 
         :return: The containerfile of this ToolVersion.
         :rtype: bool
@@ -276,7 +282,7 @@ class ToolVersion(Model):
     def containerfile(self, containerfile: bool):
         """Sets the containerfile of this ToolVersion.
 
-        Reports if this tool has a containerfile available.  # noqa: E501
+        Reports if this tool has a containerfile available. (For Docker-based tools, this would indicate the presence of a Dockerfile)  # noqa: E501
 
         :param containerfile: The containerfile of this ToolVersion.
         :type containerfile: bool
@@ -311,7 +317,7 @@ class ToolVersion(Model):
     def verified(self) -> bool:
         """Gets the verified of this ToolVersion.
 
-        Reports whether this tool has been verified by a specific organization or individual  # noqa: E501
+        Reports whether this tool has been verified by a specific organization or individual.  # noqa: E501
 
         :return: The verified of this ToolVersion.
         :rtype: bool
@@ -322,7 +328,7 @@ class ToolVersion(Model):
     def verified(self, verified: bool):
         """Sets the verified of this ToolVersion.
 
-        Reports whether this tool has been verified by a specific organization or individual  # noqa: E501
+        Reports whether this tool has been verified by a specific organization or individual.  # noqa: E501
 
         :param verified: The verified of this ToolVersion.
         :type verified: bool
@@ -331,32 +337,70 @@ class ToolVersion(Model):
         self._verified = verified
 
     @property
-    def verified_source(self) -> str:
+    def verified_source(self) -> List[str]:
         """Gets the verified_source of this ToolVersion.
 
-        Source of metadata that can support a verified tool, such as an email or URL  # noqa: E501
+        Source of metadata that can support a verified tool, such as an email or URL.  # noqa: E501
 
         :return: The verified_source of this ToolVersion.
-        :rtype: str
+        :rtype: List[str]
         """
         return self._verified_source
 
     @verified_source.setter
-    def verified_source(self, verified_source: str):
+    def verified_source(self, verified_source: List[str]):
         """Sets the verified_source of this ToolVersion.
 
-        Source of metadata that can support a verified tool, such as an email or URL  # noqa: E501
+        Source of metadata that can support a verified tool, such as an email or URL.  # noqa: E501
 
         :param verified_source: The verified_source of this ToolVersion.
-        :type verified_source: str
+        :type verified_source: List[str]
         """
 
         self._verified_source = verified_source
 
     @property
-    def container_images(self) -> List[ContainerImage]:
-        return self._container_images
+    def signed(self) -> bool:
+        """Gets the signed of this ToolVersion.
 
-    @container_images.setter
-    def container_images(self, container_images: List[ContainerImage]):
-        self._container_images = container_images
+        Reports whether this version of the tool has been signed.  # noqa: E501
+
+        :return: The signed of this ToolVersion.
+        :rtype: bool
+        """
+        return self._signed
+
+    @signed.setter
+    def signed(self, signed: bool):
+        """Sets the signed of this ToolVersion.
+
+        Reports whether this version of the tool has been signed.  # noqa: E501
+
+        :param signed: The signed of this ToolVersion.
+        :type signed: bool
+        """
+
+        self._signed = signed
+
+    @property
+    def included_apps(self) -> List[str]:
+        """Gets the included_apps of this ToolVersion.
+
+        An array of IDs for the applications that are stored inside this tool.  # noqa: E501
+
+        :return: The included_apps of this ToolVersion.
+        :rtype: List[str]
+        """
+        return self._included_apps
+
+    @included_apps.setter
+    def included_apps(self, included_apps: List[str]):
+        """Sets the included_apps of this ToolVersion.
+
+        An array of IDs for the applications that are stored inside this tool.  # noqa: E501
+
+        :param included_apps: The included_apps of this ToolVersion.
+        :type included_apps: List[str]
+        """
+
+        self._included_apps = included_apps
