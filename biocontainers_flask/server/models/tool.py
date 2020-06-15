@@ -19,7 +19,7 @@ class Tool(Model):
     def __init__(self, url: str=None, id: str=None, aliases: List[str]=None, organization: str=None,
                  name: str=None, toolclass: ToolClass=None, description: str=None, meta_version: str=None,
                  has_checker: bool=None, checker_url: str=None, versions: List[ToolVersion]=None,
-                 license: str=None, similar_score: float = None, pulls : int = None, tool_tags: List[str] = None):  # noqa: E501
+                 license: str=None, similar_score: float = None, pulls : int = None, tool_tags: List[str] = None, tool_url: str = None):  # noqa: E501
         """Tool - a model defined in Swagger
 
         :param url: The url of this Tool.  # noqa: E501
@@ -60,7 +60,8 @@ class Tool(Model):
             'license' : str,
             'similar_score' : float,
             'pulls' : int,
-            'tool_tags': List[str]
+            'tool_tags': List[str],
+            'tool_url': str
         }
 
         self.attribute_map = {
@@ -78,7 +79,8 @@ class Tool(Model):
             'license':'license',
             'similar_score': 'similar_score',
             'pulls': 'pulls',
-            'tool_tags': 'tool_tags'
+            'tool_tags': 'tool_tags',
+            'tool_url': 'tool_url'
         }
         self._url = url
         self._id = id
@@ -95,6 +97,7 @@ class Tool(Model):
         self._similar_score = similar_score
         self._pulls = pulls
         self._tool_tags = tool_tags
+        self._tool_url = tool_url
 
     @classmethod
     def from_dict(cls, dikt) -> 'Tool':
@@ -406,3 +409,11 @@ class Tool(Model):
     @tool_tags.setter
     def tool_tags(self, tool_tags: List[str]):
         self._tool_tags = tool_tags
+
+    @property
+    def tool_url(self) -> str:
+        return self._tool_url
+
+    @tool_url.setter
+    def tool_url(self, tool_url: str):
+        self._tool_url = tool_url

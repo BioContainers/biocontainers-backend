@@ -55,6 +55,8 @@ def transform_mongo_tool_dict(mongo_tool):
     # Set the Tool Class
     mongo_tool_class = MongoTool.get_main_tool_class_dict(mongo_tool["tool_classes"])
     tool.toolclass = transform_dic_tool_class(mongo_tool_class)
+    if 'home_url' in mongo_tool:
+        tool.tool_url = mongo_tool['home_url']
 
     tool.versions = []
 
@@ -79,6 +81,7 @@ def transform_mongo_tool(mongo_tool, mongo_tool_versions):
     # Set the Tool Class
     mongo_tool_class = mongo_tool.get_main_tool_class()
     tool.toolclass = transform_mongo_tool_class(mongo_tool_class)
+    tool.tool_url = mongo_tool.home_url
 
     tool.versions = []
 
@@ -102,6 +105,7 @@ def transform_mongo_tool(mongo_tool):
     # Set the Tool Class
     mongo_tool_class = mongo_tool.get_main_tool_class()
     tool.toolclass = transform_mongo_tool_class(mongo_tool_class)
+    tool.tool_url = mongo_tool.home_url
 
     tool.versions = []
 
