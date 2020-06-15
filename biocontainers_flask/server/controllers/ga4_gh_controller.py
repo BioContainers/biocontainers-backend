@@ -6,7 +6,7 @@ from biocontainers.biomongo.helpers import InsertContainers
 
 from biocontainers.common.models import MongoTool, _CONSTANT_TOOL_CLASSES, MongoToolVersion, MongoWorkflow, SimilarTool
 from biocontainers_flask.server.controllers.utils import transform_dic_tool_class, \
-    transform_tool_version, transform_mongo_tool_dict, transform_mongo_tool
+    transform_tool_version, transform_mongo_tool_dict, transform_mongo_tool, get_facets
 
 from biocontainers_flask.server.models.file_wrapper import FileWrapper  # noqa: E501
 from biocontainers_flask.server.models.stat import Stat
@@ -14,7 +14,8 @@ from biocontainers_flask.server.models.tool import Tool  # noqa: E501
 from biocontainers_flask.server.models.tool_version import ToolVersion  # noqa: E501
 from biocontainers_flask.server.models.workflow import Workflow
 
-def facets_get(id=None, alias=None, tool_class=None, registry=None, organization=None, name=None, toolname=None, description=None, author=None, checker=None, offset=None, limit=None):  # noqa: E501
+def facets_get(id=None, alias=None, tool_class=None, registry=None, organization=None, name=None, toolname=None, description=None, author=None, checker=None,
+               all_fields_search=None):  # noqa: E501
     """Facets all the properties from tools
 
     This endpoint returns all facets properties available or a filtered subset using  metadata query parameters.  # noqa: E501
@@ -46,7 +47,23 @@ def facets_get(id=None, alias=None, tool_class=None, registry=None, organization
 
     :rtype: List[Facet]
     """
-    return 'do some magic!'
+    tools = []
+    is_all_field_search = False
+
+    if all_fields_search is not None:
+        id = alias = organization = name = toolname = description = author = all_fields_search
+        is_all_field_search = True
+
+    resp = MongoTool.get_tools(id=id, alias=alias, registry=registry, organization=organization, name=name,
+                               toolname=toolname, description=description, author=author,
+                               checker=checker, offset=0, limit=100000, is_all_field_search=is_all_field_search)
+
+    if resp is None:
+        return None
+
+    mongo_tools = resp.tools
+    facets = get_facets(mongo_tools)
+    return facets
 
 
 def tool_classes_get():  # noqa: E501

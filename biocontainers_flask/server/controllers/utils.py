@@ -1,8 +1,9 @@
-from biocontainers.common.models import MongoToolVersion, MongoTool
-from biocontainers_flask.server.models import ToolClass, Tool, ToolVersion
+from biocontainers.common.models import MongoToolVersion, MongoTool, Facet
+from biocontainers_flask.server.models import ToolClass, Tool, ToolVersion, Facet, FacetValue, ImageData, ImageType
 from biocontainers_flask.server.models.container_image import ContainerImage
 
-_PUBLIC_REGISTRY_URL = "http://api.biocontainers.pro/api/v2/"
+_PUBLIC_REGISTRY_URL = "http://api.biocontainers.pro/ga4gh/trs/v2/"
+_FACET_PROPERTIES = ['licenses', 'tool_tags']
 
 
 def transform_mongo_tool_class(mongo_tool_class):
@@ -41,12 +42,15 @@ def transform_mongo_tool_dict(mongo_tool):
     # By default all our tools will be declare as verified
     tool.verified = True
     tool.author = MongoTool.get_main_author_dict(mongo_tool["authors"])
-    tool.toolname = mongo_tool["name"]
+    tool.name = mongo_tool["name"]
     tool.url = _PUBLIC_REGISTRY_URL + "tools/" + tool.id
     count = 0
     if 'total_pulls' in mongo_tool:
         count = mongo_tool['total_pulls']
     tool.pulls = count
+
+    if 'tool_tags' in mongo_tool and len(mongo_tool['tool_tags']) > 0:
+        tool.tool_tags = mongo_tool['tool_tags']
 
     # Set the Tool Class
     mongo_tool_class = MongoTool.get_main_tool_class_dict(mongo_tool["tool_classes"])
@@ -83,6 +87,7 @@ def transform_mongo_tool(mongo_tool, mongo_tool_versions):
 
     return tool
 
+
 def transform_mongo_tool(mongo_tool):
     tool = Tool()
     tool.id = mongo_tool.id
@@ -102,6 +107,39 @@ def transform_mongo_tool(mongo_tool):
 
     return tool
 
+
+def get_facets(mongo_tools):
+    licenses = {}
+    tool_tags = {}
+    for tool in mongo_tools:
+        if 'license' in tool:
+            if tool['license'] in licenses:
+                licenses[tool['license']] = licenses[tool['license']] + 1
+            else:
+                licenses[tool['license']] = 1
+        if 'tool_tags' in tool:
+            for tag in tool['tool_tags']:
+                if tag in tool_tags:
+                    tool_tags[tag] = tool_tags[tag] + 1
+                else:
+                    tool_tags[tag] = 1
+
+    facets = []
+    if len(licenses) > 0:
+        facetValues = []
+        for license in licenses:
+            facetValue = FacetValue(license, licenses[license])
+            facetValues.append(facetValue)
+        facets.append(Facet('licenses', facetValues))
+    if len(tool_tags) > 0:
+        facetValues = []
+        for tag in tool_tags:
+            facetValue = FacetValue(tag, tool_tags[tag])
+            facetValues.append(facetValue)
+        facets.append(Facet('tool_tags', facetValues))
+    return facets
+
+
 def transform_tool_version(mongo_tool_version: MongoToolVersion, mongo_tool_id: str) -> ToolVersion:
     """
     This method retrieve the ToolVersion for an MongoToolVersion.
@@ -117,14 +155,27 @@ def transform_tool_version(mongo_tool_version: MongoToolVersion, mongo_tool_id: 
     tool_version.meta_version = mongo_tool_version.version
     container_images = []
     for old_container_image in mongo_tool_version.image_containers:
-        container_image = ContainerImage()
-        container_image.full_tag = old_container_image.full_tag
+        container_image = ImageData()
+
+        container_image.registry_host = 'registry.hub.docker.com'
+        if 'quay.io' in old_container_image.full_tag:
+            container_image.registry_host = 'quay.io/'
+        if old_container_image.container_type == 'CONDA':
+            container_image.registry_host = 'http://anaconda.org/'
+        if old_container_image.container_type == 'SINGULARITY':
+            container_image.registry_host = 'depot.galaxyproject.org/singularity/'
+        if 'containers.biocontainers.pro' in old_container_image.full_tag:
+            container_image.registry_host = 'containers.biocontainers.pro'
+        container_image.image_name = old_container_image.full_tag
         container_image.downloads = old_container_image.downloads
         container_image.size = old_container_image.size
-        container_image.container_type = old_container_image.container_type
-        container_image.last_updated = old_container_image.last_updated
+
+        if old_container_image.container_type == 'CONDA':
+            container_image.image_type = ImageType.CONDA
+
+        container_image.updated = old_container_image.last_updated
         container_images.append(container_image)
-    tool_version.container_images = container_images
+    tool_version.images = container_images
 
     return tool_version
 

@@ -77,8 +77,6 @@ paths:
             text/plain:
               schema:
                 $ref: '#/components/schemas/Error'
-      security:
-      - BEARER: []
       x-openapi-router-controller: biocontainers_flask.server.controllers.ga4_gh_controller
   /tools/{id}/versions:
     get:
@@ -112,8 +110,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ToolVersion'
-      security:
-      - BEARER: []
       x-openapi-router-controller: biocontainers_flask.server.controllers.ga4_gh_controller
   /tools/{id}/versions/{version_id}:
     get:
@@ -161,8 +157,6 @@ paths:
             text/plain:
               schema:
                 $ref: '#/components/schemas/Error'
-      security:
-      - BEARER: []
       x-openapi-router-controller: biocontainers_flask.server.controllers.ga4_gh_controller
   /tools:
     get:
@@ -278,6 +272,26 @@ paths:
           type: integer
           format: int32
           default: 1000
+      - name: all_fields_search
+        in: query
+        description: String to search all fields
+        required: false
+        schema:
+          type: string
+      - name: sort_field
+        in: query
+        description: Field to sortby
+        required: false
+        schema:
+          type: string
+          default: id
+      - name: sort_order
+        in: query
+        description: asc or desc
+        required: false
+        schema:
+          type: "string"
+          default: "asc"
       responses:
         "200":
           description: An array of Tools that match the filter.
@@ -420,63 +434,15 @@ paths:
         explode: true
         schema:
           type: boolean
-      - name: offset
+      - name: all_fields_search
         in: query
-        description: Start index of paging. Pagination results can be based on numbers
-          or other values chosen by the registry implementor (for example, SHA values).
-          If this exceeds the current result set return an empty set.  If not specified
-          in the request, this will start at the beginning of the results.
+        description: String to search all fields
         required: false
-        style: form
-        explode: true
         schema:
           type: string
-      - name: limit
-        in: query
-        description: Amount of records to return in a given page.
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: integer
-          format: int32
-          default: 1000
       responses:
         "200":
           description: An array of Facets that match the filter.
-          headers:
-            next_page:
-              description: A URL that can be used to reach the next page based on
-                the current offset and page record limit.
-              style: simple
-              explode: false
-              schema:
-                type: string
-            last_page:
-              description: A URL that can be used to reach the last page based on
-                the current page record limit.
-              style: simple
-              explode: false
-              schema:
-                type: string
-            self_link:
-              description: A URL that can be used to return to the current page later.
-              style: simple
-              explode: false
-              schema:
-                type: string
-            current_offset:
-              description: The current start index of the paging used for this result.
-              style: simple
-              explode: false
-              schema:
-                type: string
-            current_limit:
-              description: The current page record limit used for this result.
-              style: simple
-              explode: false
-              schema:
-                type: integer
           content:
             application/json:
               schema:
@@ -489,8 +455,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Facet'
-      security:
-      - BEARER: []
       x-openapi-router-controller: biocontainers_flask.server.controllers.ga4_gh_controller
   /tools/{id}/versions/{version_id}/{type}/descriptor:
     get:
@@ -549,8 +513,6 @@ paths:
             text/plain:
               schema:
                 $ref: '#/components/schemas/Error'
-      security:
-      - BEARER: []
       x-openapi-router-controller: biocontainers_flask.server.controllers.ga4_gh_controller
   /tools/{id}/versions/{version_id}/{type}/descriptor/{relative_path}:
     get:
@@ -628,8 +590,6 @@ paths:
             text/plain:
               schema:
                 $ref: '#/components/schemas/Error'
-      security:
-      - BEARER: []
       x-openapi-router-controller: biocontainers_flask.server.controllers.ga4_gh_controller
   /tools/{id}/versions/{version_id}/{type}/tests:
     get:
@@ -693,8 +653,6 @@ paths:
             text/plain:
               schema:
                 $ref: '#/components/schemas/Error'
-      security:
-      - BEARER: []
       x-openapi-router-controller: biocontainers_flask.server.controllers.ga4_gh_controller
   /tools/{id}/versions/{version_id}/{type}/files:
     get:
@@ -767,8 +725,6 @@ paths:
             application/zip:
               schema:
                 $ref: '#/components/schemas/Error'
-      security:
-      - BEARER: []
       x-openapi-router-controller: biocontainers_flask.server.controllers.ga4_gh_controller
   /tools/{id}/versions/{version_id}/containerfile:
     get:
@@ -823,16 +779,13 @@ paths:
             text/plain:
               schema:
                 $ref: '#/components/schemas/Error'
-      security:
-      - BEARER: []
       x-openapi-router-controller: biocontainers_flask.server.controllers.ga4_gh_controller
   /toolClasses:
     get:
       tags:
       - GA4GH
       summary: List all tool types
-      description: |
-        This endpoint returns all tool-classes available.
+      description: This endpoint returns all tool-classes available.
       operationId: tool_classes_get
       responses:
         "200":
@@ -849,8 +802,36 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ToolClass'
-      security:
-      - BEARER: []
+      x-openapi-router-controller: biocontainers_flask.server.controllers.ga4_gh_controller
+  /tools/{id}/similars:
+    get:
+      tags:
+        - GA4GH
+      summary: List all similar tools
+      description: This endpoint returns all tools available similar to the tool id
+      operationId: tools_get_similars
+      parameters:
+      - name: id
+        in: path
+        description: A unique identifier of the tool, scoped to this registry
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: A list of potential tool classes.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tool'
+                x-content-type: application/json
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tool'
       x-openapi-router-controller: biocontainers_flask.server.controllers.ga4_gh_controller
 components:
   schemas:

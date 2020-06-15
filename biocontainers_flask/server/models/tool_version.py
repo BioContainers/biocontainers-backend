@@ -16,7 +16,14 @@ class ToolVersion(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, author: List[str]=None, name: str=None, url: str=None, id: str=None, is_production: bool=None, images: List[ImageData]=None, descriptor_type: List[DescriptorType]=None, containerfile: bool=None, meta_version: str=None, verified: bool=None, verified_source: List[str]=None, signed: bool=None, included_apps: List[str]=None):  # noqa: E501
+    def __init__(self, author: List[str]=None, name: str=None, url: str=None,
+                 id: str=None, is_production: bool=None,
+                 images: List[ImageData]=None,
+                 descriptor_type: List[DescriptorType]=None,
+                 containerfile: bool=None,
+                 meta_version: str=None, verified: bool=None,
+                 verified_source: List[str]=None, signed: bool=None,
+                 included_apps: List[str]=None):  # noqa: E501
         """ToolVersion - a model defined in Swagger
 
         :param author: The author of this ToolVersion.  # noqa: E501

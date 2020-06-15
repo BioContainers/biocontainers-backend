@@ -16,7 +16,10 @@ class Tool(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, url: str=None, id: str=None, aliases: List[str]=None, organization: str=None, name: str=None, toolclass: ToolClass=None, description: str=None, meta_version: str=None, has_checker: bool=None, checker_url: str=None, versions: List[ToolVersion]=None):  # noqa: E501
+    def __init__(self, url: str=None, id: str=None, aliases: List[str]=None, organization: str=None,
+                 name: str=None, toolclass: ToolClass=None, description: str=None, meta_version: str=None,
+                 has_checker: bool=None, checker_url: str=None, versions: List[ToolVersion]=None,
+                 license: str=None, similar_score: float = None, pulls : int = None, tool_tags: List[str] = None):  # noqa: E501
         """Tool - a model defined in Swagger
 
         :param url: The url of this Tool.  # noqa: E501
@@ -53,7 +56,11 @@ class Tool(Model):
             'meta_version': str,
             'has_checker': bool,
             'checker_url': str,
-            'versions': List[ToolVersion]
+            'versions': List[ToolVersion],
+            'license' : str,
+            'similar_score' : float,
+            'pulls' : int,
+            'tool_tags': List[str]
         }
 
         self.attribute_map = {
@@ -67,7 +74,11 @@ class Tool(Model):
             'meta_version': 'meta_version',
             'has_checker': 'has_checker',
             'checker_url': 'checker_url',
-            'versions': 'versions'
+            'versions': 'versions',
+            'license':'license',
+            'similar_score': 'similar_score',
+            'pulls': 'pulls',
+            'tool_tags': 'tool_tags'
         }
         self._url = url
         self._id = id
@@ -80,6 +91,10 @@ class Tool(Model):
         self._has_checker = has_checker
         self._checker_url = checker_url
         self._versions = versions
+        self._license = license
+        self._similar_score = similar_score
+        self._pulls = pulls
+        self._tool_tags = tool_tags
 
     @classmethod
     def from_dict(cls, dikt) -> 'Tool':
@@ -383,3 +398,11 @@ class Tool(Model):
     @pulls.setter
     def pulls(self, pulls: int):
         self._pulls = pulls
+
+    @property
+    def tool_tags(self) -> List[str]:
+        return self._tool_tags
+
+    @tool_tags.setter
+    def tool_tags(self, tool_tags: List[str]):
+        self._tool_tags = tool_tags
