@@ -164,21 +164,23 @@ def transform_tool_version(mongo_tool_version: MongoToolVersion, mongo_tool_id: 
         container_image.registry_host = 'registry.hub.docker.com'
         if 'quay.io' in old_container_image.full_tag:
             container_image.registry_host = 'quay.io/'
+            container_image.image_type = ImageType.DOCKER
         if old_container_image.container_type == 'CONDA':
             container_image.registry_host = 'http://anaconda.org/'
+            container_image.image_type = ImageType.CONDA
         if old_container_image.container_type == 'SINGULARITY':
             container_image.registry_host = 'depot.galaxyproject.org/singularity/'
+            container_image.image_type = ImageType.SINGULARITY
         if 'containers.biocontainers.pro' in old_container_image.full_tag:
             container_image.registry_host = 'containers.biocontainers.pro'
+            container_image.image_type = ImageType.DOCKER
+
         container_image.image_name = old_container_image.full_tag
         container_image.downloads = old_container_image.downloads
         container_image.size = old_container_image.size
-
-        if old_container_image.container_type == 'CONDA':
-            container_image.image_type = ImageType.CONDA
-
         container_image.updated = old_container_image.last_updated
         container_images.append(container_image)
+
     tool_version.images = container_images
 
     return tool_version
