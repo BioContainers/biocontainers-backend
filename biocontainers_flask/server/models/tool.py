@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from __future__ import absolute_import
+from datetime import date, datetime  # noqa: F401
 
 from typing import List  # noqa: F401
 
@@ -15,9 +16,10 @@ class Tool(Model):
 
     Do not edit the class manually.
     """
-
-    def __init__(self, url: str=None, id: str=None, aliases: List[str]=None, organization: str=None, toolname: str=None, toolclass: ToolClass=None, description: str=None, author: str=None, meta_version: str=None, contains: List[str]=None, has_checker: bool=None,
-                 checker_url: str=None, verified: bool=None, verified_source: str=None, signed: bool=None, versions: List[ToolVersion]=None, license: str=None, similar_score: float = None, pulls : int = None):  # noqa: E501
+    def __init__(self, url: str=None, id: str=None, aliases: List[str]=None, organization: str=None,
+                 name: str=None, toolclass: ToolClass=None, description: str=None, meta_version: str=None,
+                 has_checker: bool=None, checker_url: str=None, versions: List[ToolVersion]=None,
+                 license: str=None, similar_score: float = None, pulls : int = None, tool_tags: List[str] = None, tool_url: str = None):  # noqa: E501
         """Tool - a model defined in Swagger
 
         :param url: The url of this Tool.  # noqa: E501
@@ -28,28 +30,18 @@ class Tool(Model):
         :type aliases: List[str]
         :param organization: The organization of this Tool.  # noqa: E501
         :type organization: str
-        :param toolname: The toolname of this Tool.  # noqa: E501
-        :type toolname: str
+        :param name: The name of this Tool.  # noqa: E501
+        :type name: str
         :param toolclass: The toolclass of this Tool.  # noqa: E501
         :type toolclass: ToolClass
         :param description: The description of this Tool.  # noqa: E501
         :type description: str
-        :param author: The author of this Tool.  # noqa: E501
-        :type author: str
         :param meta_version: The meta_version of this Tool.  # noqa: E501
         :type meta_version: str
-        :param contains: The contains of this Tool.  # noqa: E501
-        :type contains: List[str]
         :param has_checker: The has_checker of this Tool.  # noqa: E501
         :type has_checker: bool
         :param checker_url: The checker_url of this Tool.  # noqa: E501
         :type checker_url: str
-        :param verified: The verified of this Tool.  # noqa: E501
-        :type verified: bool
-        :param verified_source: The verified_source of this Tool.  # noqa: E501
-        :type verified_source: str
-        :param signed: The signed of this Tool.  # noqa: E501
-        :type signed: bool
         :param versions: The versions of this Tool.  # noqa: E501
         :type versions: List[ToolVersion]
         """
@@ -58,21 +50,18 @@ class Tool(Model):
             'id': str,
             'aliases': List[str],
             'organization': str,
-            'toolname': str,
+            'name': str,
             'toolclass': ToolClass,
             'description': str,
-            'author': str,
             'meta_version': str,
-            'contains': List[str],
             'has_checker': bool,
             'checker_url': str,
-            'verified': bool,
-            'verified_source': str,
-            'signed': bool,
             'versions': List[ToolVersion],
             'license' : str,
             'similar_score' : float,
-            'pulls' : int
+            'pulls' : int,
+            'tool_tags': List[str],
+            'tool_url': str
         }
 
         self.attribute_map = {
@@ -80,42 +69,35 @@ class Tool(Model):
             'id': 'id',
             'aliases': 'aliases',
             'organization': 'organization',
-            'toolname': 'toolname',
+            'name': 'name',
             'toolclass': 'toolclass',
             'description': 'description',
-            'author': 'author',
             'meta_version': 'meta_version',
-            'contains': 'contains',
             'has_checker': 'has_checker',
             'checker_url': 'checker_url',
-            'verified': 'verified',
-            'verified_source': 'verified_source',
-            'signed': 'signed',
             'versions': 'versions',
             'license':'license',
             'similar_score': 'similar_score',
-            'pulls': 'pulls'
+            'pulls': 'pulls',
+            'tool_tags': 'tool_tags',
+            'tool_url': 'tool_url'
         }
-
         self._url = url
         self._id = id
         self._aliases = aliases
         self._organization = organization
-        self._toolname = toolname
+        self._name = name
         self._toolclass = toolclass
         self._description = description
-        self._author = author
         self._meta_version = meta_version
-        self._contains = contains
         self._has_checker = has_checker
         self._checker_url = checker_url
-        self._verified = verified
-        self._verified_source = verified_source
-        self._signed = signed
         self._versions = versions
         self._license = license
         self._similar_score = similar_score
         self._pulls = pulls
+        self._tool_tags = tool_tags
+        self._tool_url = tool_url
 
     @classmethod
     def from_dict(cls, dikt) -> 'Tool':
@@ -132,7 +114,7 @@ class Tool(Model):
     def url(self) -> str:
         """Gets the url of this Tool.
 
-        The URL for this tool in this registry  # noqa: E501
+        The URL for this tool in this registry.  # noqa: E501
 
         :return: The url of this Tool.
         :rtype: str
@@ -143,7 +125,7 @@ class Tool(Model):
     def url(self, url: str):
         """Sets the url of this Tool.
 
-        The URL for this tool in this registry  # noqa: E501
+        The URL for this tool in this registry.  # noqa: E501
 
         :param url: The url of this Tool.
         :type url: str
@@ -157,7 +139,7 @@ class Tool(Model):
     def id(self) -> str:
         """Gets the id of this Tool.
 
-        A unique identifier of the tool, scoped to this registry  # noqa: E501
+        A unique identifier of the tool, scoped to this registry.  # noqa: E501
 
         :return: The id of this Tool.
         :rtype: str
@@ -168,7 +150,7 @@ class Tool(Model):
     def id(self, id: str):
         """Sets the id of this Tool.
 
-        A unique identifier of the tool, scoped to this registry  # noqa: E501
+        A unique identifier of the tool, scoped to this registry.  # noqa: E501
 
         :param id: The id of this Tool.
         :type id: str
@@ -182,7 +164,7 @@ class Tool(Model):
     def aliases(self) -> List[str]:
         """Gets the aliases of this Tool.
 
-        OPTIONAL A list of strings that can be used to identify this tool. This can be used to expose alternative ids (such as GUIDs) for a tool for registries. Can be used to match tools across registries.  # noqa: E501
+        Support for this parameter is optional for tool registries that support aliases. A list of strings that can be used to identify this tool which could be  straight up URLs.  This can be used to expose alternative ids (such as GUIDs) for a tool for registries. Can be used to match tools across registries.  # noqa: E501
 
         :return: The aliases of this Tool.
         :rtype: List[str]
@@ -193,7 +175,7 @@ class Tool(Model):
     def aliases(self, aliases: List[str]):
         """Sets the aliases of this Tool.
 
-        OPTIONAL A list of strings that can be used to identify this tool. This can be used to expose alternative ids (such as GUIDs) for a tool for registries. Can be used to match tools across registries.  # noqa: E501
+        Support for this parameter is optional for tool registries that support aliases. A list of strings that can be used to identify this tool which could be  straight up URLs.  This can be used to expose alternative ids (such as GUIDs) for a tool for registries. Can be used to match tools across registries.  # noqa: E501
 
         :param aliases: The aliases of this Tool.
         :type aliases: List[str]
@@ -227,27 +209,27 @@ class Tool(Model):
         self._organization = organization
 
     @property
-    def toolname(self) -> str:
-        """Gets the toolname of this Tool.
+    def name(self) -> str:
+        """Gets the name of this Tool.
 
         The name of the tool.  # noqa: E501
 
-        :return: The toolname of this Tool.
+        :return: The name of this Tool.
         :rtype: str
         """
-        return self._toolname
+        return self._name
 
-    @toolname.setter
-    def toolname(self, toolname: str):
-        """Sets the toolname of this Tool.
+    @name.setter
+    def name(self, name: str):
+        """Sets the name of this Tool.
 
         The name of the tool.  # noqa: E501
 
-        :param toolname: The toolname of this Tool.
-        :type toolname: str
+        :param name: The name of this Tool.
+        :type name: str
         """
 
-        self._toolname = toolname
+        self._name = name
 
     @property
     def toolclass(self) -> ToolClass:
@@ -296,31 +278,6 @@ class Tool(Model):
         self._description = description
 
     @property
-    def author(self) -> str:
-        """Gets the author of this Tool.
-
-        Contact information for the author of this tool entry in the registry. (More complex authorship information is handled by the descriptor)  # noqa: E501
-
-        :return: The author of this Tool.
-        :rtype: str
-        """
-        return self._author
-
-    @author.setter
-    def author(self, author: str):
-        """Sets the author of this Tool.
-
-        Contact information for the author of this tool entry in the registry. (More complex authorship information is handled by the descriptor)  # noqa: E501
-
-        :param author: The author of this Tool.
-        :type author: str
-        """
-        if author is None:
-            raise ValueError("Invalid value for `author`, must not be `None`")  # noqa: E501
-
-        self._author = author
-
-    @property
     def meta_version(self) -> str:
         """Gets the meta_version of this Tool.
 
@@ -344,33 +301,10 @@ class Tool(Model):
         self._meta_version = meta_version
 
     @property
-    def contains(self) -> List[str]:
-        """Gets the contains of this Tool.
-
-        An array of IDs for the applications that are stored inside this tool  # noqa: E501
-
-        :return: The contains of this Tool.
-        :rtype: List[str]
-        """
-        return self._contains
-
-    @contains.setter
-    def contains(self, contains: List[str]):
-        """Sets the contains of this Tool.
-
-        An array of IDs for the applications that are stored inside this tool  # noqa: E501
-
-        :param contains: The contains of this Tool.
-        :type contains: List[str]
-        """
-
-        self._contains = contains
-
-    @property
     def has_checker(self) -> bool:
         """Gets the has_checker of this Tool.
 
-        Whether this tool has a checker tool associated with it  # noqa: E501
+        Whether this tool has a checker tool associated with it.  # noqa: E501
 
         :return: The has_checker of this Tool.
         :rtype: bool
@@ -381,7 +315,7 @@ class Tool(Model):
     def has_checker(self, has_checker: bool):
         """Sets the has_checker of this Tool.
 
-        Whether this tool has a checker tool associated with it  # noqa: E501
+        Whether this tool has a checker tool associated with it.  # noqa: E501
 
         :param has_checker: The has_checker of this Tool.
         :type has_checker: bool
@@ -413,79 +347,10 @@ class Tool(Model):
         self._checker_url = checker_url
 
     @property
-    def verified(self) -> bool:
-        """Gets the verified of this Tool.
-
-        Reports whether this tool has been verified by a specific organization or individual  # noqa: E501
-
-        :return: The verified of this Tool.
-        :rtype: bool
-        """
-        return self._verified
-
-    @verified.setter
-    def verified(self, verified: bool):
-        """Sets the verified of this Tool.
-
-        Reports whether this tool has been verified by a specific organization or individual  # noqa: E501
-
-        :param verified: The verified of this Tool.
-        :type verified: bool
-        """
-
-        self._verified = verified
-
-    @property
-    def verified_source(self) -> str:
-        """Gets the verified_source of this Tool.
-
-        Source of metadata that can support a verified tool, such as an email or URL  # noqa: E501
-
-        :return: The verified_source of this Tool.
-        :rtype: str
-        """
-        return self._verified_source
-
-    @verified_source.setter
-    def verified_source(self, verified_source: str):
-        """Sets the verified_source of this Tool.
-
-        Source of metadata that can support a verified tool, such as an email or URL  # noqa: E501
-
-        :param verified_source: The verified_source of this Tool.
-        :type verified_source: str
-        """
-
-        self._verified_source = verified_source
-
-    @property
-    def signed(self) -> bool:
-        """Gets the signed of this Tool.
-
-        Reports whether this tool has been signed.  # noqa: E501
-
-        :return: The signed of this Tool.
-        :rtype: bool
-        """
-        return self._signed
-
-    @signed.setter
-    def signed(self, signed: bool):
-        """Sets the signed of this Tool.
-
-        Reports whether this tool has been signed.  # noqa: E501
-
-        :param signed: The signed of this Tool.
-        :type signed: bool
-        """
-
-        self._signed = signed
-
-    @property
     def versions(self) -> List[ToolVersion]:
         """Gets the versions of this Tool.
 
-        A list of versions for this tool  # noqa: E501
+        A list of versions for this tool.  # noqa: E501
 
         :return: The versions of this Tool.
         :rtype: List[ToolVersion]
@@ -496,7 +361,7 @@ class Tool(Model):
     def versions(self, versions: List[ToolVersion]):
         """Sets the versions of this Tool.
 
-        A list of versions for this tool  # noqa: E501
+        A list of versions for this tool.  # noqa: E501
 
         :param versions: The versions of this Tool.
         :type versions: List[ToolVersion]
@@ -536,3 +401,19 @@ class Tool(Model):
     @pulls.setter
     def pulls(self, pulls: int):
         self._pulls = pulls
+
+    @property
+    def tool_tags(self) -> List[str]:
+        return self._tool_tags
+
+    @tool_tags.setter
+    def tool_tags(self, tool_tags: List[str]):
+        self._tool_tags = tool_tags
+
+    @property
+    def tool_url(self) -> str:
+        return self._tool_url
+
+    @tool_url.setter
+    def tool_url(self, tool_url: str):
+        self._tool_url = tool_url

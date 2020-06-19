@@ -7,7 +7,7 @@ from pymongo.errors import DuplicateKeyError
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 from biocontainers.common.models import MongoToolVersion, ContainerImage, MongoTool, _CONSTANT_TOOL_CLASSES, \
-    MongoWorkflow, Publication, SimilarTool
+    MongoWorkflow, Publication, SimilarTool, Facet, mongo_encode_key
 from biocontainers.conda.conda_metrics import CondaMetrics
 from biocontainers.github.models import LocalGitReader
 
@@ -57,6 +57,45 @@ class InsertContainers:
             for a in result['similars']:
                 similar.add_similar(a['id'], a['score'])
             similar.save()
+
+    @staticmethod
+    def compute_facets():
+        tool_tags = {}
+        licenses  = {}
+        facet = Facet.get_facet_by_id("tool_tags")
+        license = Facet.get_facet_by_id("licenses")
+
+        if facet is not None:
+            tool_tags = facet.values
+        if license is not None:
+            licenses = license.values
+
+        tools = list(MongoTool.get_all_tools())
+
+        for tool in tools:
+            for keyword in tool.tool_tags:
+                if keyword in tool_tags:
+                    tool_tags[keyword] = tool_tags[keyword] + 1
+                else:
+                    tool_tags[keyword] = 1
+            current_license = tool.license
+            # This is needed to mongoDB key-> can contains sometimes .
+            if current_license is not None:
+                current_license = mongo_encode_key(current_license)
+                if current_license in licenses:
+                    licenses[current_license] = licenses[current_license] + 1
+                else:
+                    licenses[current_license] = 1
+        if facet is None:
+            facet = Facet()
+        facet.id = "tool_tags"
+        facet.values = tool_tags
+
+        if license is None:
+            license = Facet()
+        license.id = "licenses"
+        license.values = licenses
+        license.save()
 
     @staticmethod
     def insert_quayio_containers(quayio_containers):
@@ -550,9 +589,13 @@ class InsertContainers:
         return to_map
 
     def update_from_file(self, file_annotations):
+        """
+        This methods update the metadata of the tool from a file:
+        https://github.com/BioContainers/tools-metadata/blob/master/annotations.yaml
+        """
         for key in file_annotations:
             tool_file = file_annotations[key]
-            if 'manually_check' in tool_file and tool_file['manually_check']:
+            if 'manually_check' in tool_file and tool_file['manually_check'] == True:
                 mongo_tool = MongoTool.get_tool_by_id(key)
                 changed = False
                 if mongo_tool is not None:
@@ -564,7 +607,19 @@ class InsertContainers:
                         changed = True
                     if mongo_tool.home_url != tool_file['home_url']:
                         mongo_tool.home_url = tool_file['home_url']
-                        changed =True
+                        changed = True
+                    if 'identifiers' in tool_file and tool_file['identifiers'] != mongo_tool.additional_identifiers:
+                        mongo_tool.add_additional_identifiers = tool_file['identifiers']
+                        changed = True
+                    if 'keywords' in tool_file and len(tool_file['keywords']) > 0:
+                        tags = []
+                        if mongo_tool.tool_tags is not None:
+                            tags = mongo_tool.tool_tags
+                        for keyword in tool_file['keywords']:
+                            tags.append(keyword)
+                        tags = list(dict.fromkeys(tags))
+                        mongo_tool.tool_tags = tags
+                        changed = True
                     if changed:
                         mongo_tool.save()
                         logger.info("The tool has been updated  " + key)

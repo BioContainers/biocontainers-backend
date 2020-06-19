@@ -37,6 +37,7 @@ class TestGA4GHController(BaseTestCase):
         """
         query_string = [('id', 'id_example'),
                         ('alias', 'alias_example'),
+                        ('tool_class', 'tool_class_example'),
                         ('registry', 'registry_example'),
                         ('organization', 'organization_example'),
                         ('name', 'name_example'),

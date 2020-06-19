@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from __future__ import absolute_import
+from datetime import date, datetime  # noqa: F401
 
 from biocontainers_flask.server import util
 from biocontainers_flask.server.models.base_model_ import Model
@@ -11,7 +12,6 @@ class ToolFile(Model):
 
     Do not edit the class manually.
     """
-
     def __init__(self, path: str=None, file_type: str=None):  # noqa: E501
         """ToolFile - a model defined in Swagger
 
@@ -29,7 +29,6 @@ class ToolFile(Model):
             'path': 'path',
             'file_type': 'file_type'
         }
-
         self._path = path
         self._file_type = file_type
 
@@ -48,7 +47,7 @@ class ToolFile(Model):
     def path(self) -> str:
         """Gets the path of this ToolFile.
 
-        Relative path of the file.  A descriptor's path can be used with the GA4GH .../{type}/descriptor/{relative_path} endpoint  # noqa: E501
+        Relative path of the file.  A descriptor's path can be used with the GA4GH .../{type}/descriptor/{relative_path} endpoint.  # noqa: E501
 
         :return: The path of this ToolFile.
         :rtype: str
@@ -59,7 +58,7 @@ class ToolFile(Model):
     def path(self, path: str):
         """Sets the path of this ToolFile.
 
-        Relative path of the file.  A descriptor's path can be used with the GA4GH .../{type}/descriptor/{relative_path} endpoint  # noqa: E501
+        Relative path of the file.  A descriptor's path can be used with the GA4GH .../{type}/descriptor/{relative_path} endpoint.  # noqa: E501
 
         :param path: The path of this ToolFile.
         :type path: str

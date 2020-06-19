@@ -141,6 +141,12 @@ class SimilarQuerySet(QuerySet):
         return self.raw({'id': tool_id})
 
 
+class FacetQuerySet(QuerySet):
+
+    def get_property_facet(self, id):
+        return self.raw({'id': id})
+
+
 class ToolVersionQuerySet(QuerySet):
 
     def mongo_all_tool_versions(self):
@@ -176,6 +182,27 @@ class Similar(EmbeddedMongoModel):
     score = fields.FloatField()
 
 
+class Facet(MongoModel):
+    id = fields.CharField(max_length=200, blank=False, required=True)
+    values = fields.DictField('Values')
+
+    manager = Manager.from_queryset(FacetQuerySet)()
+
+    @staticmethod
+    def get_facet_by_id(id):
+        facets = list(Facet.manager.get_property_facet(id))
+        if (len(facets) > 0):
+            return facets[0]
+        return None
+
+
+def mongo_encode_key(key: str):
+    return key.replace("\\", "\\\\").replace("\$", "\\u0024").replace(".", "\\u002e")
+
+def mongo_decode_key(key: str):
+    return key.replace("\\u002e", ".").replace("\\u0024", "\$").replace("\\\\", "\\")
+
+
 class SimilarTool(MongoModel):
     id = fields.CharField(max_length=200, blank=False, required=True)
     similars = fields.EmbeddedDocumentListField('Similar')
@@ -205,6 +232,7 @@ class SimilarTool(MongoModel):
 class PullProvider(EmbeddedMongoModel):
     id = fields.CharField()
     count = fields.IntegerField()
+
 
 class MongoTool(MongoModel):
     """
@@ -370,7 +398,6 @@ class MongoTool(MongoModel):
             count = self.total_pulls
         return count
 
-
     @staticmethod
     def get_main_author_dict(authors):
         """
@@ -440,7 +467,8 @@ class MongoTool(MongoModel):
             filters.append({"name": {"$regex": toolname, '$options': 'i'}})  # toolname : The name of the tool
         if toolclass is not None:
             unwind_tool_classes = {"$unwind": "$tool_classes"}
-            filters.append({"tool_classes.name": {"$regex": toolclass, '$options': 'i'}})  # toolclass : type of the tool
+            filters.append(
+                {"tool_classes.name": {"$regex": toolclass, '$options': 'i'}})  # toolclass : type of the tool
         if description is not None:
             filters.append({"description": {"$regex": description, '$options': 'i'}})
         if author is not None:

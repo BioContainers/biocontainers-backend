@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from __future__ import absolute_import
+from datetime import date, datetime  # noqa: F401
 
 from biocontainers_flask.server import util
 from biocontainers_flask.server.models.base_model_ import Model
@@ -11,7 +12,6 @@ class ToolClass(Model):
 
     Do not edit the class manually.
     """
-
     def __init__(self, id: str=None, name: str=None, description: str=None):  # noqa: E501
         """ToolClass - a model defined in Swagger
 
@@ -33,7 +33,6 @@ class ToolClass(Model):
             'name': 'name',
             'description': 'description'
         }
-
         self._id = id
         self._name = name
         self._description = description
@@ -53,7 +52,7 @@ class ToolClass(Model):
     def id(self) -> str:
         """Gets the id of this ToolClass.
 
-        The unique identifier for the class  # noqa: E501
+        The unique identifier for the class.  # noqa: E501
 
         :return: The id of this ToolClass.
         :rtype: str
@@ -64,7 +63,7 @@ class ToolClass(Model):
     def id(self, id: str):
         """Sets the id of this ToolClass.
 
-        The unique identifier for the class  # noqa: E501
+        The unique identifier for the class.  # noqa: E501
 
         :param id: The id of this ToolClass.
         :type id: str
@@ -76,7 +75,7 @@ class ToolClass(Model):
     def name(self) -> str:
         """Gets the name of this ToolClass.
 
-        A short friendly name for the class  # noqa: E501
+        A short friendly name for the class.  # noqa: E501
 
         :return: The name of this ToolClass.
         :rtype: str
@@ -87,7 +86,7 @@ class ToolClass(Model):
     def name(self, name: str):
         """Sets the name of this ToolClass.
 
-        A short friendly name for the class  # noqa: E501
+        A short friendly name for the class.  # noqa: E501
 
         :param name: The name of this ToolClass.
         :type name: str
@@ -99,7 +98,7 @@ class ToolClass(Model):
     def description(self) -> str:
         """Gets the description of this ToolClass.
 
-        A longer explanation of what this class is and what it can accomplish  # noqa: E501
+        A longer explanation of what this class is and what it can accomplish.  # noqa: E501
 
         :return: The description of this ToolClass.
         :rtype: str
@@ -110,7 +109,7 @@ class ToolClass(Model):
     def description(self, description: str):
         """Sets the description of this ToolClass.
 
-        A longer explanation of what this class is and what it can accomplish  # noqa: E501
+        A longer explanation of what this class is and what it can accomplish.  # noqa: E501
 
         :param description: The description of this ToolClass.
         :type description: str
