@@ -74,7 +74,7 @@ def transform_mongo_tool(mongo_tool, mongo_tool_versions):
     tool.verified = True
     tool.author = mongo_tool.get_main_author()
     tool.license = mongo_tool.license
-    tool.toolname = mongo_tool.name
+    tool.name = mongo_tool.name
     tool.pulls = mongo_tool.get_pulls()
     tool.url = _PUBLIC_REGISTRY_URL + "tool/" + tool.id
 
@@ -99,7 +99,7 @@ def transform_mongo_tool(mongo_tool):
     tool.verified = True
     tool.author = mongo_tool.get_main_author()
     tool.license = mongo_tool.license
-    tool.toolname = mongo_tool.name
+    tool.name = mongo_tool.name
     tool.url = _PUBLIC_REGISTRY_URL + "tool/" + tool.id
 
     # Set the Tool Class
