@@ -833,8 +833,48 @@ paths:
                 items:
                   $ref: '#/components/schemas/Tool'
       x-openapi-router-controller: biocontainers_flask.server.controllers.ga4_gh_controller
+  /stats:
+    get:
+      tags:
+        - stats
+      summary: "Return some metadata that is useful for describing this registry"
+      description: "Return some metadata that is useful for describing this registry"
+      operationId: "stats"
+      parameters: []
+      responses:
+        "200":
+          description: A list of potential tool classes.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Stat'
+                x-content-type: application/json
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Stat'
+      x-openapi-router-controller: biocontainers_flask.server.controllers.ga4_gh_controller
 components:
   schemas:
+    Stat:
+      type: "object"
+      required:
+        - "name"
+        - "value"
+      properties:
+        name:
+          type: string
+          description: "name of the stats"
+        value:
+          type: string
+          description: "Value of the stats"
+      description: "Provides a set of stats abotu the containers"
+      example:
+        name: "tool_counts"
+        value: "20"
     Checksum:
       required:
       - checksum
