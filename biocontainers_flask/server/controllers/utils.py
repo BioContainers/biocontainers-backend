@@ -101,6 +101,7 @@ def transform_mongo_tool(mongo_tool):
     tool.license = mongo_tool.license
     tool.name = mongo_tool.name
     tool.url = _PUBLIC_REGISTRY_URL + "tool/" + tool.id
+    tool.pulls = mongo_tool.total_pulls
 
     # Set the Tool Class
     mongo_tool_class = mongo_tool.get_main_tool_class()
