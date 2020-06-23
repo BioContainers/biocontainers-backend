@@ -977,6 +977,9 @@ components:
           type: string
           description: Optional url to the checker tool that will exit successfully
             if this tool produced the expected result given test data.
+        idnetifiers:
+          type: array
+          description: "List of identifiers associated with the tool in the way key:value"
         versions:
           type: array
           description: A list of versions for this tool.

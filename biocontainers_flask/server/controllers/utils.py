@@ -59,7 +59,17 @@ def transform_mongo_tool_dict(mongo_tool):
         tool.tool_url = mongo_tool['home_url']
 
     tool.versions = []
+    identifiers = []
 
+    if 'additional_identifiers' in mongo_tool:
+       for a in mongo_tool['additional_identifiers']:
+           if ':' in a:
+               identifiers.append(a)
+    if 'publications' in mongo_tool:
+        for a in mongo_tool['publications']:
+            if 'pubmed_id' in a:
+                identifiers.append("PMID:" + a['pubmed_id'])
+    tool.identifiers = identifiers
     for mongo_tool_version in mongo_tool["tool_versions"]:
         tool.versions.append(transform_tool_version_dict(mongo_tool_version, mongo_tool["id"]))
 
