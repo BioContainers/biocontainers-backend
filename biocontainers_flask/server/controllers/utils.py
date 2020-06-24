@@ -109,6 +109,7 @@ def transform_mongo_tool(mongo_tool, mongo_tool_versions):
     for mongo_tool_version in mongo_tool_versions:
         tool.versions.append(transform_tool_version(mongo_tool_version, mongo_tool.id))
 
+
     return tool
 
 
