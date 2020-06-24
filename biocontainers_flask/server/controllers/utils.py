@@ -70,9 +70,20 @@ def transform_mongo_tool_dict(mongo_tool):
             if 'pubmed_id' in a:
                 identifiers.append("PMID:" + a['pubmed_id'])
     tool.identifiers = identifiers
+
+    contains = []
+
+
+
     for mongo_tool_version in mongo_tool["tool_versions"]:
         tool.versions.append(transform_tool_version_dict(mongo_tool_version, mongo_tool["id"]))
+        if 'contains' in mongo_tool_version:
+            for a in mongo_tool_version['contains']:
+                container = a.split("=")[0]
+                if '#' not in container:
+                    contains.append(container)
 
+    tool.contains = contains
     return tool
 
 

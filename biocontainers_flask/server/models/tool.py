@@ -18,7 +18,7 @@ class Tool(Model):
     """
     def __init__(self, url: str=None, id: str=None, aliases: List[str]=None, organization: str=None,
                  name: str=None, toolclass: ToolClass=None, description: str=None, meta_version: str=None,
-                 has_checker: bool=None, checker_url: str=None, identifiers: List[str] = None, versions: List[ToolVersion]=None,
+                 has_checker: bool=None, checker_url: str=None, identifiers: List[str] = None, contains: List[str] = None, versions: List[ToolVersion]=None,
                  license: str=None, similar_score: float = None, pulls : int = None, tool_tags: List[str] = None, tool_url: str = None):  # noqa: E501
         """Tool - a model defined in Swagger
 
@@ -56,7 +56,8 @@ class Tool(Model):
             'meta_version': str,
             'has_checker': bool,
             'checker_url': str,
-            'identifiers':str,
+            'identifiers':List[str],
+            'contains': List[str],
             'versions': List[ToolVersion],
             'license' : str,
             'similar_score' : float,
@@ -77,6 +78,7 @@ class Tool(Model):
             'has_checker': 'has_checker',
             'checker_url': 'checker_url',
             'identifiers': 'identifiers',
+            'contains': 'contains',
             'versions': 'versions',
             'license':'license',
             'similar_score': 'similar_score',
@@ -101,6 +103,7 @@ class Tool(Model):
         self._pulls = pulls
         self._tool_tags = tool_tags
         self._tool_url = tool_url
+        self._contains = contains
 
     @classmethod
     def from_dict(cls, dikt) -> 'Tool':
@@ -428,3 +431,11 @@ class Tool(Model):
     @identifiers.setter
     def identifiers(self, identifiers: List[str]):
         self._identifiers = identifiers
+
+    @property
+    def contains(self) -> str:
+        return self._contains
+
+    @contains.setter
+    def contains(self, contains: List[str]):
+        self._contains = contains
