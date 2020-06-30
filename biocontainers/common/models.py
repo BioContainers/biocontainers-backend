@@ -450,11 +450,12 @@ class MongoTool(MongoModel):
 
     @staticmethod
     def get_tools(id=None, alias=None, registry=None, organization=None, name=None, toolname=None, toolclass=None,
-                  description=None, author=None, checker=None, offset=None, limit=None, is_all_field_search=False,
+                  description=None, author=None, checker=None, license = None, tool_tags = None, facets = None, offset=None, limit=None, is_all_field_search=False,
                   sort_field=None, sort_order=None):
 
         unwind_tool_classes = None
         filters = []
+        facets_filter = []
         if id is not None:
             filters.append({"id": {"$regex": id, '$options': 'i'}})
         if alias is not None:
@@ -473,7 +474,17 @@ class MongoTool(MongoModel):
             filters.append({"description": {"$regex": description, '$options': 'i'}})
         if author is not None:
             filters.append({"authors": {"$regex": author, '$options': 'i'}})
+        if license is not None:
+            filters.append({"license": {"$regex": license, '$options': 'i'}})
+        if tool_tags is not None:
+            filters.append({"tool_tags": {"$regex": tool_tags, '$options': 'i'}})
         # if checker is not None:  # TODO
+
+        if facets is not None:
+            for facet in facets:
+                for facet_value in facets[facet]:
+                    facets_filter.append({facet: {"$regex": facet_value, '$options': 'i'}})
+
 
         versions_string = "tool_versions"
         if name is not None:  # name : The name of the image i.e., tool_version
@@ -494,6 +505,9 @@ class MongoTool(MongoModel):
             filters_query = {"$or": filters}
         else:
             filters_query = {"$and": filters}
+
+        if len(facets_filter) > 0:
+            filters_query["$and"] = facets_filter
 
         match_condition = {"$match": filters_query}
 

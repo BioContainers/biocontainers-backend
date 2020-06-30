@@ -14,7 +14,7 @@ from biocontainers_flask.server.models.tool import Tool  # noqa: E501
 from biocontainers_flask.server.models.tool_version import ToolVersion  # noqa: E501
 from biocontainers_flask.server.models.workflow import Workflow
 
-def facets_get(id=None, alias=None, tool_class=None, registry=None, organization=None, name=None, toolname=None, description=None, author=None, checker=None,
+def facets_get(id=None, alias=None, tool_class=None, registry=None, organization=None, name=None, toolname=None, description=None, author=None, checker=None, facets = None,
                all_fields_search=None):  # noqa: E501
     """Facets all the properties from tools
 
@@ -51,12 +51,23 @@ def facets_get(id=None, alias=None, tool_class=None, registry=None, organization
     is_all_field_search = False
 
     if all_fields_search is not None:
-        id = alias = organization = name = toolname = description = author = all_fields_search
+        id = license = tool_tags = alias = organization = name = toolname = description = author = all_fields_search
         is_all_field_search = True
+
+    facets_dic = {}
+    if facets is not None:
+        facets_list = facets.split(",")
+        for facet in facets_list:
+            value_list = facet.split(":")
+            if value_list[0] not in facets_dic:
+                facets_dic[value_list[0]] = []
+                facets_dic[value_list[0]].append(value_list[1])
+            else:
+                facets_dic[value_list[0]].append(value_list[1])
 
     resp = MongoTool.get_tools(id=id, alias=alias, registry=registry, organization=organization, name=name,
                                toolname=toolname, description=description, author=author,
-                               checker=checker, offset=0, limit=100000, is_all_field_search=is_all_field_search)
+                               checker=checker, license = license, tool_tags = tool_tags, facets = facets_dic, offset=0, limit=100000, is_all_field_search=is_all_field_search)
 
     if resp is None:
         return None
@@ -80,7 +91,7 @@ def tool_classes_get():  # noqa: E501
 
     return tool_classes
 
-def tools_get(id=None, alias=None, tool_class=None, registry=None, organization=None, name=None, toolname=None, description=None, author=None, checker=None, offset=None, limit=None,
+def tools_get(id=None, alias=None, tool_class=None, registry=None, organization=None, name=None, toolname=None, description=None, author=None, checker=None, facets = None, offset=None, limit=None,
               all_fields_search=None, sort_field=None, sort_order=None):  # noqa: E501
     """List all tools
 
@@ -125,12 +136,23 @@ def tools_get(id=None, alias=None, tool_class=None, registry=None, organization=
         offset = int(offset)
 
     if all_fields_search is not None:
-        id = alias = organization = name = toolname = description = author = all_fields_search
+        id = license = tool_tags = alias = organization = name = toolname = description = author = all_fields_search
         is_all_field_search = True
+
+    facets_dic = {}
+    if facets is not None:
+        facets_list = facets.split(",")
+        for facet in facets_list:
+            value_list = facet.split(":")
+            if value_list[0] not in facets_dic:
+                facets_dic[value_list[0]] = []
+                facets_dic[value_list[0]].append(value_list[1])
+            else:
+                facets_dic[value_list[0]].append(value_list[1])
 
     resp = tools_get_common(id=id, alias=alias, registry=registry, organization=organization, name=name,
                             toolname=toolname, toolclass=tool_class, description=description, author=author,
-                            checker=checker, offset=offset, limit=limit, is_all_field_search=is_all_field_search,
+                            checker=checker, license = license, tool_tags = tool_tags, facets = facets_dic, offset=offset, limit=limit, is_all_field_search=is_all_field_search,
                             sort_field=sort_field, sort_order=sort_order)
 
     if resp is None:
@@ -154,12 +176,12 @@ def tools_get(id=None, alias=None, tool_class=None, registry=None, organization=
 
 
 def tools_get_common(id=None, alias=None, registry=None, organization=None, name=None, toolname=None, toolclass=None,
-                     description=None, author=None, checker=None, offset=0, limit=1000, is_all_field_search=False,
+                     description=None, author=None, checker=None, license = None, tool_tags = None, facets = None, offset=0, limit=1000, is_all_field_search=False,
                      sort_field=None, sort_order=None):
     tools = []
     resp = MongoTool.get_tools(id=id, alias=alias, registry=registry, organization=organization, name=name,
                                toolname=toolname, toolclass=toolclass, description=description, author=author,
-                               checker=checker, offset=offset, limit=limit, is_all_field_search=is_all_field_search,
+                               checker=checker, license = license, tool_tags = tool_tags, facets = facets, offset=offset, limit=limit, is_all_field_search=is_all_field_search,
                                sort_field=sort_field, sort_order=sort_order)
 
     if resp is None:

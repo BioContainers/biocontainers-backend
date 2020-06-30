@@ -251,6 +251,13 @@ paths:
         explode: true
         schema:
           type: boolean
+      - name: facets
+        in: query
+        description: 'facets to filter the results the key of the facet should be provided as key:value'
+        required: false
+        style: form
+        schema:
+          type: string
       - name: offset
         in: query
         description: Start index of paging. Pagination results can be based on numbers
@@ -434,6 +441,13 @@ paths:
         explode: true
         schema:
           type: boolean
+      - name: facets
+        in: query
+        description: 'facets to filter the results the key of the facet should be provided as key:value'
+        required: false
+        style: form
+        schema:
+          type: string
       - name: all_fields_search
         in: query
         description: String to search all fields
