@@ -49,7 +49,8 @@ def facets_get(id=None, alias=None, tool_class=None, registry=None, organization
     """
     tools = []
     is_all_field_search = False
-
+    license = None
+    tool_tags = None
     if all_fields_search is not None:
         id = license = tool_tags = alias = organization = name = toolname = description = author = all_fields_search
         is_all_field_search = True
