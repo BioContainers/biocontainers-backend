@@ -157,7 +157,7 @@ def get_facets(mongo_tools):
         for license in licenses:
             facetValue = FacetValue(license, licenses[license])
             facetValues.append(facetValue)
-        facets.append(Facet('licenses', facetValues))
+        facets.append(Facet('license', facetValues))
     if len(tool_tags) > 0:
         facetValues = []
         for tag in tool_tags:
