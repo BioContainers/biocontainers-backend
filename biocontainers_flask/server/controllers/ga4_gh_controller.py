@@ -143,14 +143,16 @@ def tools_get(id=None, alias=None, tool_class=None, registry=None, organization=
     facets_dic = {}
     if facets is not None:
         facets_list = facets.split(",")
-        if(len(facets_list)):
+        if(len(facets_list) > 0):
             for facet in facets_list:
                 value_list = facet.split(":")
-                if value_list[0] not in facets_dic:
-                    facets_dic[value_list[0]] = []
-                    facets_dic[value_list[0]].append(value_list[1])
-                else:
-                    facets_dic[value_list[0]].append(value_list[1])
+                if (len(value_list) == 2):
+                    if value_list[0] not in facets_dic:
+                        facets_dic[value_list[0]] = []
+                        facets_dic[value_list[0]].append(value_list[1])
+                    else:
+                        facets_dic[value_list[0]].append(value_list[1])
+
 
 
     resp = tools_get_common(id=id, alias=alias, registry=registry, organization=organization, name=name,
