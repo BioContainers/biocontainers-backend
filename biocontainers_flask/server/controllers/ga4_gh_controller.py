@@ -130,6 +130,8 @@ def tools_get(id=None, alias=None, tool_class=None, registry=None, organization=
     """
 
     is_all_field_search = False
+    license = None
+    tool_tags = None
 
     if offset is None:
         offset = 0
