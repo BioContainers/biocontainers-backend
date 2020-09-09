@@ -501,3 +501,39 @@ def wokflow_post():
         return "Failed to retrieve containers. But, Workflow registered successfully ", 201
 
     return "Workflow registered successfully", 201
+
+
+
+def tools_container_type_container_tag_get(container_type, container_tag):
+    """Get the container using container_type and container_tag.
+
+    :param container_type: container_type, for example: conda, docker, singulariry etc.,
+    :type container_type: str
+    :param container_tag: container_tag, for example: im-pipelines:1.0.0--pyh9f0ad1d_0
+    :type container_tag: str
+
+    :rtype: string
+    """
+
+    tool_name = container_tag.split(":")[0]
+    tool_version = container_tag.split(":")[1]
+    tools_list = MongoToolVersion.get_tool_version_by_name(tool_name)
+    if tools_list is None:
+        return None
+
+    container_type = container_type.upper()
+    for tool in tools_list:
+        containers = tool.image_containers
+        for container in containers:
+            if container.container_type == container_type:
+                if container_type == "CONDA" and container.tag == "conda:"+tool_version:
+                    return container.full_tag
+                if container.tag == tool_version:
+                    return container.full_tag
+
+
+
+
+
+
+
