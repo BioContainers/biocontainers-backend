@@ -740,6 +740,48 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       x-openapi-router-controller: biocontainers_flask.server.controllers.ga4_gh_controller
+  /tools/{container_type}/{container_tag}:
+    get:
+      tags:
+      - GA4GH
+      summary: Get the container using container_type and container_tag.
+      description: Returns the container using container_type and container_tag.
+      operationId: tools_container_type_container_tag_get
+      parameters:
+      - name: container_type
+        in: path
+        description: "container_type, for example: conda, docker, singulariry etc.,"
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: container_tag
+        in: path
+        description: "container_tag, for example: im-pipelines:1.0.0--pyh9f0ad1d_0 etc.,"
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: The tool payload.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "quay.io/biocontainers/im-pipelines:1.0.0--pyh9f0ad1d_0"
+        "404":
+          description: There are no container specifications for this tool.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-openapi-router-controller: biocontainers_flask.server.controllers.ga4_gh_controller
   /tools/{id}/versions/{version_id}/containerfile:
     get:
       tags:

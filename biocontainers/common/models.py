@@ -158,6 +158,8 @@ class ToolVersionQuerySet(QuerySet):
     def get_tool_version_by_id(self, tool_version_id):
         return self.raw({"id": tool_version_id})
 
+    def get_tool_version_by_name(self, tool_name):
+        return self.raw({"name": tool_name})
 
 class ToolsResponse:
     tools = []
@@ -604,6 +606,14 @@ class MongoToolVersion(MongoModel):
         tools_list = list(tools)
         if tools_list is not None and len(tools_list) > 0:
             return tools_list[0]
+        return None
+
+    @staticmethod
+    def get_tool_version_by_name(tool_name):
+        tools = MongoToolVersion.manager_versions.get_tool_version_by_name(tool_name)
+        tools_list = list(tools)
+        if tools_list is not None and len(tools_list) > 0:
+            return tools_list
         return None
 
     def add_image_container(self, image_container):

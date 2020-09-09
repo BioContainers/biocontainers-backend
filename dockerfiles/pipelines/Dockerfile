@@ -25,7 +25,7 @@ RUN python --version
 RUN pip --version
 #force git clone.. not to use cache
 ARG CACHEBUST=1
-RUN git clone --single-branch -b master https://github.com/BioContainers/biocontainers-backend.git
+RUN git clone --depth=1 --single-branch -b master https://github.com/BioContainers/biocontainers-backend.git
 RUN cd /biocontainers-backend && pip install -r biocontainers/requirements.txt && pip install -r biocontainers_flask/requirements.txt
 ENV PYTHONPATH /biocontainers-backend
 
