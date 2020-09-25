@@ -185,6 +185,7 @@ def transform_tool_version(mongo_tool_version: MongoToolVersion, mongo_tool_id: 
         container_image = ImageData()
 
         container_image.registry_host = 'registry.hub.docker.com'
+        container_image.image_type = ImageType.DOCKER
         if 'quay.io' in old_container_image.full_tag:
             container_image.registry_host = 'quay.io/'
             container_image.image_type = ImageType.DOCKER
