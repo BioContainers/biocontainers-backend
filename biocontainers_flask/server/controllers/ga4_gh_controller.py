@@ -1,3 +1,5 @@
+import json
+
 from flask import request
 from pymongo.errors import DuplicateKeyError
 from werkzeug.urls import url_encode
@@ -528,8 +530,19 @@ def tools_container_type_container_tag_get(container_type, container_tag):
             if container.container_type == container_type:
                 if container_type == "CONDA" and container.tag == "conda:"+tool_version:
                     return container.full_tag
-                if container.tag == tool_version:
+                if container.tag == tool_version: #this case works for quay images
                     return container.full_tag
+                try:
+                    tag_replace = container.tag.replace("'", '"')
+                    tag_replace = tag_replace.replace("None", "null")
+                    tag_replace = tag_replace.replace("True", "true")
+                    tag_replace = tag_replace.replace("False", "false")
+                    tag_obj = json.loads(tag_replace)  #this case works for docker images
+                    if tag_obj['name'] == tool_version:
+                        return container.full_tag
+                except ValueError as e:
+                    continue
+
 
 
 
