@@ -99,15 +99,24 @@ def invalid_annotations(annotations_yml_url):
 
     missing_home_urls = []
     missing_licenses = []
+    empty_home_urls = []
+    empty_licenses = []
     for tool in yml_tools:
         tool_keys = tool.keys()
         if 'home_url' not in tool_keys:
             missing_home_urls.append(tool['name'])
+        elif len(str(tool['home_url'])) == 0:
+            empty_home_urls.append(tool['name'])
+
         if 'license' not in tool_keys:
             missing_licenses.append(tool['name'])
+        elif len(str(tool['license'])) == 0:
+            empty_licenses.append(tool['name'])
 
     print(missing_home_urls)
     print(missing_licenses)
+    print(empty_home_urls)
+    print(empty_licenses)
 
 
 def add_tool(biotools, identifier, tool_id):

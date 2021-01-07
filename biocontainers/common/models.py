@@ -106,6 +106,9 @@ class ToolQuerySet(QuerySet):
     def get_tool_by_id(self, tool_id):
         return self.raw({'id': tool_id})
 
+    def get_tool_with_anchor_tool_field(self, tool_id):
+        return list(self.raw({'anchor_tool': tool_id}))
+
     def get_tool_by_additional_id(self, additional_id):
         query = []
         query.append({"additional_identifiers": {"$regex": additional_id}})
@@ -265,6 +268,7 @@ class MongoTool(MongoModel):
     publications = fields.EmbeddedDocumentListField('Publication')
     pulls = fields.EmbeddedDocumentListField('PullProvider')
     total_pulls = fields.IntegerField()
+    anchor_tool = fields.CharField(max_length=1000, blank=True, required=False)
 
     manager = Manager.from_queryset(ToolQuerySet)()
 
@@ -440,6 +444,10 @@ class MongoTool(MongoModel):
         if tools_list is not None and len(tools_list) > 0:
             return tools_list[0]
         return None
+
+    @staticmethod
+    def get_tool_with_anchor_tool_field(tool_id):
+        return MongoTool.manager.get_tool_with_anchor_tool_field(tool_id)
 
     @staticmethod
     def get_tool_by_additional_id(id):

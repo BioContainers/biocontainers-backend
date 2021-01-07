@@ -16,7 +16,9 @@ from biocontainers_flask.server.models.tool import Tool  # noqa: E501
 from biocontainers_flask.server.models.tool_version import ToolVersion  # noqa: E501
 from biocontainers_flask.server.models.workflow import Workflow
 
-def facets_get(id=None, alias=None, tool_class=None, registry=None, organization=None, name=None, toolname=None, description=None, author=None, checker=None, facets = None,
+
+def facets_get(id=None, alias=None, tool_class=None, registry=None, organization=None, name=None, toolname=None,
+               description=None, author=None, checker=None, facets=None,
                all_fields_search=None):  # noqa: E501
     """Facets all the properties from tools
 
@@ -70,7 +72,8 @@ def facets_get(id=None, alias=None, tool_class=None, registry=None, organization
 
     resp = MongoTool.get_tools(id=id, alias=alias, registry=registry, organization=organization, name=name,
                                toolname=toolname, description=description, author=author,
-                               checker=checker, license = license, tool_tags = tool_tags, facets = facets_dic, offset=0, limit=100000, is_all_field_search=is_all_field_search)
+                               checker=checker, license=license, tool_tags=tool_tags, facets=facets_dic, offset=0,
+                               limit=100000, is_all_field_search=is_all_field_search)
 
     if resp is None:
         return None
@@ -94,7 +97,9 @@ def tool_classes_get():  # noqa: E501
 
     return tool_classes
 
-def tools_get(id=None, alias=None, tool_class=None, registry=None, organization=None, name=None, toolname=None, description=None, author=None, checker=None, facets = None, offset=None, limit=None,
+
+def tools_get(id=None, alias=None, tool_class=None, registry=None, organization=None, name=None, toolname=None,
+              description=None, author=None, checker=None, facets=None, offset=None, limit=None,
               all_fields_search=None, sort_field=None, sort_order=None):  # noqa: E501
     """List all tools
 
@@ -147,7 +152,7 @@ def tools_get(id=None, alias=None, tool_class=None, registry=None, organization=
     facets_dic = {}
     if facets is not None:
         facets_list = facets.split(",")
-        if(len(facets_list) > 0):
+        if (len(facets_list) > 0):
             for facet in facets_list:
                 value_list = facet.split(":")
                 if (len(value_list) == 2):
@@ -157,11 +162,10 @@ def tools_get(id=None, alias=None, tool_class=None, registry=None, organization=
                     else:
                         facets_dic[value_list[0]].append(value_list[1])
 
-
-
     resp = tools_get_common(id=id, alias=alias, registry=registry, organization=organization, name=name,
                             toolname=toolname, toolclass=tool_class, description=description, author=author,
-                            checker=checker, license = license, tool_tags = tool_tags, facets = facets_dic, offset=offset, limit=limit, is_all_field_search=is_all_field_search,
+                            checker=checker, license=license, tool_tags=tool_tags, facets=facets_dic, offset=offset,
+                            limit=limit, is_all_field_search=is_all_field_search,
                             sort_field=sort_field, sort_order=sort_order)
 
     if resp is None:
@@ -185,12 +189,14 @@ def tools_get(id=None, alias=None, tool_class=None, registry=None, organization=
 
 
 def tools_get_common(id=None, alias=None, registry=None, organization=None, name=None, toolname=None, toolclass=None,
-                     description=None, author=None, checker=None, license = None, tool_tags = None, facets = None, offset=0, limit=1000, is_all_field_search=False,
+                     description=None, author=None, checker=None, license=None, tool_tags=None, facets=None, offset=0,
+                     limit=1000, is_all_field_search=False,
                      sort_field=None, sort_order=None):
     tools = []
     resp = MongoTool.get_tools(id=id, alias=alias, registry=registry, organization=organization, name=name,
                                toolname=toolname, toolclass=toolclass, description=description, author=author,
-                               checker=checker, license = license, tool_tags = tool_tags, facets = facets, offset=offset, limit=limit, is_all_field_search=is_all_field_search,
+                               checker=checker, license=license, tool_tags=tool_tags, facets=facets, offset=offset,
+                               limit=limit, is_all_field_search=is_all_field_search,
                                sort_field=sort_field, sort_order=sort_order)
 
     if resp is None:
@@ -199,6 +205,8 @@ def tools_get_common(id=None, alias=None, registry=None, organization=None, name
     mongo_tools = resp.tools
     if mongo_tools is not None:
         for mongo_tool in mongo_tools:
+            if ('anchor_tool' in mongo_tool) and (len(mongo_tool['anchor_tool']) > 0):
+                continue  # don't include tools that have 'anchor_tool' field
             # Transform the mongo tool to API tool
             tool = transform_mongo_tool_dict(mongo_tool)
             tools.append(tool)
@@ -241,9 +249,13 @@ def tools_id_versions_get(id):  # noqa: E501
     :rtype: List[ToolVersion]
     """
     mongo_tool = MongoTool.get_tool_by_id(id)
+    anchor_tools = MongoTool.get_tool_with_anchor_tool_field(id)
     tool_versions = []
     if mongo_tool is not None:
         mongo_tool_versions = mongo_tool.get_tool_versions()
+        if (anchor_tools is not None) and (len(anchor_tools) > 0):
+            for a_tool in anchor_tools:
+                mongo_tool_versions.extend(a_tool.get_tool_versions())
         for mongo_tool_version in mongo_tool_versions:
             tool_versions.append(transform_tool_version(mongo_tool_version, mongo_tool.id))
 
@@ -505,7 +517,6 @@ def wokflow_post():
     return "Workflow registered successfully", 201
 
 
-
 def tools_container_type_container_tag_get(container_type, container_tag):
     """Get the container using container_type and container_tag.
 
@@ -528,25 +539,17 @@ def tools_container_type_container_tag_get(container_type, container_tag):
         containers = tool.image_containers
         for container in containers:
             if container.container_type == container_type:
-                if container_type == "CONDA" and container.tag == "conda:"+tool_version:
+                if container_type == "CONDA" and container.tag == "conda:" + tool_version:
                     return container.full_tag
-                if container.tag == tool_version: #this case works for quay images
+                if container.tag == tool_version:  # this case works for quay images
                     return container.full_tag
                 try:
                     tag_replace = container.tag.replace("'", '"')
                     tag_replace = tag_replace.replace("None", "null")
                     tag_replace = tag_replace.replace("True", "true")
                     tag_replace = tag_replace.replace("False", "false")
-                    tag_obj = json.loads(tag_replace)  #this case works for docker images
+                    tag_obj = json.loads(tag_replace)  # this case works for docker images
                     if tag_obj['name'] == tool_version:
                         return container.full_tag
                 except ValueError as e:
                     continue
-
-
-
-
-
-
-
-

@@ -620,8 +620,9 @@ class InsertContainers:
                         tags = list(dict.fromkeys(tags))
                         mongo_tool.tool_tags = tags
                         changed = True
+                    if ('anchor_tool' in tool_file) and (mongo_tool.anchor_tool != tool_file['anchor_tool']):
+                        mongo_tool.anchor_tool = tool_file['anchor_tool']
+                        changed = True
                     if changed:
                         mongo_tool.save()
                         logger.info("The tool has been updated  " + key)
-
-
