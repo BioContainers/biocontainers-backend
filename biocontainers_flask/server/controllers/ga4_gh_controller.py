@@ -416,6 +416,8 @@ def tools_get_similars(id=None):
     result_tools = []
     if tools is not None:
         for mongo_tool in tools:
+            if ('anchor_tool' in mongo_tool) and (len(mongo_tool.anchor_tool) > 0):
+                continue  # don't include tools that have 'anchor_tool' field
             score = 0
             for similar in similar_tool.similars:
                 if similar.id == mongo_tool.id:
