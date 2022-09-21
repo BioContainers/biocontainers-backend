@@ -7,7 +7,7 @@ PyYAML==5.4
 pymodm==0.4.1
 ratelimit==2.2.0
 backoff==1.8.0
-git+git://github.com/lokoArt/pymodm_rest.git
+git+https://github.com/lokoArt/pymodm_rest.git
 click==7.0
 anaconda-client==1.2.2
 scikit-learn
