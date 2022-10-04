@@ -12,4 +12,5 @@ click==7.0
 anaconda-client==1.2.2
 scikit-learn
 beautifulsoup4
-jinja2
+Jinja2==3.0.3
+MarkupSafe==2.0.1
