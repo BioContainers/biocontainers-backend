@@ -85,7 +85,7 @@ class DockerHubReader:
                 for key in json_data['results']:
                     container = DockerHubContainer(key)
                     container_list.append(container)
-                    logger.info(" Current tool has been retrieve from DockerHub -- " + container.name())
+                    logger.info("tool retrieved from DockerHub -- " + container.name())
                 string_url = json_data['next']
 
         return container_list
@@ -117,7 +117,7 @@ class DockerHubReader:
                     short_container.add_all_tags(json_data['results'])
                     container = short_container
                     container_details_list.append(container)
-                    logger.info(" Current tool has been retrieve from DockerHub -- " + container.name())
+                    logger.info("tool details retrieved from DockerHub -- " + container.name())
             except ConnectionError:
                 logger.error(" Connection has failed to DockerHub for container ID --" + short_container.name())
 
