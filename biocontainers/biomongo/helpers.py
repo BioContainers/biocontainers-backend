@@ -11,7 +11,7 @@ from biocontainers.common.models import MongoToolVersion, ContainerImage, MongoT
 from biocontainers.conda.conda_metrics import CondaMetrics
 from biocontainers.github.models import LocalGitReader
 
-logger = logging.getLogger('biocontainers.quayio.models')
+logger = logging.getLogger('biocontainers.biomongo.helpers')
 QUAYIO_DOMAIN = "quay.io/biocontainers/"
 DOCKER_DOMAIN = "biocontainers/"
 
@@ -226,6 +226,7 @@ class InsertContainers:
             tools_dic[tool.id] = tool
 
         for container in dockerhub_containers:
+            logger.info("trying to insert dockerhub container -- " + container.name())
             # The version is read from the container tag.
             current_tool = None
             for key in container.tags:
@@ -239,7 +240,7 @@ class InsertContainers:
                     mongo_tool_version = MongoToolVersion()
                     mongo_tool_version.name = container.name()
                     mongo_tool_version.version = version
-                    mongo_tool_version.description = container.description()
+                    mongo_tool_version.description = "" #container.description()
                     mongo_tool_version.tool_classes = [_CONSTANT_TOOL_CLASSES['CommandLineTool']]
                     mongo_tool_version.id = tool_version_id
                     mongo_tool_version.add_author(BIOCONTAINERS_USER)
