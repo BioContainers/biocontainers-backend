@@ -39,7 +39,7 @@ def import_quayio_containers(config, config_profile):
     :param config: Parameters for quayio
     :return:
     """
-    logger.info("Starting importing Conda packages")
+    logger.info("Starting importing Quay containers")
 
     reader = QuayIOReader(config[config_profile]['QUAYIO_CONTAINER_LIST'],
                           config[config_profile]['QUAYIO_CONTAINER_DETAILS'], config[config_profile]['NAMESPACE'])

@@ -27,7 +27,7 @@ class DockerHubContainer:
         return self.attributes['name']
 
     def description(self):
-        return self.attributes['description']
+        return ""
 
     def organization(self):
         return self.attributes['namespace']
