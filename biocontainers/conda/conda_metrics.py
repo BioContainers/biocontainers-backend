@@ -31,14 +31,15 @@ class CondaMetrics:
 
                     np_version = None
                     py_version = None
-                    for item in d['dependencies']['depends']:
-                        try:
-                            if item['name'] == 'numpy':
-                                np_version = item['specs'][0][1]
-                            if item['name'] == 'python':
-                                py_version = item['specs'][0][1]
-                        except:
-                            pass
+                    if 'depends' in d['dependencies']:
+                        for item in d['dependencies']['depends']:
+                            try:
+                                if item['name'] == 'numpy':
+                                    np_version = item['specs'][0][1]
+                                if item['name'] == 'python':
+                                    py_version = item['specs'][0][1]
+                            except:
+                                pass
 
                     if np_version is None:
                         np_version = "None"
@@ -85,14 +86,15 @@ class CondaMetrics:
 
                        np_version = None
                        py_version = None
-                       for item in d['dependencies']['depends']:
-                          try:
-                              if item['name'] == 'numpy':
-                                 np_version = item['specs'][0][1]
-                              if item['name'] == 'python':
-                                 py_version = item['specs'][0][1]
-                          except:
-                             pass
+                       if 'depends' in d['dependencies']:
+                           for item in d['dependencies']['depends']:
+                              try:
+                                  if item['name'] == 'numpy':
+                                     np_version = item['specs'][0][1]
+                                  if item['name'] == 'python':
+                                     py_version = item['specs'][0][1]
+                              except:
+                                 pass
 
                        if np_version is None:
                           np_version = "None"
@@ -136,5 +138,5 @@ def get_aserver_api_release(aserver_api, conda_channel, package, version_str):
 
 if __name__ == "__main__":
     metrics = CondaMetrics()
-    metrics.get_number_downloas("BIOCONDUCTOR-MSGFPLUS")
-    print(str(metrics.get_number_downloas_by_version("BIOCONDUCTOR-MSGFPLUS", "1.16.1")))
+    metrics.get_number_downloas("art")
+    print(str(metrics.get_number_downloas_by_version("art", "2016.06.05")))
