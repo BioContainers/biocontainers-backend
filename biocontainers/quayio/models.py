@@ -70,14 +70,25 @@ class QuayIOReader:
         """
         container_list = []
         string_url = self.containers_list_url.replace('%namespace%', self.namespace)
+        has_next_page = True
+        next_page_token = None
         try:
-            response = call_api(string_url)
-            if response.status_code == 200:
-                json_data = json.loads(response.content.decode('utf-8'))
-                for key in json_data['repositories']:
-                    container = QuayIOContainer(key)
-                    container_list.append(container)
-                    logger.info("A short description has been retrieved from Quay.io for this container -- " + container.name())
+            while has_next_page:
+                next_page = string_url
+                if next_page_token:
+                    next_page  = string_url + '&next_page=' + next_page_token
+                response = call_api(next_page)
+                if response.status_code == 200:
+                    json_data = json.loads(response.content.decode('utf-8'))
+                    for key in json_data['repositories']:
+                        container = QuayIOContainer(key)
+                        container_list.append(container)
+                        logger.info("A short description has been retrieved from Quay.io for this container -- " + container.name())
+                    if 'next_page' in json_data:
+                        has_next_page = True
+                        next_page_token = json_data['next_page']
+                    else:
+                        has_next_page = False
         except (ConnectionError, NewConnectionError) as error:
             logger.error(" Connection has failed to QuaIO for following url --" + string_url)
 
