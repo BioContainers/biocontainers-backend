@@ -10,7 +10,7 @@ spec:
         spec:
           containers:
             - name: biocontainers-pipelines
-              image: chakrabandla/biocontainer-pipelines:e66fb8aaf361a62befc52ba47d75701b91689cf9
+              image: biocontainers/biocontainer-pipelines:c46998660f4ad8d159330efb839cf4bacb691990
               imagePullPolicy: IfNotPresent
               env:
                 - name: "MONGO_ROOT_PASS"
