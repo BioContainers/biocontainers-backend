@@ -19,7 +19,7 @@ MAINTAINER Yasset Perez-Riverol <ypriverol@gmail.com>
 
 ################## INSTALLATION ######################
 
-RUN apt-get update && apt-get install wget git
+RUN apt-get update && apt-get install -y wget git
 RUN python -m pip install requests
 RUN python --version
 RUN pip --version
@@ -30,8 +30,8 @@ RUN cd /biocontainers-backend && pip install -r biocontainers/requirements.txt &
 ENV PYTHONPATH /biocontainers-backend
 
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
-RUN echo "deb http://repo.mongodb.org/apt/debian stretch/mongodb-org/4.0 main" | tee /etc/apt/sources.list.d/mongodb.list
-RUN apt-get update && apt-get install -y --allow-unauthenticated mongodb-org-shell
+RUN echo "deb [trusted=yes] http://repo.mongodb.org/apt/debian stretch/mongodb-org/4.0 main" | tee /etc/apt/sources.list.d/mongodb.list
+RUN apt-get --allow-insecure-repositories update && apt-get --allow-unauthenticated  install -y mongodb-org-shell
 
 
 ADD run.sh /biocontainers-backend/run.sh
